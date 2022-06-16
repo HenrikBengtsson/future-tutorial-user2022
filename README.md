@@ -48,7 +48,7 @@ and understand how the **future** framework:
 
 * Operating system: Linux, macOS, or MS Windows
 
-* Terminal, RStudio, Rgui, R.app, RStudio Cloud, ...: which every you prefer
+* Terminal, RStudio, Rgui, R.app, RStudio Cloud, ...: whichever you prefer
 
 
 Ahead of time, before attending the tutorial, please install the following R packages:
