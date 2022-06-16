@@ -17,3 +17,59 @@ The futureverse (<https://futureverse.org>) allows you, as the developer, to sta
 At the same time, the user can switch to a parallel backend of their choice -- e.g., they can parallelize on their local machine, across multiple local or remote machines, towards the cloud, or on a job-scheduler on a high-performance computing (HPC) cluster. As a developer, you do not have to worry about which backend the user picks -- your future-based code will remain the same regardless of the parallel backend.
 
 PS. We will _not_ cover asynchronous Shiny programming using futures and promises in this tutorial.
+
+
+## Objectives
+
+After completing this tutorial, the goal is that you:
+
+* find parallelization less magic
+
+* find parallelization less intimidating
+
+* feel comfortable parallelizing your own R code
+
+and understand how the **future** framework:
+
+* significantly lowers the bar to get started with parallelization
+
+* helps you avoid common mistakes and issues
+
+* takes care of many things you otherwise have to worry about
+
+* scales and is "future" proof
+
+* keeps getting improved
+
+
+## Preparing for this tutorial
+
+* R version: R (>= 4.0.0) is recommended, but all of the tutorial should work with R (>= 3.5.0). R 4.2.0 was released April 2022.
+
+* Operating system: Linux, macOS, or MS Windows
+
+* Terminal, RStudio, Rgui, R.app, RStudio Cloud, ...: which every you prefer
+
+
+Ahead of time, before attending the tutorial, please install the following R packages:
+
+```r
+install.packages("future")         # ~ 30 sec
+install.packages("future.apply")   # ~ 15 sec
+install.packages("doFuture")       # ~ 15 sec
+install.packages("doRNG")          # ~ 15 sec
+install.packages("furrr")          # ~ 60 sec
+install.packages("future.callr")   # ~ 30 sec
+install.packages("progressr")      # ~ 15 sec
+install.packages("progress")       # ~ 15 sec
+```
+
+The time estimates are when install the package from source on a fresh Linux R setup with a 1 Gbit/s internet connection.  It's faster when installing from binaries on macOS and MS Windows.
+
+If you already have some of these installed, please make sure to they are up-to-date before starting this tutorial, i.e.
+
+```r
+update.packages()
+```
+
+If you have any issues, please reach out for help on <https://github.com/HenrikBengtsson/future-tutorial-user2022/discussions/>.
