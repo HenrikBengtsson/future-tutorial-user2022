@@ -2,7 +2,7 @@
 
 * Where: online, useR! 2022 conference (June 20-24, 2022)
 * When: Monday 2022-06-20 07:00-10:30 UTC-0700
-* Length: 3.5 hours (including breaks)
+* Length: 2.5 hours + 1.0 hour optional (including breaks)
 * Number of participants: 40
 * Instructor: Henrik Bengtsson, University of California, San Francisco, USA
 
