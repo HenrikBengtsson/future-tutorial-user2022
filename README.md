@@ -2,9 +2,10 @@
 
 * Where: online, useR! 2022 conference (June 20-24, 2022)
 * When: Monday 2022-06-20 07:00-10:30 UTC-0700
-* Length: 3.5 hours (including breaks)
-* Number of participants: 40
+* Length: 2.5 hours + 1.0 hour optional (including breaks)
 * Instructor: Henrik Bengtsson, University of California, San Francisco, USA
+* URL: https://user2022.r-project.org/program/tutorials/#futureverse-parallelization-in-r
+* Event URL: https://www.accelevents.com/e/user2022/portal/workshops/260741
 
 ## Abstract
 
@@ -18,16 +19,19 @@ At the same time, the user can switch to a parallel backend of their choice -- e
 
 PS. We will _not_ cover asynchronous Shiny programming using futures and promises in this tutorial.
 
+Acknowledgments: This tutorial and other work on futureverse is funded by Essential Open Source Software program ran by the Chan Zuckerberg Initiative (CZI EOSS #4).
+
+
 
 ## Objectives
 
-After completing this tutorial, the goal is that you:
+After completing this tutorial, my hope is that you:
 
 * find parallelization less magic
 
 * find parallelization less intimidating
 
-* feel comfortable parallelizing your own R code
+* feel comfortable parallelize your own R code
 
 and understand how the **future** framework:
 
@@ -44,7 +48,7 @@ and understand how the **future** framework:
 
 ## Preparing for this tutorial
 
-* R version: R (>= 4.0.0) is recommended, but all of the tutorial should work with R (>= 3.5.0). R 4.2.0 was released April 2022.
+* R version: R (>= 4.0.0) is recommended, but all of the tutorial should work with R (>= 3.5.0). R 4.2.0 was released on April 22, 2022.
 
 * Operating system: Linux, macOS, or MS Windows
 
