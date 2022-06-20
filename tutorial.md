@@ -119,7 +119,7 @@ If you have any issues, please reach out for help on <https://github.com/HenrikB
 * (20 min): **Part 7**: Random numbers and reproducibility
 * (20 min): Open discussion
 
-Total time: 3.5 hours including the breaks
+Total time: 2.5 hours + 1.0 hour optional (including breaks)
 
 
 
@@ -746,6 +746,26 @@ Maximize both the developer's and the end-user's control:
 * User decided what parallel backend to use, e.g. `plan()`
 
 Rule of thumb for developers: Don't make assumptions about the user's R environment, e.g. you might have a fast machine with 96 CPU cores, but they might have access to a large multi-machine compute cluster with thousands of cores.  So, let the user decide on the `plan()` and do _not_ set it inside your functions or packages.
+
+
+## Demo: ggplot2 remotely
+
+![](figures/demo-ggplot2.png)
+
+```r
+library(ggplot2)
+library(future)
+plan(cluster, workers = "remote.server.org")
+
+f <- future({
+  ggplot(mpg, aes(displ, hwy, colour = class)) + 
+  geom_point()
+})
+ 
+gg <- value(f)
+print(gg)
+```
+
 
 ---------------------------------------------------------------------
 
@@ -1607,6 +1627,58 @@ If you use RStudio, you can report on progress via the RStudio Job interface:
 ```r
 progressr::handlers("rstudio")
 ```
+
+
+## Demo: Mandelbrot sets
+
+![](figures/demo-mandelbrot-1.png)
+
+```r
+library(future)
+plan(sequential)
+options(future.demo.mandelbrot.region = 1L)
+
+demo("mandelbrot", package = "progressr", ask = FALSE)
+```
+
+```r
+library(future)
+plan(multisession, workers = 4)
+options(future.demo.mandelbrot.region = 1L)
+
+demo("mandelbrot", package = "progressr", ask = FALSE)
+```
+
+
+```r
+library(future)
+plan(multisession, workers = 4)
+options(future.demo.mandelbrot.region = 2L)
+
+demo("mandelbrot", package = "progressr", ask = FALSE)
+```
+
+```r
+library(future)
+plan(multisession, workers = 4)
+options(future.demo.mandelbrot.region = 2L)
+options(future.demo.mandelbrot.delay = FALSE)
+
+demo("mandelbrot", package = "progressr", ask = FALSE)
+```
+
+```r
+library(future)
+plan(multisession, workers = 8)
+options(future.demo.mandelbrot.region = 3L)
+options(future.demo.mandelbrot.delay = FALSE)
+
+demo("mandelbrot", package = "progressr", ask = FALSE)
+```
+
+
+Source: https://github.com/HenrikBengtsson/progressr/blob/develop/demo/mandelbrot.R
+
 
 
 # Quick summary and comparison to other parallel frameworks
