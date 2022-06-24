@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Part 7 Random numbers and reproducibility | Tutorial: An Introduction to Futureverse for Parallel Processing in R</title>
+  <meta name="description" content="N/A" />
+  <meta name="generator" content="bookdown 0.27 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Part 7 Random numbers and reproducibility | Tutorial: An Introduction to Futureverse for Parallel Processing in R" />
+  <meta property="og:type" content="book" />
+  <meta property="og:image" content="https://www.futureverse.org/figures/future_logo.png" />
+  <meta property="og:description" content="N/A" />
+  <meta name="github-repo" content="HenrikBengtsson/future-tutorial-useR2022" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Part 7 Random numbers and reproducibility | Tutorial: An Introduction to Futureverse for Parallel Processing in R" />
+  
+  <meta name="twitter:description" content="N/A" />
+  <meta name="twitter:image" content="https://www.futureverse.org/figures/future_logo.png" />
+
+<meta name="author" content="Henrik Bengtsson" />
+
+
+<meta name="date" content="2022-06-20" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="quick-summary-and-comparison-to-other-parallel-frameworks.html"/>
+<link rel="next" href="open-discussion.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Tutorial Overview</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#abstract"><i class="fa fa-check"></i>Abstract</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#objectives"><i class="fa fa-check"></i>Objectives</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#preparing-for-this-tutorial"><i class="fa fa-check"></i>Preparing for this tutorial</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="hello-and-practicalities.html"><a href="hello-and-practicalities.html"><i class="fa fa-check"></i>Hello and practicalities</a>
+<ul>
+<li class="chapter" data-level="" data-path="hello-and-practicalities.html"><a href="hello-and-practicalities.html#practicalities"><i class="fa fa-check"></i>Practicalities</a></li>
+<li class="chapter" data-level="" data-path="hello-and-practicalities.html"><a href="hello-and-practicalities.html#agenda"><i class="fa fa-check"></i>Agenda</a></li>
+<li class="chapter" data-level="" data-path="hello-and-practicalities.html"><a href="hello-and-practicalities.html#polls"><i class="fa fa-check"></i>Polls</a>
+<ul>
+<li class="chapter" data-level="" data-path="hello-and-practicalities.html"><a href="hello-and-practicalities.html#poll-1-how-much-do-you-know-about-parallelization-in-r"><i class="fa fa-check"></i>Poll #1: How much do you know about parallelization in R?</a></li>
+<li class="chapter" data-level="" data-path="hello-and-practicalities.html"><a href="hello-and-practicalities.html#poll-2-what-is-your-main-operating-system-when-using-r"><i class="fa fa-check"></i>Poll #2: What is your main operating system when using R?</a></li>
+<li class="chapter" data-level="" data-path="hello-and-practicalities.html"><a href="hello-and-practicalities.html#poll-3-how-do-you-run-r"><i class="fa fa-check"></i>Poll #3: How do you run R?</a></li>
+<li class="chapter" data-level="" data-path="hello-and-practicalities.html"><a href="hello-and-practicalities.html#poll-4-do-you-have-access-to-a-cluster"><i class="fa fa-check"></i>Poll #4: Do you have access to a cluster?</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="an-overview-of-the-futureverse.html"><a href="an-overview-of-the-futureverse.html"><i class="fa fa-check"></i><b>1</b> An Overview of The Futureverse</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="an-overview-of-the-futureverse.html"><a href="an-overview-of-the-futureverse.html#why-do-we-parallelize"><i class="fa fa-check"></i><b>1.1</b> Why do we parallelize?</a></li>
+<li class="chapter" data-level="1.2" data-path="an-overview-of-the-futureverse.html"><a href="an-overview-of-the-futureverse.html#the-future-package-the-core-of-it-all"><i class="fa fa-check"></i><b>1.2</b> The future package (the core of it all)</a></li>
+<li class="chapter" data-level="1.3" data-path="an-overview-of-the-futureverse.html"><a href="an-overview-of-the-futureverse.html#quick-intro-evaluate-r-in-the-background"><i class="fa fa-check"></i><b>1.3</b> Quick intro: Evaluate R in the background</a>
+<ul>
+<li class="chapter" data-level="1.3.1" data-path="an-overview-of-the-futureverse.html"><a href="an-overview-of-the-futureverse.html#sequentially"><i class="fa fa-check"></i><b>1.3.1</b> Sequentially</a></li>
+<li class="chapter" data-level="1.3.2" data-path="an-overview-of-the-futureverse.html"><a href="an-overview-of-the-futureverse.html#in-parallel"><i class="fa fa-check"></i><b>1.3.2</b> In parallel</a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="an-overview-of-the-futureverse.html"><a href="an-overview-of-the-futureverse.html#quick-intro-parallel-base-r-apply"><i class="fa fa-check"></i><b>1.4</b> Quick intro: Parallel base-R apply</a>
+<ul>
+<li class="chapter" data-level="1.4.1" data-path="an-overview-of-the-futureverse.html"><a href="an-overview-of-the-futureverse.html#sequentially-1"><i class="fa fa-check"></i><b>1.4.1</b> Sequentially</a></li>
+<li class="chapter" data-level="1.4.2" data-path="an-overview-of-the-futureverse.html"><a href="an-overview-of-the-futureverse.html#in-parallel-1"><i class="fa fa-check"></i><b>1.4.2</b> In parallel</a></li>
+</ul></li>
+<li class="chapter" data-level="1.5" data-path="an-overview-of-the-futureverse.html"><a href="an-overview-of-the-futureverse.html#quick-intro-parallel-tidyverse-apply"><i class="fa fa-check"></i><b>1.5</b> Quick intro: Parallel tidyverse apply</a>
+<ul>
+<li class="chapter" data-level="1.5.1" data-path="an-overview-of-the-futureverse.html"><a href="an-overview-of-the-futureverse.html#sequentially-2"><i class="fa fa-check"></i><b>1.5.1</b> Sequentially</a></li>
+<li class="chapter" data-level="1.5.2" data-path="an-overview-of-the-futureverse.html"><a href="an-overview-of-the-futureverse.html#in-parallel-2"><i class="fa fa-check"></i><b>1.5.2</b> In parallel</a></li>
+</ul></li>
+<li class="chapter" data-level="1.6" data-path="an-overview-of-the-futureverse.html"><a href="an-overview-of-the-futureverse.html#quick-intro-parallel-foreach"><i class="fa fa-check"></i><b>1.6</b> Quick intro: Parallel foreach</a>
+<ul>
+<li class="chapter" data-level="1.6.1" data-path="an-overview-of-the-futureverse.html"><a href="an-overview-of-the-futureverse.html#sequentially-3"><i class="fa fa-check"></i><b>1.6.1</b> Sequentially</a></li>
+<li class="chapter" data-level="1.6.2" data-path="an-overview-of-the-futureverse.html"><a href="an-overview-of-the-futureverse.html#in-parallel-3"><i class="fa fa-check"></i><b>1.6.2</b> In parallel</a></li>
+</ul></li>
+<li class="chapter" data-level="1.7" data-path="an-overview-of-the-futureverse.html"><a href="an-overview-of-the-futureverse.html#what-is-the-futureverse"><i class="fa fa-check"></i><b>1.7</b> What is the Futureverse?</a>
+<ul>
+<li class="chapter" data-level="1.7.1" data-path="an-overview-of-the-futureverse.html"><a href="an-overview-of-the-futureverse.html#packages-part-of-the-futureverse"><i class="fa fa-check"></i><b>1.7.1</b> Packages part of the Futureverse</a></li>
+<li class="chapter" data-level="1.7.2" data-path="an-overview-of-the-futureverse.html"><a href="an-overview-of-the-futureverse.html#who-is-it-for"><i class="fa fa-check"></i><b>1.7.2</b> Who is it for?</a></li>
+<li class="chapter" data-level="1.7.3" data-path="an-overview-of-the-futureverse.html"><a href="an-overview-of-the-futureverse.html#who-are-using-it"><i class="fa fa-check"></i><b>1.7.3</b> Who are using it?</a></li>
+<li class="chapter" data-level="1.7.4" data-path="an-overview-of-the-futureverse.html"><a href="an-overview-of-the-futureverse.html#what-about-its-quality-and-stability"><i class="fa fa-check"></i><b>1.7.4</b> What about its quality and stability?</a></li>
+<li class="chapter" data-level="1.7.5" data-path="an-overview-of-the-futureverse.html"><a href="an-overview-of-the-futureverse.html#support"><i class="fa fa-check"></i><b>1.7.5</b> Support</a></li>
+<li class="chapter" data-level="1.7.6" data-path="an-overview-of-the-futureverse.html"><a href="an-overview-of-the-futureverse.html#how-to-stay-up-to-date"><i class="fa fa-check"></i><b>1.7.6</b> How to stay up-to-date</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="the-core-future-api.html"><a href="the-core-future-api.html"><i class="fa fa-check"></i><b>2</b> The core Future API</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="the-core-future-api.html"><a href="the-core-future-api.html#three-atomic-building-blocks"><i class="fa fa-check"></i><b>2.1</b> Three atomic building blocks</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="the-core-future-api.html"><a href="the-core-future-api.html#mental-model-the-future-api-decouples-a-regular-r-assignment-into-two-parts"><i class="fa fa-check"></i><b>2.1.1</b> Mental model: The Future API decouples a regular R assignment into two parts</a></li>
+<li class="chapter" data-level="2.1.2" data-path="the-core-future-api.html"><a href="the-core-future-api.html#keep-doing-other-things-while-waiting"><i class="fa fa-check"></i><b>2.1.2</b> Keep doing other things while waiting</a></li>
+<li class="chapter" data-level="2.1.3" data-path="the-core-future-api.html"><a href="the-core-future-api.html#evaluate-several-things-in-parallel"><i class="fa fa-check"></i><b>2.1.3</b> Evaluate several things in parallel</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="the-core-future-api.html"><a href="the-core-future-api.html#choosing-parallel-backend"><i class="fa fa-check"></i><b>2.2</b> Choosing parallel backend</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="the-core-future-api.html"><a href="the-core-future-api.html#sequential-default"><i class="fa fa-check"></i><b>2.2.1</b> sequential (default)</a></li>
+<li class="chapter" data-level="2.2.2" data-path="the-core-future-api.html"><a href="the-core-future-api.html#multisession-in-parallel-on-local-computer"><i class="fa fa-check"></i><b>2.2.2</b> multisession: in parallel on local computer</a></li>
+<li class="chapter" data-level="2.2.3" data-path="the-core-future-api.html"><a href="the-core-future-api.html#cluster-in-parallel-on-multiple-computers"><i class="fa fa-check"></i><b>2.2.3</b> cluster: in parallel on multiple computers</a></li>
+<li class="chapter" data-level="2.2.4" data-path="the-core-future-api.html"><a href="the-core-future-api.html#there-are-other-parallel-backends-and-more-to-come"><i class="fa fa-check"></i><b>2.2.4</b> There are other parallel backends and more to come</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="the-core-future-api.html"><a href="the-core-future-api.html#motto-and-design-philosophy"><i class="fa fa-check"></i><b>2.3</b> Motto and design philosophy</a></li>
+<li class="chapter" data-level="2.4" data-path="the-core-future-api.html"><a href="the-core-future-api.html#demo-ggplot2-remotely"><i class="fa fa-check"></i><b>2.4</b> Demo: ggplot2 remotely</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="map-reduce-apis.html"><a href="map-reduce-apis.html"><i class="fa fa-check"></i><b>3</b> Map-reduce APIs</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="map-reduce-apis.html"><a href="map-reduce-apis.html#parallel-alternatives-to-base-r-apply-functions"><i class="fa fa-check"></i><b>3.1</b> Parallel alternatives to base-R apply functions</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="map-reduce-apis.html"><a href="map-reduce-apis.html#example-baselapplyx-fun"><i class="fa fa-check"></i><b>3.1.1</b> Example: base::lapply(X, FUN)</a></li>
+<li class="chapter" data-level="3.1.2" data-path="map-reduce-apis.html"><a href="map-reduce-apis.html#example-basevapplyx-fun-fun.value"><i class="fa fa-check"></i><b>3.1.2</b> Example: base::vapply(X, FUN, FUN.VALUE)</a></li>
+<li class="chapter" data-level="3.1.3" data-path="map-reduce-apis.html"><a href="map-reduce-apis.html#example-basemapplyx-y-fun"><i class="fa fa-check"></i><b>3.1.3</b> Example: base::mapply(X, Y, FUN)</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="map-reduce-apis.html"><a href="map-reduce-apis.html#parallel-alternatives-to-purrr-functions"><i class="fa fa-check"></i><b>3.2</b> Parallel alternatives to purrr functions</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="errors-and-output.html"><a href="errors-and-output.html"><i class="fa fa-check"></i><b>4</b> Errors and output</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="errors-and-output.html"><a href="errors-and-output.html#business-as-usual-exception-handling-dealing-with-errors"><i class="fa fa-check"></i><b>4.1</b> Business as usual: Exception handling (“dealing with errors”)</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="errors-and-output.html"><a href="errors-and-output.html#example-setup"><i class="fa fa-check"></i><b>4.1.1</b> Example setup</a></li>
+<li class="chapter" data-level="4.1.2" data-path="errors-and-output.html"><a href="errors-and-output.html#exception-handling-works-the-same-with-map-reduce-functions"><i class="fa fa-check"></i><b>4.1.2</b> Exception handling works the same with map-reduce functions</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="errors-and-output.html"><a href="errors-and-output.html#business-as-usual-warnings"><i class="fa fa-check"></i><b>4.2</b> Business as usual: Warnings</a></li>
+<li class="chapter" data-level="4.3" data-path="errors-and-output.html"><a href="errors-and-output.html#business-as-usual-messages"><i class="fa fa-check"></i><b>4.3</b> Business as usual: Messages</a></li>
+<li class="chapter" data-level="4.4" data-path="errors-and-output.html"><a href="errors-and-output.html#business-as-usual-standard-output"><i class="fa fa-check"></i><b>4.4</b> Business as usual: Standard output</a></li>
+<li class="chapter" data-level="4.5" data-path="errors-and-output.html"><a href="errors-and-output.html#summary-all-types-of-output-is-relayed"><i class="fa fa-check"></i><b>4.5</b> Summary: All types of output is relayed</a></li>
+<li class="chapter" data-level="4.6" data-path="errors-and-output.html"><a href="errors-and-output.html#odds-and-ends"><i class="fa fa-check"></i><b>4.6</b> Odds and ends</a>
+<ul>
+<li class="chapter" data-level="4.6.1" data-path="errors-and-output.html"><a href="errors-and-output.html#what-about-standard-error-stderr"><i class="fa fa-check"></i><b>4.6.1</b> What about standard error (stderr)?</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="reporting-on-progress-updates.html"><a href="reporting-on-progress-updates.html"><i class="fa fa-check"></i><b>5</b> Reporting on progress updates</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="reporting-on-progress-updates.html"><a href="reporting-on-progress-updates.html#basic-progress-updates"><i class="fa fa-check"></i><b>5.1</b> Basic progress updates</a></li>
+<li class="chapter" data-level="5.2" data-path="reporting-on-progress-updates.html"><a href="reporting-on-progress-updates.html#progress-updates-in-parallel"><i class="fa fa-check"></i><b>5.2</b> Progress updates in parallel</a></li>
+<li class="chapter" data-level="5.3" data-path="reporting-on-progress-updates.html"><a href="reporting-on-progress-updates.html#customizing-how-progress-is-reported"><i class="fa fa-check"></i><b>5.3</b> Customizing how progress is reported</a></li>
+<li class="chapter" data-level="5.4" data-path="reporting-on-progress-updates.html"><a href="reporting-on-progress-updates.html#demo-mandelbrot-sets"><i class="fa fa-check"></i><b>5.4</b> Demo: Mandelbrot sets</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="quick-summary-and-comparison-to-other-parallel-frameworks.html"><a href="quick-summary-and-comparison-to-other-parallel-frameworks.html"><i class="fa fa-check"></i><b>6</b> Quick summary and comparison to other parallel frameworks</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="quick-summary-and-comparison-to-other-parallel-frameworks.html"><a href="quick-summary-and-comparison-to-other-parallel-frameworks.html#feature-comparisons"><i class="fa fa-check"></i><b>6.1</b> Feature comparisons</a></li>
+<li class="chapter" data-level="6.2" data-path="quick-summary-and-comparison-to-other-parallel-frameworks.html"><a href="quick-summary-and-comparison-to-other-parallel-frameworks.html#parallel-backend-comparisons"><i class="fa fa-check"></i><b>6.2</b> Parallel-backend comparisons</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="random-numbers-and-reproducibility.html"><a href="random-numbers-and-reproducibility.html"><i class="fa fa-check"></i><b>7</b> Random numbers and reproducibility</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="random-numbers-and-reproducibility.html"><a href="random-numbers-and-reproducibility.html#why-is-this-important"><i class="fa fa-check"></i><b>7.1</b> Why is this important?</a></li>
+<li class="chapter" data-level="7.2" data-path="random-numbers-and-reproducibility.html"><a href="random-numbers-and-reproducibility.html#futures-use-proper-parallel-rng"><i class="fa fa-check"></i><b>7.2</b> Futures use proper parallel RNG</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="random-numbers-and-reproducibility.html"><a href="random-numbers-and-reproducibility.html#what-happens-if-you-forget-to-declare-seed-true"><i class="fa fa-check"></i><b>7.2.1</b> What happens if you forget to declare seed = TRUE?</a></li>
+<li class="chapter" data-level="7.2.2" data-path="random-numbers-and-reproducibility.html"><a href="random-numbers-and-reproducibility.html#random-numbers-with-parallel-map-reduce-functions"><i class="fa fa-check"></i><b>7.2.2</b> Random numbers with parallel map-reduce functions</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="open-discussion.html"><a href="open-discussion.html"><i class="fa fa-check"></i>Open discussion</a></li>
+<li class="chapter" data-level="8" data-path="appendix.html"><a href="appendix.html"><i class="fa fa-check"></i><b>8</b> Appendix</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="appendix.html"><a href="appendix.html#appendix-exception-handling-by-other-parallel-map-reduce-apis"><i class="fa fa-check"></i><b>8.1</b> Appendix: Exception handling by other parallel map-reduce APIs</a></li>
+<li class="chapter" data-level="8.2" data-path="appendix.html"><a href="appendix.html#appendix-condition-handling-by-other-parallel-map-reduce-apis"><i class="fa fa-check"></i><b>8.2</b> Appendix: Condition handling by other parallel map-reduce APIs</a></li>
+<li class="chapter" data-level="8.3" data-path="appendix.html"><a href="appendix.html#appendix-standard-output-by-other-parallel-map-reduce-apis"><i class="fa fa-check"></i><b>8.3</b> Appendix: Standard output by other parallel map-reduce APIs</a></li>
+<li class="chapter" data-level="8.4" data-path="appendix.html"><a href="appendix.html#appendix-not-everything-can-be-parallelized"><i class="fa fa-check"></i><b>8.4</b> Appendix: Not everything can be parallelized</a>
+<ul>
+<li class="chapter" data-level="8.4.1" data-path="appendix.html"><a href="appendix.html#example-r-connections-can-be-exported-to-parallel-workers"><i class="fa fa-check"></i><b>8.4.1</b> Example: R connections can be exported to parallel workers</a></li>
+<li class="chapter" data-level="8.4.2" data-path="appendix.html"><a href="appendix.html#example-xml2-objects-cannot-be-exported"><i class="fa fa-check"></i><b>8.4.2</b> Example: xml2 objects cannot be exported</a></li>
+</ul></li>
+<li class="chapter" data-level="8.5" data-path="appendix.html"><a href="appendix.html#appendix-careful-with-forked-parallization"><i class="fa fa-check"></i><b>8.5</b> Appendix: Careful with forked parallization</a></li>
+<li class="chapter" data-level="8.6" data-path="appendix.html"><a href="appendix.html#appendix-missing-globals"><i class="fa fa-check"></i><b>8.6</b> Appendix: Missing globals</a>
+<ul>
+<li class="chapter" data-level="8.6.1" data-path="appendix.html"><a href="appendix.html#example-glueglue---object-not-found"><i class="fa fa-check"></i><b>8.6.1</b> Example: glue::glue() - object not found</a></li>
+<li class="chapter" data-level="8.6.2" data-path="appendix.html"><a href="appendix.html#example-do.call"><i class="fa fa-check"></i><b>8.6.2</b> Example: do.call()</a></li>
+</ul></li>
+<li class="chapter" data-level="8.7" data-path="appendix.html"><a href="appendix.html#appendix-dont-assign-to-global-environment"><i class="fa fa-check"></i><b>8.7</b> Appendix: Don’t assign to global environment</a></li>
+<li class="chapter" data-level="8.8" data-path="appendix.html"><a href="appendix.html#appendix-foreach-is-not-a-for-loop"><i class="fa fa-check"></i><b>8.8</b> Appendix: foreach() is not a for-loop</a></li>
+<li class="chapter" data-level="8.9" data-path="appendix.html"><a href="appendix.html#appendix-debugging"><i class="fa fa-check"></i><b>8.9</b> Appendix: Debugging</a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Tutorial: An Introduction to Futureverse for Parallel Processing in R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="random-numbers-and-reproducibility" class="section level1 hasAnchor" number="7">
+<h1><span class="header-section-number">Part 7</span> Random numbers and reproducibility<a href="random-numbers-and-reproducibility.html#random-numbers-and-reproducibility" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>When we draw random number in R, e.g.</p>
+<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="random-numbers-and-reproducibility.html#cb98-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">10</span>)</span></code></pre></div>
+<p>the internals of R makes sure to follow best practices so that we get numbers that have “random” properties, e.g. knowing <code>x[1:9]</code> does not help us predict <code>x[10]</code>. R uses a so called <em>random number generator</em> (RNG) to generate random numbers. More precisely, it uses a <em>pseudo</em> RNG, because 100% true random numbers are really hard to get by. An pseudo RNG is a deterministic RNG algorithm that produces a sequence of numbers that have good “random” properties. Developing good pseudo RNGs is a research field in itself, which we won’t cover in this tutorial, but what is worth mentioning is that R support several different kinds of RNGs, and the default one has carefully been chosen for us;</p>
+<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="random-numbers-and-reproducibility.html#cb99-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">RNGkind</span>()</span>
+<span id="cb99-2"><a href="random-numbers-and-reproducibility.html#cb99-2" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">&quot;Mersenne-Twister&quot;</span> <span class="st">&quot;Inversion&quot;</span>        <span class="st">&quot;Rejection&quot;</span>  </span></code></pre></div>
+<p>We can get reproducible random numbers by setting the RNG seed, e.g.</p>
+<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="random-numbers-and-reproducibility.html#cb100-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb100-2"><a href="random-numbers-and-reproducibility.html#cb100-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rnorm</span>(<span class="dv">4</span>)</span>
+<span id="cb100-3"><a href="random-numbers-and-reproducibility.html#cb100-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1]  1.3709584 -0.5646982  0.3631284  0.6328626</span></span>
+<span id="cb100-4"><a href="random-numbers-and-reproducibility.html#cb100-4" aria-hidden="true" tabindex="-1"></a><span class="fu">rnorm</span>(<span class="dv">4</span>)</span>
+<span id="cb100-5"><a href="random-numbers-and-reproducibility.html#cb100-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1]  0.40426832 -0.10612452  1.51152200 -0.09465904</span></span></code></pre></div>
+<p>If we redo the above, we get an identical sequence of “random” numbers:</p>
+<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="random-numbers-and-reproducibility.html#cb101-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb101-2"><a href="random-numbers-and-reproducibility.html#cb101-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rnorm</span>(<span class="dv">4</span>)</span>
+<span id="cb101-3"><a href="random-numbers-and-reproducibility.html#cb101-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1]  1.3709584 -0.5646982  0.3631284  0.6328626</span></span>
+<span id="cb101-4"><a href="random-numbers-and-reproducibility.html#cb101-4" aria-hidden="true" tabindex="-1"></a><span class="fu">rnorm</span>(<span class="dv">4</span>)</span>
+<span id="cb101-5"><a href="random-numbers-and-reproducibility.html#cb101-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1]  0.40426832 -0.10612452  1.51152200 -0.09465904</span></span></code></pre></div>
+<div id="why-is-this-important" class="section level2 hasAnchor" number="7.1">
+<h2><span class="header-section-number">7.1</span> Why is this important?<a href="random-numbers-and-reproducibility.html#why-is-this-important" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Random number generation (RNG) is important, because:</p>
+<ul>
+<li><p>many statistical methods rely on it for correctness,</p></li>
+<li><p>science rely on it for reproducibility.</p></li>
+</ul>
+<p>If RNG produce “poor” random numbers, there is a risk we get invalid results.</p>
+<p>When performing calculations and analyses in parallel, we cannot use the default RNG (Mersenne-Twister). If we do, there is a risk that we end up with correlated random numbers across parallel workers, which then results in biased results and incorrect conclusions. To solve this, other pseudo RNGs have been developed specifically for parallel processing:</p>
+<ul>
+<li>L’Ecuyer is a RNG that works well for parallel processing</li>
+</ul>
+<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="random-numbers-and-reproducibility.html#cb102-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">RNGkind</span>(<span class="st">&quot;L&#39;Ecuyer-CMRG&quot;</span>)</span>
+<span id="cb102-2"><a href="random-numbers-and-reproducibility.html#cb102-2" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">RNGkind</span>()</span>
+<span id="cb102-3"><a href="random-numbers-and-reproducibility.html#cb102-3" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">&quot;L&#39;Ecuyer-CMRG&quot;</span> <span class="st">&quot;Inversion&quot;</span>     <span class="st">&quot;Rejection&quot;</span></span></code></pre></div>
+</div>
+<div id="futures-use-proper-parallel-rng" class="section level2 hasAnchor" number="7.2">
+<h2><span class="header-section-number">7.2</span> Futures use proper parallel RNG<a href="random-numbers-and-reproducibility.html#futures-use-proper-parallel-rng" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The <strong><a href="https://future.futureverse.org">future</a></strong> framework uses the L’Ecuyer parallel RNG. It’s all taken care of automatically. All you need to remember is to declare that your parallel code uses random numbers. This you can do by specifying <code>seed = TRUE</code>, e.g.</p>
+<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="random-numbers-and-reproducibility.html#cb103-1" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">future</span>(<span class="fu">rnorm</span>(<span class="dv">4</span>), <span class="at">seed =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<p>Futures respects the random seed, and can therefore produce reproducible random numbers, e.g.</p>
+<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="random-numbers-and-reproducibility.html#cb104-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb104-2"><a href="random-numbers-and-reproducibility.html#cb104-2" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">future</span>(<span class="fu">rnorm</span>(<span class="dv">4</span>), <span class="at">seed =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb104-3"><a href="random-numbers-and-reproducibility.html#cb104-3" aria-hidden="true" tabindex="-1"></a><span class="fu">value</span>(f)</span>
+<span id="cb104-4"><a href="random-numbers-and-reproducibility.html#cb104-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] -1.6430042 -1.0003081 -0.3619149  0.1475366</span></span></code></pre></div>
+<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="random-numbers-and-reproducibility.html#cb105-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb105-2"><a href="random-numbers-and-reproducibility.html#cb105-2" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">future</span>(<span class="fu">rnorm</span>(<span class="dv">4</span>), <span class="at">seed =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb105-3"><a href="random-numbers-and-reproducibility.html#cb105-3" aria-hidden="true" tabindex="-1"></a><span class="fu">value</span>(f)</span>
+<span id="cb105-4"><a href="random-numbers-and-reproducibility.html#cb105-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] -1.6430042 -1.0003081 -0.3619149  0.1475366</span></span></code></pre></div>
+<p>Comment: The random numbers produced with the same seed (here <code>42</code>) are <em>not</em> identical when using the L’Ecuyer RNG as when using the Mersenne-Twister RNG.</p>
+<div id="what-happens-if-you-forget-to-declare-seed-true" class="section level3 hasAnchor" number="7.2.1">
+<h3><span class="header-section-number">7.2.1</span> What happens if you forget to declare seed = TRUE?<a href="random-numbers-and-reproducibility.html#what-happens-if-you-forget-to-declare-seed-true" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>If you don’t specify <code>seed = TRUE</code>, and your future code end up using random numbers, then the <strong><a href="https://future.futureverse.org">future</a></strong> framework detects this and produces an informative wwarning that is hard to miss:</p>
+<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="random-numbers-and-reproducibility.html#cb106-1" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">future</span>(<span class="fu">rnorm</span>(<span class="dv">4</span>))</span>
+<span id="cb106-2"><a href="random-numbers-and-reproducibility.html#cb106-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">value</span>(f)</span>
+<span id="cb106-3"><a href="random-numbers-and-reproducibility.html#cb106-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning message:</span></span>
+<span id="cb106-4"><a href="random-numbers-and-reproducibility.html#cb106-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; UNRELIABLE VALUE: Future (&#39;&lt;none&gt;&#39;) unexpectedly generated random numbers </span></span>
+<span id="cb106-5"><a href="random-numbers-and-reproducibility.html#cb106-5" aria-hidden="true" tabindex="-1"></a>without specifying argument <span class="st">&#39;seed&#39;</span>. There is a risk that those random numbers</span>
+<span id="cb106-6"><a href="random-numbers-and-reproducibility.html#cb106-6" aria-hidden="true" tabindex="-1"></a>are not statistically sound and the overall results might be invalid. To fix</span>
+<span id="cb106-7"><a href="random-numbers-and-reproducibility.html#cb106-7" aria-hidden="true" tabindex="-1"></a>this, specify <span class="st">&#39;seed=TRUE&#39;</span>. This ensures that proper, parallel<span class="sc">-</span>safe random</span>
+<span id="cb106-8"><a href="random-numbers-and-reproducibility.html#cb106-8" aria-hidden="true" tabindex="-1"></a>numbers are produced via the L<span class="st">&#39;Ecuyer-CMRG method. To disable this check, use</span></span>
+<span id="cb106-9"><a href="random-numbers-and-reproducibility.html#cb106-9" aria-hidden="true" tabindex="-1"></a><span class="st">&#39;</span>seed<span class="ot">=</span>NULL<span class="st">&#39;, or set option &#39;</span>future.rng.onMisuse<span class="st">&#39; to &quot;ignore&quot;. </span></span></code></pre></div>
+</div>
+<div id="random-numbers-with-parallel-map-reduce-functions" class="section level3 hasAnchor" number="7.2.2">
+<h3><span class="header-section-number">7.2.2</span> Random numbers with parallel map-reduce functions<a href="random-numbers-and-reproducibility.html#random-numbers-with-parallel-map-reduce-functions" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The <strong><a href="https://future.apply.futureverse.org">future.apply</a></strong> package use argument <code>future.seed = TRUE</code>, and the <strong><a href="https://furrr.futureverse.org">furrr</a></strong> package argument <code>.options = furrr_options(seed = TRUE)</code> for declaring that RNG is used. For example,</p>
+<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="random-numbers-and-reproducibility.html#cb107-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(future.apply)</span>
+<span id="cb107-2"><a href="random-numbers-and-reproducibility.html#cb107-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plan</span>(multisession, <span class="at">workers =</span> <span class="dv">2</span>)</span>
+<span id="cb107-3"><a href="random-numbers-and-reproducibility.html#cb107-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb107-4"><a href="random-numbers-and-reproducibility.html#cb107-4" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">4</span></span>
+<span id="cb107-5"><a href="random-numbers-and-reproducibility.html#cb107-5" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">future_lapply</span>(X, rnorm, <span class="at">future.seed =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb107-6"><a href="random-numbers-and-reproducibility.html#cb107-6" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(y)</span>
+<span id="cb107-7"><a href="random-numbers-and-reproducibility.html#cb107-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; List of 3</span></span>
+<span id="cb107-8"><a href="random-numbers-and-reproducibility.html#cb107-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ : num [1:2] -0.0265 -1.7324</span></span>
+<span id="cb107-9"><a href="random-numbers-and-reproducibility.html#cb107-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ : num [1:3] 2.5456 -0.6127 -0.0912</span></span>
+<span id="cb107-10"><a href="random-numbers-and-reproducibility.html#cb107-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ : num [1:4] -2.107 -1.304 0.229 0.775</span></span></code></pre></div>
+<p>It does <em>not</em> matter what parallel backend you use, or number of parallel workers, the <strong><a href="https://future.futureverse.org">future</a></strong> framework guarantees numerically identical random numbers with the same random seed, e.g.</p>
+<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="random-numbers-and-reproducibility.html#cb108-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(future.apply)</span>
+<span id="cb108-2"><a href="random-numbers-and-reproducibility.html#cb108-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb108-3"><a href="random-numbers-and-reproducibility.html#cb108-3" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">4</span></span>
+<span id="cb108-4"><a href="random-numbers-and-reproducibility.html#cb108-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb108-5"><a href="random-numbers-and-reproducibility.html#cb108-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plan</span>(sequential)</span>
+<span id="cb108-6"><a href="random-numbers-and-reproducibility.html#cb108-6" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb108-7"><a href="random-numbers-and-reproducibility.html#cb108-7" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">future_lapply</span>(X, rnorm, <span class="at">future.seed =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb108-8"><a href="random-numbers-and-reproducibility.html#cb108-8" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(y)</span>
+<span id="cb108-9"><a href="random-numbers-and-reproducibility.html#cb108-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; List of 3</span></span>
+<span id="cb108-10"><a href="random-numbers-and-reproducibility.html#cb108-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ : num [1:2] -0.169 -1.642</span></span>
+<span id="cb108-11"><a href="random-numbers-and-reproducibility.html#cb108-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ : num [1:3] 0.649 1.193 0.542</span></span>
+<span id="cb108-12"><a href="random-numbers-and-reproducibility.html#cb108-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ : num [1:4] 1.36 -1.85 -1.28 0.42</span></span></code></pre></div>
+<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="random-numbers-and-reproducibility.html#cb109-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plan</span>(multisession, <span class="at">workers =</span> <span class="dv">4</span>)</span>
+<span id="cb109-2"><a href="random-numbers-and-reproducibility.html#cb109-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb109-3"><a href="random-numbers-and-reproducibility.html#cb109-3" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">future_lapply</span>(X, rnorm, <span class="at">future.seed =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb109-4"><a href="random-numbers-and-reproducibility.html#cb109-4" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(y)</span>
+<span id="cb109-5"><a href="random-numbers-and-reproducibility.html#cb109-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; List of 3</span></span>
+<span id="cb109-6"><a href="random-numbers-and-reproducibility.html#cb109-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ : num [1:2] -0.169 -1.642</span></span>
+<span id="cb109-7"><a href="random-numbers-and-reproducibility.html#cb109-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ : num [1:3] 0.649 1.193 0.542</span></span>
+<span id="cb109-8"><a href="random-numbers-and-reproducibility.html#cb109-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ : num [1:4] 1.36 -1.85 -1.28 0.42</span></span></code></pre></div>
+<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="random-numbers-and-reproducibility.html#cb110-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plan</span>(cluster, <span class="at">workers =</span> <span class="fu">c</span>(<span class="st">&quot;pi&quot;</span>, <span class="st">&quot;remote.server.org&quot;</span>))</span>
+<span id="cb110-2"><a href="random-numbers-and-reproducibility.html#cb110-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb110-3"><a href="random-numbers-and-reproducibility.html#cb110-3" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">future_lapply</span>(X, rnorm, <span class="at">future.seed =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb110-4"><a href="random-numbers-and-reproducibility.html#cb110-4" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(y)</span>
+<span id="cb110-5"><a href="random-numbers-and-reproducibility.html#cb110-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; List of 3</span></span>
+<span id="cb110-6"><a href="random-numbers-and-reproducibility.html#cb110-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ : num [1:2] -0.169 -1.642</span></span>
+<span id="cb110-7"><a href="random-numbers-and-reproducibility.html#cb110-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ : num [1:3] 0.649 1.193 0.542</span></span>
+<span id="cb110-8"><a href="random-numbers-and-reproducibility.html#cb110-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ : num [1:4] 1.36 -1.85 -1.28 0.42</span></span></code></pre></div>
+<p>As before, if you forget to declare your need for RNG, you’ll get informative warnings about it;</p>
+<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb111-1"><a href="random-numbers-and-reproducibility.html#cb111-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">future_lapply</span>(X, rnorm)</span>
+<span id="cb111-2"><a href="random-numbers-and-reproducibility.html#cb111-2" aria-hidden="true" tabindex="-1"></a>Warning message<span class="sc">:</span></span>
+<span id="cb111-3"><a href="random-numbers-and-reproducibility.html#cb111-3" aria-hidden="true" tabindex="-1"></a>UNRELIABLE VALUE<span class="sc">:</span> One of the <span class="st">&#39;future.apply&#39;</span> <span class="fu">iterations</span> (<span class="st">&#39;future_lapply-1&#39;</span>)</span>
+<span id="cb111-4"><a href="random-numbers-and-reproducibility.html#cb111-4" aria-hidden="true" tabindex="-1"></a>unexpectedly generated random numbers without declaring so. There is a risk</span>
+<span id="cb111-5"><a href="random-numbers-and-reproducibility.html#cb111-5" aria-hidden="true" tabindex="-1"></a>that those random numbers are not statistically sound and the overall results</span>
+<span id="cb111-6"><a href="random-numbers-and-reproducibility.html#cb111-6" aria-hidden="true" tabindex="-1"></a>might be invalid. To fix this, specify <span class="st">&#39;future.seed=TRUE&#39;</span>. This ensures that</span>
+<span id="cb111-7"><a href="random-numbers-and-reproducibility.html#cb111-7" aria-hidden="true" tabindex="-1"></a>proper, parallel<span class="sc">-</span>safe random numbers are produced via the L<span class="st">&#39;Ecuyer-CMRG </span></span>
+<span id="cb111-8"><a href="random-numbers-and-reproducibility.html#cb111-8" aria-hidden="true" tabindex="-1"></a><span class="st">method. To disable this check, use &#39;</span>future.seed <span class="ot">=</span> NULL<span class="st">&#39;, or set option </span></span>
+<span id="cb111-9"><a href="random-numbers-and-reproducibility.html#cb111-9" aria-hidden="true" tabindex="-1"></a><span class="st">&#39;</span>future.rng.onMisuse<span class="st">&#39; to &quot;ignore&quot;.</span></span></code></pre></div>
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="quick-summary-and-comparison-to-other-parallel-frameworks.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="open-discussion.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>
