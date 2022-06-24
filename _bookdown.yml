@@ -3,5 +3,5 @@ language:
   ui:
     chapter_name: "Part "
 rmd_files:
-  html: ["tutorial.md"]
- 
+  html: ["index.md"]
+output_dir: docs

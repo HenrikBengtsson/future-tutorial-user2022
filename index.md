@@ -1,3 +1,17 @@
+--- 
+title: "Tutorial: An Introduction to Futureverse for Parallel Processing in R"
+author: "Henrik Bengtsson"
+date: 2022-06-20
+site: bookdown::bookdown_site
+documentclass: book
+bibliography: [book.bib]
+url: https://www.futureverse.org
+cover-image: figures/future_logo.png
+description: N/A
+link-citations: yes
+github-repo: HenrikBengtsson/future-tutorial-useR2022
+---
+
 # Tutorial Overview {-}
 
 * Title: **An Introduction to Futureverse for Parallel Processing in R**

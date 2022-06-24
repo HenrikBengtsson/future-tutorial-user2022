@@ -1,10 +1,10 @@
 VIEWER=xdg-open
 
-build: _book/tutorial-overview.html
+build: docs/index.html
 
-_book/tutorial-overview.html: index.Rmd tutorial.md _output.yml _bookdown.yml
-	Rscript -e "bookdown::render_book()"
+docs/index.html: index.md _output.yml _bookdown.yml
+	Rscript -e 'bookdown::render_book("index.md", output_format = bookdown::gitbook())'
 
-view: _book/tutorial-overview.html
+view: docs/index.html
 	"$(VIEWER)" "$<"
 
