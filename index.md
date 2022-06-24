@@ -4,7 +4,6 @@ author: "Henrik Bengtsson"
 date: 2022-06-20
 site: bookdown::bookdown_site
 documentclass: book
-bibliography: [book.bib]
 url: https://www.futureverse.org
 cover-image: figures/future_logo.png
 description: N/A
@@ -134,7 +133,7 @@ If you have any issues, please reach out for help on <https://github.com/HenrikB
 * (20 min): **Part 7**: Random numbers and reproducibility
 * (20 min): Open discussion
 
-Total time: 2.5 hours + 1.0 hour optional (including breaks)
+Total time: 3.5 hours (including breaks)
 
 
 

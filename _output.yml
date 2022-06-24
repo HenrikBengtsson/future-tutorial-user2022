@@ -3,10 +3,10 @@ bookdown::gitbook:
   config:
     toc:
       before: |
-        <li><a href="./tutorial-overview.html">Tutorial: An Introduction to Futureverse for Parallel Processing in R</a></li>
+        <li><a href="./index.html">Tutorial: An Introduction to Futureverse for Parallel Processing in R</a></li>
       after: |
         <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
-    edit: https://github.com/USERNAME/REPO/edit/BRANCH/%s
+    edit: https://github.com/HenrikBengtsson/future-tutorial-user2022/edit/develop/%s
     download: ["pdf", "epub"]   
 bookdown::pdf_book:
   includes:
