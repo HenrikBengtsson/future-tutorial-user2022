@@ -1,0 +1,7 @@
+delete_merged_file: true
+language:
+  ui:
+    chapter_name: "Part "
+rmd_files:
+  html: ["tutorial.md"]
+ 

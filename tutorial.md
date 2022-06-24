@@ -3,10 +3,11 @@
 * Title: **An Introduction to Futureverse for Parallel Processing in R**
 * Where: online, useR! 2022 conference (June 20-24, 2022)
 * When: Monday 2022-06-20 07:00-10:30 UTC-0700
-* Length: 2.5 hours + 1.0 hour optional (including breaks)
+* Length: 3.5 hours (including breaks)
 * Instructor: Henrik Bengtsson, University of California, San Francisco, USA
 * URL: https://user2022.r-project.org/program/tutorials/#futureverse-parallelization-in-r
 * Event URL: https://www.accelevents.com/e/user2022/portal/workshops/260741
+* Number of registered participants: 60 (full)
 
 ## Abstract {-}
 
@@ -414,9 +415,9 @@ There are _three atomic building blocks_ that do everything we need:
 
 * `f <- future(expr)` : evaluates an expression via a future (non-blocking, if possible)
 
-* ` r <- resolved(f)` : the value of the future expression expr (blocking until resolved)
+* ` r <- resolved(f)` : TRUE if future is resolved, otherwise FALSE (non-blocking)
 
-* `v <- value(f)` : TRUE if future is resolved, otherwise FALSE (non-blocking)
+* `v <- value(f)` : the value of the future expression expr (blocking until resolved)
 
 
 ### Mental model: The Future API decouples a regular R assignment into two parts

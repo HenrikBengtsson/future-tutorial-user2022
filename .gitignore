@@ -1,1 +1,6 @@
 *~
+_book
+.Rhistory
+.Rdump
+.future
+_main.*
