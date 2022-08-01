@@ -18,8 +18,9 @@ github-repo: HenrikBengtsson/future-tutorial-useR2022
 * When: Monday 2022-06-20 07:00-10:30 UTC-0700
 * Length: 3.5 hours (including breaks)
 * Instructor: Henrik Bengtsson, University of California, San Francisco, USA
-* URL: https://user2022.r-project.org/program/tutorials/#futureverse-parallelization-in-r
-* Event URL: https://www.accelevents.com/e/user2022/portal/workshops/260741
+* URL: <https://user2022.r-project.org/program/tutorials/#futureverse-parallelization-in-r>
+* Event URL: <https://www.accelevents.com/e/user2022/portal/workshops/260741>
+* Video recording: <https://www.youtube.com/watch?t=840&v=yTwPJyRP_bc> (from 0:14:00 until 3:50:30)
 * Number of registered participants: 60 (full)
 
 ## Abstract {-}
