@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Part 2 The core Future API | Tutorial: An Introduction to Futureverse for Parallel Processing in R</title>
   <meta name="description" content="N/A" />
-  <meta name="generator" content="bookdown 0.27 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.31 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Part 2 The core Future API | Tutorial: An Introduction to Futureverse for Parallel Processing in R" />
   <meta property="og:type" content="book" />
@@ -301,7 +301,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3><span class="header-section-number">2.1.1</span> Mental model: The Future API decouples a regular R assignment into two parts<a href="the-core-future-api.html#mental-model-the-future-api-decouples-a-regular-r-assignment-into-two-parts" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Let’s consider a regular assignment in R:</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="the-core-future-api.html#cb11-1" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> expr</span></code></pre></div>
-<p>To use, this assignment is single operator, but internally it’s done in two steps:</p>
+<p>To us, this assignment is single operator, but internally it’s done in two steps:</p>
 <ol style="list-style-type: decimal">
 <li>R evaluates the expression <code>expr</code> on the right-hand side (RHS), and</li>
 <li>assigns the resulting value to the variable <code>v</code> on the left-hand side (LHS).</li>

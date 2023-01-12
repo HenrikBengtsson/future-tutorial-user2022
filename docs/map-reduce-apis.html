@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Part 3 Map-reduce APIs | Tutorial: An Introduction to Futureverse for Parallel Processing in R</title>
   <meta name="description" content="N/A" />
-  <meta name="generator" content="bookdown 0.27 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.31 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Part 3 Map-reduce APIs | Tutorial: An Introduction to Futureverse for Parallel Processing in R" />
   <meta property="og:type" content="book" />
@@ -302,6 +302,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2><span class="header-section-number">3.1</span> Parallel alternatives to base-R apply functions<a href="map-reduce-apis.html#parallel-alternatives-to-base-r-apply-functions" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>The <strong><a href="https://future.apply.futureverse.org">future.apply</a></strong> package implements plug-and-play, parallel alternatives to base-R apply functions:</p>
 <table>
+<caption>The most common base-R apply functions and their parallel
+counterparts in the <strong>future.apply</strong> package. {#tbl-future.apply}</caption>
 <thead>
 <tr class="header">
 <th align="left">base</th>
@@ -310,44 +312,44 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">apply()</td>
-<td align="left">future_apply()</td>
+<td align="left"><code>apply()</code></td>
+<td align="left"><code>future_apply()</code></td>
 </tr>
 <tr class="even">
-<td align="left">by()</td>
-<td align="left">future_by()</td>
+<td align="left"><code>by()</code></td>
+<td align="left"><code>future_by()</code></td>
 </tr>
 <tr class="odd">
-<td align="left">eapply()</td>
-<td align="left">future_eapply()</td>
+<td align="left"><code>eapply()</code></td>
+<td align="left"><code>future_eapply()</code></td>
 </tr>
 <tr class="even">
-<td align="left">lapply()</td>
-<td align="left">future_lapply()</td>
+<td align="left"><code>lapply()</code></td>
+<td align="left"><code>future_lapply()</code></td>
 </tr>
 <tr class="odd">
-<td align="left">Map()</td>
-<td align="left">future_Map()</td>
+<td align="left"><code>Map()</code></td>
+<td align="left"><code>future_Map()</code></td>
 </tr>
 <tr class="even">
-<td align="left">mapply()</td>
-<td align="left">future_mapply()</td>
+<td align="left"><code>mapply()</code></td>
+<td align="left"><code>future_mapply()</code></td>
 </tr>
 <tr class="odd">
-<td align="left">replicate()</td>
-<td align="left">future_replicate()</td>
+<td align="left"><code>replicate()</code></td>
+<td align="left"><code>future_replicate()</code></td>
 </tr>
 <tr class="even">
-<td align="left">sapply()</td>
-<td align="left">future_sapply()</td>
+<td align="left"><code>sapply()</code></td>
+<td align="left"><code>future_sapply()</code></td>
 </tr>
 <tr class="odd">
-<td align="left">tapply()</td>
-<td align="left">future_tapply()</td>
+<td align="left"><code>tapply()</code></td>
+<td align="left"><code>future_tapply()</code></td>
 </tr>
 <tr class="even">
-<td align="left">vapply()</td>
-<td align="left">future_vapply()</td>
+<td align="left"><code>vapply()</code></td>
+<td align="left"><code>future_vapply()</code></td>
 </tr>
 </tbody>
 </table>
