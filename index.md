@@ -442,7 +442,7 @@ Let's consider a regular assignment in R:
 v <- expr
 ```
 
-To use, this assignment is single operator, but internally it's done in two steps:
+To us, this assignment is single operator, but internally it's done in two steps:
 
 1. R evaluates the expression `expr` on the right-hand side (RHS), and
 2. assigns the resulting value to the variable `v` on the left-hand side (LHS).
@@ -805,18 +805,21 @@ Take-home message: **[future.apply]**, **[furrr]**, **[foreach]**, **[plyr]**, a
 
 The **[future.apply]** package implements plug-and-play, parallel alternatives to base-R apply functions:
 
-|base        |future.apply       |
-|:-----------|:------------------|
-|apply()     |future_apply()     |
-|by()        |future_by()        |
-|eapply()    |future_eapply()    |
-|lapply()    |future_lapply()    |
-|Map()       |future_Map()       |
-|mapply()    |future_mapply()    |
-|replicate() |future_replicate() |
-|sapply()    |future_sapply()    |
-|tapply()    |future_tapply()    |
-|vapply()    |future_vapply()    |
+| base          | future.apply         |
+|:--------------|:---------------------|
+| `apply()`     | `future_apply()`     |
+| `by()`        | `future_by()`        |
+| `eapply()`    | `future_eapply()`    |
+| `lapply()`    | `future_lapply()`    |
+| `Map()`       | `future_Map()`       |
+| `mapply()`    | `future_mapply()`    |
+| `replicate()` | `future_replicate()` |
+| `sapply()`    | `future_sapply()`    |
+| `tapply()`    | `future_tapply()`    |
+| `vapply()`    | `future_vapply()`    |
+
+: The most common base-R apply functions and their parallel
+  counterparts in the **future.apply** package. {#tbl-future.apply}
 
 
 <!--
