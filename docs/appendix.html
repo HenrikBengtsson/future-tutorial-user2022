@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Part 8 Appendix | Tutorial: An Introduction to Futureverse for Parallel Processing in R</title>
   <meta name="description" content="N/A" />
-  <meta name="generator" content="bookdown 0.31 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.33 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Part 8 Appendix | Tutorial: An Introduction to Futureverse for Parallel Processing in R" />
   <meta property="og:type" content="book" />
@@ -92,7 +92,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
+code span.bu { color: #008000; } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -105,7 +105,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
+code span.im { color: #008000; font-weight: bold; } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -260,7 +260,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="8.4.1" data-path="appendix.html"><a href="appendix.html#example-r-connections-can-be-exported-to-parallel-workers"><i class="fa fa-check"></i><b>8.4.1</b> Example: R connections can be exported to parallel workers</a></li>
 <li class="chapter" data-level="8.4.2" data-path="appendix.html"><a href="appendix.html#example-xml2-objects-cannot-be-exported"><i class="fa fa-check"></i><b>8.4.2</b> Example: xml2 objects cannot be exported</a></li>
 </ul></li>
-<li class="chapter" data-level="8.5" data-path="appendix.html"><a href="appendix.html#appendix-careful-with-forked-parallization"><i class="fa fa-check"></i><b>8.5</b> Appendix: Careful with forked parallization</a></li>
+<li class="chapter" data-level="8.5" data-path="appendix.html"><a href="appendix.html#appendix-careful-with-forked-parallelization"><i class="fa fa-check"></i><b>8.5</b> Appendix: Careful with forked parallelization</a></li>
 <li class="chapter" data-level="8.6" data-path="appendix.html"><a href="appendix.html#appendix-missing-globals"><i class="fa fa-check"></i><b>8.6</b> Appendix: Missing globals</a>
 <ul>
 <li class="chapter" data-level="8.6.1" data-path="appendix.html"><a href="appendix.html#example-glueglue---object-not-found"><i class="fa fa-check"></i><b>8.6.1</b> Example: glue::glue() - object not found</a></li>
@@ -292,112 +292,112 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="appendix-exception-handling-by-other-parallel-map-reduce-apis" class="section level2 hasAnchor" number="8.1">
 <h2><span class="header-section-number">8.1</span> Appendix: Exception handling by other parallel map-reduce APIs<a href="appendix.html#appendix-exception-handling-by-other-parallel-map-reduce-apis" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>The regular <code>sqrt()</code> function gives a warning if we try with a negative number, e.g.</p>
-<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="appendix.html#cb112-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="sc">-</span><span class="dv">1</span>)</span>
-<span id="cb112-2"><a href="appendix.html#cb112-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] NaN</span></span>
-<span id="cb112-3"><a href="appendix.html#cb112-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning message:</span></span>
-<span id="cb112-4"><a href="appendix.html#cb112-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; In sqrt(-1) : NaNs produced</span></span></code></pre></div>
+<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="appendix.html#cb112-1" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb112-2"><a href="appendix.html#cb112-2" tabindex="-1"></a><span class="co">#&gt; [1] NaN</span></span>
+<span id="cb112-3"><a href="appendix.html#cb112-3" tabindex="-1"></a><span class="co">#&gt; Warning message:</span></span>
+<span id="cb112-4"><a href="appendix.html#cb112-4" tabindex="-1"></a><span class="co">#&gt; In sqrt(-1) : NaNs produced</span></span></code></pre></div>
 <p>If we want to be more strict, we can define:</p>
-<div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb113-1"><a href="appendix.html#cb113-1" aria-hidden="true" tabindex="-1"></a>strict_sqrt <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
-<span id="cb113-2"><a href="appendix.html#cb113-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (x <span class="sc">&lt;</span> <span class="dv">0</span>) {</span>
-<span id="cb113-3"><a href="appendix.html#cb113-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stop</span>(<span class="fu">errorCondition</span>(</span>
-<span id="cb113-4"><a href="appendix.html#cb113-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">paste</span>(<span class="st">&quot;sqrt(x) with x &lt; 0 not allowed:&quot;</span>, x), </span>
-<span id="cb113-5"><a href="appendix.html#cb113-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">call =</span> <span class="fu">sys.call</span>(),</span>
-<span id="cb113-6"><a href="appendix.html#cb113-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">class =</span> <span class="st">&quot;strict_error&quot;</span>)</span>
-<span id="cb113-7"><a href="appendix.html#cb113-7" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb113-8"><a href="appendix.html#cb113-8" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb113-9"><a href="appendix.html#cb113-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sqrt</span>(x)</span>
-<span id="cb113-10"><a href="appendix.html#cb113-10" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb113-1"><a href="appendix.html#cb113-1" tabindex="-1"></a>strict_sqrt <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb113-2"><a href="appendix.html#cb113-2" tabindex="-1"></a>  <span class="cf">if</span> (x <span class="sc">&lt;</span> <span class="dv">0</span>) {</span>
+<span id="cb113-3"><a href="appendix.html#cb113-3" tabindex="-1"></a>    <span class="fu">stop</span>(<span class="fu">errorCondition</span>(</span>
+<span id="cb113-4"><a href="appendix.html#cb113-4" tabindex="-1"></a>      <span class="fu">paste</span>(<span class="st">&quot;sqrt(x) with x &lt; 0 not allowed:&quot;</span>, x), </span>
+<span id="cb113-5"><a href="appendix.html#cb113-5" tabindex="-1"></a>      <span class="at">call =</span> <span class="fu">sys.call</span>(),</span>
+<span id="cb113-6"><a href="appendix.html#cb113-6" tabindex="-1"></a>      <span class="at">class =</span> <span class="st">&quot;strict_error&quot;</span>)</span>
+<span id="cb113-7"><a href="appendix.html#cb113-7" tabindex="-1"></a>    )</span>
+<span id="cb113-8"><a href="appendix.html#cb113-8" tabindex="-1"></a>  }</span>
+<span id="cb113-9"><a href="appendix.html#cb113-9" tabindex="-1"></a>  <span class="fu">sqrt</span>(x)</span>
+<span id="cb113-10"><a href="appendix.html#cb113-10" tabindex="-1"></a>}</span></code></pre></div>
 <p>which gives:</p>
-<div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb114-1"><a href="appendix.html#cb114-1" aria-hidden="true" tabindex="-1"></a><span class="fu">strict_sqrt</span>(<span class="sc">-</span><span class="dv">1</span>)</span>
-<span id="cb114-2"><a href="appendix.html#cb114-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Error in strict_sqrt(-1) : sqrt(x) with x &lt; 0 not allowed: -1</span></span></code></pre></div>
+<div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb114-1"><a href="appendix.html#cb114-1" tabindex="-1"></a><span class="fu">strict_sqrt</span>(<span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb114-2"><a href="appendix.html#cb114-2" tabindex="-1"></a><span class="co">#&gt; Error in strict_sqrt(-1) : sqrt(x) with x &lt; 0 not allowed: -1</span></span></code></pre></div>
 <p>Let’s see how this behaves with different map-reduce functions.</p>
 <p>Our reference, base-R <code>lapply()</code>:</p>
-<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb115-1"><a href="appendix.html#cb115-1" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">1</span><span class="sc">:</span><span class="dv">2</span></span>
-<span id="cb115-2"><a href="appendix.html#cb115-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">lapply</span>(X, strict_sqrt)</span>
-<span id="cb115-3"><a href="appendix.html#cb115-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Error in FUN(X[[i]], ...) : sqrt(x) with x &lt; 0 not allowed: -1</span></span></code></pre></div>
+<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb115-1"><a href="appendix.html#cb115-1" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">1</span><span class="sc">:</span><span class="dv">2</span></span>
+<span id="cb115-2"><a href="appendix.html#cb115-2" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">lapply</span>(X, strict_sqrt)</span>
+<span id="cb115-3"><a href="appendix.html#cb115-3" tabindex="-1"></a><span class="co">#&gt; Error in FUN(X[[i]], ...) : sqrt(x) with x &lt; 0 not allowed: -1</span></span></code></pre></div>
 <p>Details:</p>
-<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb116-1"><a href="appendix.html#cb116-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tryCatch</span>(y <span class="ot">&lt;-</span> <span class="fu">lapply</span>(X, strict_sqrt), <span class="at">error =</span> str)</span>
-<span id="cb116-2"><a href="appendix.html#cb116-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; List of 2</span></span>
-<span id="cb116-3"><a href="appendix.html#cb116-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ message: chr &quot;sqrt(x) with x &lt; 0 not allowed: -1&quot;</span></span>
-<span id="cb116-4"><a href="appendix.html#cb116-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ call   : language FUN(X[[i]], ...)</span></span>
-<span id="cb116-5"><a href="appendix.html#cb116-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  - attr(*, &quot;class&quot;)= chr [1:3] &quot;strict_error&quot; &quot;error&quot; &quot;condition&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb116-1"><a href="appendix.html#cb116-1" tabindex="-1"></a><span class="fu">tryCatch</span>(y <span class="ot">&lt;-</span> <span class="fu">lapply</span>(X, strict_sqrt), <span class="at">error =</span> str)</span>
+<span id="cb116-2"><a href="appendix.html#cb116-2" tabindex="-1"></a><span class="co">#&gt; List of 2</span></span>
+<span id="cb116-3"><a href="appendix.html#cb116-3" tabindex="-1"></a><span class="co">#&gt;  $ message: chr &quot;sqrt(x) with x &lt; 0 not allowed: -1&quot;</span></span>
+<span id="cb116-4"><a href="appendix.html#cb116-4" tabindex="-1"></a><span class="co">#&gt;  $ call   : language FUN(X[[i]], ...)</span></span>
+<span id="cb116-5"><a href="appendix.html#cb116-5" tabindex="-1"></a><span class="co">#&gt;  - attr(*, &quot;class&quot;)= chr [1:3] &quot;strict_error&quot; &quot;error&quot; &quot;condition&quot;</span></span></code></pre></div>
 <p><strong><a href="https://future.apply.futureverse.org">future.apply</a></strong> (as expected):</p>
-<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb117-1"><a href="appendix.html#cb117-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(future.apply)</span>
-<span id="cb117-2"><a href="appendix.html#cb117-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plan</span>(multisession, <span class="at">workers =</span> <span class="dv">2</span>)</span>
-<span id="cb117-3"><a href="appendix.html#cb117-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb117-4"><a href="appendix.html#cb117-4" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">1</span><span class="sc">:</span><span class="dv">2</span></span>
-<span id="cb117-5"><a href="appendix.html#cb117-5" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">future_lapply</span>(X, strict_sqrt)</span>
-<span id="cb117-6"><a href="appendix.html#cb117-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Error in ...future.FUN(...future.X_jj, ...) : </span></span>
-<span id="cb117-7"><a href="appendix.html#cb117-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   sqrt(x) with x &lt; 0 not allowed: -1</span></span></code></pre></div>
+<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb117-1"><a href="appendix.html#cb117-1" tabindex="-1"></a><span class="fu">library</span>(future.apply)</span>
+<span id="cb117-2"><a href="appendix.html#cb117-2" tabindex="-1"></a><span class="fu">plan</span>(multisession, <span class="at">workers =</span> <span class="dv">2</span>)</span>
+<span id="cb117-3"><a href="appendix.html#cb117-3" tabindex="-1"></a></span>
+<span id="cb117-4"><a href="appendix.html#cb117-4" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">1</span><span class="sc">:</span><span class="dv">2</span></span>
+<span id="cb117-5"><a href="appendix.html#cb117-5" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">future_lapply</span>(X, strict_sqrt)</span>
+<span id="cb117-6"><a href="appendix.html#cb117-6" tabindex="-1"></a><span class="co">#&gt; Error in ...future.FUN(...future.X_jj, ...) : </span></span>
+<span id="cb117-7"><a href="appendix.html#cb117-7" tabindex="-1"></a><span class="co">#&gt;   sqrt(x) with x &lt; 0 not allowed: -1</span></span></code></pre></div>
 <p>Details:</p>
-<div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb118-1"><a href="appendix.html#cb118-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tryCatch</span>(y <span class="ot">&lt;-</span> <span class="fu">future_lapply</span>(X, strict_sqrt), <span class="at">error =</span> str)</span>
-<span id="cb118-2"><a href="appendix.html#cb118-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; List of 2</span></span>
-<span id="cb118-3"><a href="appendix.html#cb118-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ message: chr &quot;sqrt(x) with x &lt; 0 not allowed: -1&quot;</span></span>
-<span id="cb118-4"><a href="appendix.html#cb118-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ call   : language ...future.FUN(...future.X_jj, ...)</span></span>
-<span id="cb118-5"><a href="appendix.html#cb118-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  - attr(*, &quot;class&quot;)= chr [1:3] &quot;strict_error&quot; &quot;error&quot; &quot;condition&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb118-1"><a href="appendix.html#cb118-1" tabindex="-1"></a><span class="fu">tryCatch</span>(y <span class="ot">&lt;-</span> <span class="fu">future_lapply</span>(X, strict_sqrt), <span class="at">error =</span> str)</span>
+<span id="cb118-2"><a href="appendix.html#cb118-2" tabindex="-1"></a><span class="co">#&gt; List of 2</span></span>
+<span id="cb118-3"><a href="appendix.html#cb118-3" tabindex="-1"></a><span class="co">#&gt;  $ message: chr &quot;sqrt(x) with x &lt; 0 not allowed: -1&quot;</span></span>
+<span id="cb118-4"><a href="appendix.html#cb118-4" tabindex="-1"></a><span class="co">#&gt;  $ call   : language ...future.FUN(...future.X_jj, ...)</span></span>
+<span id="cb118-5"><a href="appendix.html#cb118-5" tabindex="-1"></a><span class="co">#&gt;  - attr(*, &quot;class&quot;)= chr [1:3] &quot;strict_error&quot; &quot;error&quot; &quot;condition&quot;</span></span></code></pre></div>
 <p>Note how the error message is preserved and also the error class (<code>strict_error</code>).</p>
 <p><strong><a href="https://furrr.futureverse.org">furrr</a></strong> (as expected):</p>
-<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb119-1"><a href="appendix.html#cb119-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(furrr)</span>
-<span id="cb119-2"><a href="appendix.html#cb119-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plan</span>(multisession, <span class="at">workers =</span> <span class="dv">2</span>)</span>
-<span id="cb119-3"><a href="appendix.html#cb119-3" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">future_map</span>(X, strict_sqrt)</span>
-<span id="cb119-4"><a href="appendix.html#cb119-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Error in ...furrr_fn(...) : sqrt(x) with x &lt; 0 not allowed: -1</span></span></code></pre></div>
+<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb119-1"><a href="appendix.html#cb119-1" tabindex="-1"></a><span class="fu">library</span>(furrr)</span>
+<span id="cb119-2"><a href="appendix.html#cb119-2" tabindex="-1"></a><span class="fu">plan</span>(multisession, <span class="at">workers =</span> <span class="dv">2</span>)</span>
+<span id="cb119-3"><a href="appendix.html#cb119-3" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">future_map</span>(X, strict_sqrt)</span>
+<span id="cb119-4"><a href="appendix.html#cb119-4" tabindex="-1"></a><span class="co">#&gt; Error in ...furrr_fn(...) : sqrt(x) with x &lt; 0 not allowed: -1</span></span></code></pre></div>
 <p>Details:</p>
-<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb120-1"><a href="appendix.html#cb120-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tryCatch</span>(y <span class="ot">&lt;-</span> <span class="fu">future_map</span>(X, strict_sqrt), <span class="at">error =</span> str)</span>
-<span id="cb120-2"><a href="appendix.html#cb120-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; List of 2</span></span>
-<span id="cb120-3"><a href="appendix.html#cb120-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ message: chr &quot;sqrt(x) with x &lt; 0 not allowed: -1&quot;</span></span>
-<span id="cb120-4"><a href="appendix.html#cb120-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ call   : language ...furrr_fn(...)</span></span>
-<span id="cb120-5"><a href="appendix.html#cb120-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  - attr(*, &quot;class&quot;)= chr [1:3] &quot;strict_error&quot; &quot;error&quot; &quot;condition&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb120-1"><a href="appendix.html#cb120-1" tabindex="-1"></a><span class="fu">tryCatch</span>(y <span class="ot">&lt;-</span> <span class="fu">future_map</span>(X, strict_sqrt), <span class="at">error =</span> str)</span>
+<span id="cb120-2"><a href="appendix.html#cb120-2" tabindex="-1"></a><span class="co">#&gt; List of 2</span></span>
+<span id="cb120-3"><a href="appendix.html#cb120-3" tabindex="-1"></a><span class="co">#&gt;  $ message: chr &quot;sqrt(x) with x &lt; 0 not allowed: -1&quot;</span></span>
+<span id="cb120-4"><a href="appendix.html#cb120-4" tabindex="-1"></a><span class="co">#&gt;  $ call   : language ...furrr_fn(...)</span></span>
+<span id="cb120-5"><a href="appendix.html#cb120-5" tabindex="-1"></a><span class="co">#&gt;  - attr(*, &quot;class&quot;)= chr [1:3] &quot;strict_error&quot; &quot;error&quot; &quot;condition&quot;</span></span></code></pre></div>
 <p>Note how the error message is preserved and also the error class (<code>strict_error</code>).</p>
 <p>In contrast, <strong>parallel</strong> and <code>parLapply()</code>:</p>
-<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="appendix.html#cb121-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(parallel)</span>
-<span id="cb121-2"><a href="appendix.html#cb121-2" aria-hidden="true" tabindex="-1"></a>cl <span class="ot">&lt;-</span> <span class="fu">makePSOCKcluster</span>(<span class="dv">2</span>)</span>
-<span id="cb121-3"><a href="appendix.html#cb121-3" aria-hidden="true" tabindex="-1"></a><span class="fu">clusterExport</span>(cl, <span class="st">&quot;strict_sqrt&quot;</span>)</span>
-<span id="cb121-4"><a href="appendix.html#cb121-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb121-5"><a href="appendix.html#cb121-5" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">parLapply</span>(X, strict_sqrt, <span class="at">cl =</span> cl)</span>
-<span id="cb121-6"><a href="appendix.html#cb121-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Error in checkForRemoteErrors(val) : </span></span>
-<span id="cb121-7"><a href="appendix.html#cb121-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   one node produced an error: sqrt(x) with x &lt; 0 not allowed: -1</span></span></code></pre></div>
+<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="appendix.html#cb121-1" tabindex="-1"></a><span class="fu">library</span>(parallel)</span>
+<span id="cb121-2"><a href="appendix.html#cb121-2" tabindex="-1"></a>cl <span class="ot">&lt;-</span> <span class="fu">makePSOCKcluster</span>(<span class="dv">2</span>)</span>
+<span id="cb121-3"><a href="appendix.html#cb121-3" tabindex="-1"></a><span class="fu">clusterExport</span>(cl, <span class="st">&quot;strict_sqrt&quot;</span>)</span>
+<span id="cb121-4"><a href="appendix.html#cb121-4" tabindex="-1"></a></span>
+<span id="cb121-5"><a href="appendix.html#cb121-5" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">parLapply</span>(X, strict_sqrt, <span class="at">cl =</span> cl)</span>
+<span id="cb121-6"><a href="appendix.html#cb121-6" tabindex="-1"></a><span class="co">#&gt; Error in checkForRemoteErrors(val) : </span></span>
+<span id="cb121-7"><a href="appendix.html#cb121-7" tabindex="-1"></a><span class="co">#&gt;   one node produced an error: sqrt(x) with x &lt; 0 not allowed: -1</span></span></code></pre></div>
 <p>Details:</p>
-<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb122-1"><a href="appendix.html#cb122-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tryCatch</span>(y <span class="ot">&lt;-</span> <span class="fu">parLapply</span>(X, strict_sqrt, <span class="at">cl =</span> workers), <span class="at">error =</span> str)</span>
-<span id="cb122-2"><a href="appendix.html#cb122-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; List of 2</span></span>
-<span id="cb122-3"><a href="appendix.html#cb122-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ message: chr &quot;one node produced an error: sqrt(x) with x &lt; 0 not allowed: -1&quot;</span></span>
-<span id="cb122-4"><a href="appendix.html#cb122-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ call   : language checkForRemoteErrors(val)</span></span>
-<span id="cb122-5"><a href="appendix.html#cb122-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  - attr(*, &quot;class&quot;)= chr [1:3] &quot;simpleError&quot; &quot;error&quot; &quot;condition&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb122-1"><a href="appendix.html#cb122-1" tabindex="-1"></a><span class="fu">tryCatch</span>(y <span class="ot">&lt;-</span> <span class="fu">parLapply</span>(X, strict_sqrt, <span class="at">cl =</span> workers), <span class="at">error =</span> str)</span>
+<span id="cb122-2"><a href="appendix.html#cb122-2" tabindex="-1"></a><span class="co">#&gt; List of 2</span></span>
+<span id="cb122-3"><a href="appendix.html#cb122-3" tabindex="-1"></a><span class="co">#&gt;  $ message: chr &quot;one node produced an error: sqrt(x) with x &lt; 0 not allowed: -1&quot;</span></span>
+<span id="cb122-4"><a href="appendix.html#cb122-4" tabindex="-1"></a><span class="co">#&gt;  $ call   : language checkForRemoteErrors(val)</span></span>
+<span id="cb122-5"><a href="appendix.html#cb122-5" tabindex="-1"></a><span class="co">#&gt;  - attr(*, &quot;class&quot;)= chr [1:3] &quot;simpleError&quot; &quot;error&quot; &quot;condition&quot;</span></span></code></pre></div>
 <p>Note how:</p>
 <ol style="list-style-type: decimal">
 <li>the error message has changed</li>
 <li>we lost the information on error class, i.e. <code>strict_error</code></li>
 </ol>
 <p><strong>parallel</strong> and <code>mclapply()</code>:</p>
-<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="appendix.html#cb123-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(parallel)</span>
-<span id="cb123-2"><a href="appendix.html#cb123-2" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">mc.cores =</span> <span class="dv">2</span>)</span>
-<span id="cb123-3"><a href="appendix.html#cb123-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb123-4"><a href="appendix.html#cb123-4" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> parallel<span class="sc">::</span><span class="fu">mclapply</span>(X, strict_sqrt)</span>
-<span id="cb123-5"><a href="appendix.html#cb123-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning message:</span></span>
-<span id="cb123-6"><a href="appendix.html#cb123-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; In parallel::mclapply(X, strict_sqrt) :</span></span>
-<span id="cb123-7"><a href="appendix.html#cb123-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   all scheduled cores encountered errors in user code</span></span></code></pre></div>
+<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="appendix.html#cb123-1" tabindex="-1"></a><span class="fu">library</span>(parallel)</span>
+<span id="cb123-2"><a href="appendix.html#cb123-2" tabindex="-1"></a><span class="fu">options</span>(<span class="at">mc.cores =</span> <span class="dv">2</span>)</span>
+<span id="cb123-3"><a href="appendix.html#cb123-3" tabindex="-1"></a></span>
+<span id="cb123-4"><a href="appendix.html#cb123-4" tabindex="-1"></a>y <span class="ot">&lt;-</span> parallel<span class="sc">::</span><span class="fu">mclapply</span>(X, strict_sqrt)</span>
+<span id="cb123-5"><a href="appendix.html#cb123-5" tabindex="-1"></a><span class="co">#&gt; Warning message:</span></span>
+<span id="cb123-6"><a href="appendix.html#cb123-6" tabindex="-1"></a><span class="co">#&gt; In parallel::mclapply(X, strict_sqrt) :</span></span>
+<span id="cb123-7"><a href="appendix.html#cb123-7" tabindex="-1"></a><span class="co">#&gt;   all scheduled cores encountered errors in user code</span></span></code></pre></div>
 <p>Here we didn’t even get an error - only a warning. We have to inspect the results to detect errors, e.g.</p>
-<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb124-1"><a href="appendix.html#cb124-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(y)</span>
-<span id="cb124-2"><a href="appendix.html#cb124-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; List of 4</span></span>
-<span id="cb124-3"><a href="appendix.html#cb124-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ : &#39;try-error&#39; chr &quot;Error in FUN(X[[i]], ...) : sqrt(x) with x &lt; 0 not allowed: -1\n&quot;</span></span>
-<span id="cb124-4"><a href="appendix.html#cb124-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   ..- attr(*, &quot;condition&quot;)=List of 2</span></span>
-<span id="cb124-5"><a href="appendix.html#cb124-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   .. ..$ message: chr &quot;sqrt(x) with x &lt; 0 not allowed: -1&quot;</span></span>
-<span id="cb124-6"><a href="appendix.html#cb124-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   .. ..$ call   : language FUN(X[[i]], ...)</span></span>
-<span id="cb124-7"><a href="appendix.html#cb124-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   .. ..- attr(*, &quot;class&quot;)= chr [1:3] &quot;strict_error&quot; &quot;error&quot; &quot;condition&quot;</span></span>
-<span id="cb124-8"><a href="appendix.html#cb124-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ : num 0</span></span>
-<span id="cb124-9"><a href="appendix.html#cb124-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ : &#39;try-error&#39; chr &quot;Error in FUN(X[[i]], ...) : sqrt(x) with x &lt; 0 not allowed: -1\n&quot;</span></span>
-<span id="cb124-10"><a href="appendix.html#cb124-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   ..- attr(*, &quot;condition&quot;)=List of 2</span></span>
-<span id="cb124-11"><a href="appendix.html#cb124-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   .. ..$ message: chr &quot;sqrt(x) with x &lt; 0 not allowed: -1&quot;</span></span>
-<span id="cb124-12"><a href="appendix.html#cb124-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   .. ..$ call   : language FUN(X[[i]], ...)</span></span>
-<span id="cb124-13"><a href="appendix.html#cb124-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   .. ..- attr(*, &quot;class&quot;)= chr [1:3] &quot;strict_error&quot; &quot;error&quot; &quot;condition&quot;</span></span>
-<span id="cb124-14"><a href="appendix.html#cb124-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ : num 1.41</span></span></code></pre></div>
+<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb124-1"><a href="appendix.html#cb124-1" tabindex="-1"></a><span class="fu">str</span>(y)</span>
+<span id="cb124-2"><a href="appendix.html#cb124-2" tabindex="-1"></a><span class="co">#&gt; List of 4</span></span>
+<span id="cb124-3"><a href="appendix.html#cb124-3" tabindex="-1"></a><span class="co">#&gt;  $ : &#39;try-error&#39; chr &quot;Error in FUN(X[[i]], ...) : sqrt(x) with x &lt; 0 not allowed: -1\n&quot;</span></span>
+<span id="cb124-4"><a href="appendix.html#cb124-4" tabindex="-1"></a><span class="co">#&gt;   ..- attr(*, &quot;condition&quot;)=List of 2</span></span>
+<span id="cb124-5"><a href="appendix.html#cb124-5" tabindex="-1"></a><span class="co">#&gt;   .. ..$ message: chr &quot;sqrt(x) with x &lt; 0 not allowed: -1&quot;</span></span>
+<span id="cb124-6"><a href="appendix.html#cb124-6" tabindex="-1"></a><span class="co">#&gt;   .. ..$ call   : language FUN(X[[i]], ...)</span></span>
+<span id="cb124-7"><a href="appendix.html#cb124-7" tabindex="-1"></a><span class="co">#&gt;   .. ..- attr(*, &quot;class&quot;)= chr [1:3] &quot;strict_error&quot; &quot;error&quot; &quot;condition&quot;</span></span>
+<span id="cb124-8"><a href="appendix.html#cb124-8" tabindex="-1"></a><span class="co">#&gt;  $ : num 0</span></span>
+<span id="cb124-9"><a href="appendix.html#cb124-9" tabindex="-1"></a><span class="co">#&gt;  $ : &#39;try-error&#39; chr &quot;Error in FUN(X[[i]], ...) : sqrt(x) with x &lt; 0 not allowed: -1\n&quot;</span></span>
+<span id="cb124-10"><a href="appendix.html#cb124-10" tabindex="-1"></a><span class="co">#&gt;   ..- attr(*, &quot;condition&quot;)=List of 2</span></span>
+<span id="cb124-11"><a href="appendix.html#cb124-11" tabindex="-1"></a><span class="co">#&gt;   .. ..$ message: chr &quot;sqrt(x) with x &lt; 0 not allowed: -1&quot;</span></span>
+<span id="cb124-12"><a href="appendix.html#cb124-12" tabindex="-1"></a><span class="co">#&gt;   .. ..$ call   : language FUN(X[[i]], ...)</span></span>
+<span id="cb124-13"><a href="appendix.html#cb124-13" tabindex="-1"></a><span class="co">#&gt;   .. ..- attr(*, &quot;class&quot;)= chr [1:3] &quot;strict_error&quot; &quot;error&quot; &quot;condition&quot;</span></span>
+<span id="cb124-14"><a href="appendix.html#cb124-14" tabindex="-1"></a><span class="co">#&gt;  $ : num 1.41</span></span></code></pre></div>
 <p>Do detect the errors, we have to scan the results;</p>
-<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb125-1"><a href="appendix.html#cb125-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Check for errors</span></span>
-<span id="cb125-2"><a href="appendix.html#cb125-2" aria-hidden="true" tabindex="-1"></a>is_error <span class="ot">&lt;-</span> <span class="fu">vapply</span>(y, inherits, <span class="st">&quot;try-error&quot;</span>, <span class="at">FUN.VALUE =</span> <span class="cn">NA</span>)</span>
-<span id="cb125-3"><a href="appendix.html#cb125-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">any</span>(is_error)) {</span>
-<span id="cb125-4"><a href="appendix.html#cb125-4" aria-hidden="true" tabindex="-1"></a>  <span class="do">## error objects are stored in attributes</span></span>
-<span id="cb125-5"><a href="appendix.html#cb125-5" aria-hidden="true" tabindex="-1"></a>  first_error <span class="ot">&lt;-</span> <span class="fu">attr</span>(y[is_error][[<span class="dv">1</span>]], <span class="st">&quot;condition&quot;</span>)</span>
-<span id="cb125-6"><a href="appendix.html#cb125-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stop</span>(<span class="st">&quot;Detected one or more errors: &quot;</span>, <span class="fu">conditionMessage</span>(first_error))</span>
-<span id="cb125-7"><a href="appendix.html#cb125-7" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb125-1"><a href="appendix.html#cb125-1" tabindex="-1"></a><span class="do">## Check for errors</span></span>
+<span id="cb125-2"><a href="appendix.html#cb125-2" tabindex="-1"></a>is_error <span class="ot">&lt;-</span> <span class="fu">vapply</span>(y, inherits, <span class="st">&quot;try-error&quot;</span>, <span class="at">FUN.VALUE =</span> <span class="cn">NA</span>)</span>
+<span id="cb125-3"><a href="appendix.html#cb125-3" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">any</span>(is_error)) {</span>
+<span id="cb125-4"><a href="appendix.html#cb125-4" tabindex="-1"></a>  <span class="do">## error objects are stored in attributes</span></span>
+<span id="cb125-5"><a href="appendix.html#cb125-5" tabindex="-1"></a>  first_error <span class="ot">&lt;-</span> <span class="fu">attr</span>(y[is_error][[<span class="dv">1</span>]], <span class="st">&quot;condition&quot;</span>)</span>
+<span id="cb125-6"><a href="appendix.html#cb125-6" tabindex="-1"></a>  <span class="fu">stop</span>(<span class="st">&quot;Detected one or more errors: &quot;</span>, <span class="fu">conditionMessage</span>(first_error))</span>
+<span id="cb125-7"><a href="appendix.html#cb125-7" tabindex="-1"></a>}</span></code></pre></div>
 <p>This a low-level, powerful feature, but it adds lots of friction and requires much more work to make sure things are correct. We cannot just use the value of <code>mclapply(...)</code> as-is, but we need to postprocess it to make sure we catch any errors and handle them correctly.</p>
 <p>Also:</p>
 <ol style="list-style-type: decimal">
@@ -406,18 +406,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ol>
 <p>Confusing? Yes!</p>
 <p><strong><a href="https://cran.r-project.org/package=foreach">foreach</a></strong>:</p>
-<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb126-1"><a href="appendix.html#cb126-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(foreach)</span>
-<span id="cb126-2"><a href="appendix.html#cb126-2" aria-hidden="true" tabindex="-1"></a>doFuture<span class="sc">::</span><span class="fu">registerDoFuture</span>()</span>
-<span id="cb126-3"><a href="appendix.html#cb126-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plan</span>(multisession, <span class="at">workers =</span> <span class="dv">2</span>)</span>
-<span id="cb126-4"><a href="appendix.html#cb126-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb126-5"><a href="appendix.html#cb126-5" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">foreach</span>(<span class="at">x =</span> X) <span class="sc">%dopar%</span> <span class="fu">strict_sqrt</span>(x)</span>
-<span id="cb126-6"><a href="appendix.html#cb126-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Error in { : task 1 failed - &quot;sqrt(x) with x &lt; 0 not allowed: -1&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb126-1"><a href="appendix.html#cb126-1" tabindex="-1"></a><span class="fu">library</span>(foreach)</span>
+<span id="cb126-2"><a href="appendix.html#cb126-2" tabindex="-1"></a>doFuture<span class="sc">::</span><span class="fu">registerDoFuture</span>()</span>
+<span id="cb126-3"><a href="appendix.html#cb126-3" tabindex="-1"></a><span class="fu">plan</span>(multisession, <span class="at">workers =</span> <span class="dv">2</span>)</span>
+<span id="cb126-4"><a href="appendix.html#cb126-4" tabindex="-1"></a></span>
+<span id="cb126-5"><a href="appendix.html#cb126-5" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">foreach</span>(<span class="at">x =</span> X) <span class="sc">%dopar%</span> <span class="fu">strict_sqrt</span>(x)</span>
+<span id="cb126-6"><a href="appendix.html#cb126-6" tabindex="-1"></a><span class="co">#&gt; Error in { : task 1 failed - &quot;sqrt(x) with x &lt; 0 not allowed: -1&quot;</span></span></code></pre></div>
 <p>Just like with <code>parallel::parLapply()</code>, we lose important information on the error:</p>
-<div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb127-1"><a href="appendix.html#cb127-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tryCatch</span>(y <span class="ot">&lt;-</span> <span class="fu">foreach</span>(<span class="at">x =</span> X) <span class="sc">%dopar%</span> <span class="fu">strict_sqrt</span>(x), <span class="at">error =</span> str)</span>
-<span id="cb127-2"><a href="appendix.html#cb127-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; List of 2</span></span>
-<span id="cb127-3"><a href="appendix.html#cb127-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ message: chr &quot;task 1 failed - \&quot;sqrt(x) with x &lt; 0 not allowed: -1\&quot;&quot;</span></span>
-<span id="cb127-4"><a href="appendix.html#cb127-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ call   : language {     doFuture::registerDoFuture() ...</span></span>
-<span id="cb127-5"><a href="appendix.html#cb127-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  - attr(*, &quot;class&quot;)= chr [1:3] &quot;simpleError&quot; &quot;error&quot; &quot;condition&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb127-1"><a href="appendix.html#cb127-1" tabindex="-1"></a><span class="fu">tryCatch</span>(y <span class="ot">&lt;-</span> <span class="fu">foreach</span>(<span class="at">x =</span> X) <span class="sc">%dopar%</span> <span class="fu">strict_sqrt</span>(x), <span class="at">error =</span> str)</span>
+<span id="cb127-2"><a href="appendix.html#cb127-2" tabindex="-1"></a><span class="co">#&gt; List of 2</span></span>
+<span id="cb127-3"><a href="appendix.html#cb127-3" tabindex="-1"></a><span class="co">#&gt;  $ message: chr &quot;task 1 failed - \&quot;sqrt(x) with x &lt; 0 not allowed: -1\&quot;&quot;</span></span>
+<span id="cb127-4"><a href="appendix.html#cb127-4" tabindex="-1"></a><span class="co">#&gt;  $ call   : language {     doFuture::registerDoFuture() ...</span></span>
+<span id="cb127-5"><a href="appendix.html#cb127-5" tabindex="-1"></a><span class="co">#&gt;  - attr(*, &quot;class&quot;)= chr [1:3] &quot;simpleError&quot; &quot;error&quot; &quot;condition&quot;</span></span></code></pre></div>
 <p>Note how:</p>
 <ol style="list-style-type: decimal">
 <li>the error message has changed</li>
@@ -430,210 +430,210 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Here will use warnings to illustrate how conditions are handled by the <strong><a href="https://future.futureverse.org">future</a></strong> framework, and how none of the other parallel frameworks handles them. However, everything in this section apply also to messages, and any other non-error condition type signalled by R.</p>
 <p>The regular <code>sqrt()</code> function gives a warning if we try with a negative number. Let’s see how this behaves with different map-reduce functions.</p>
 <p>Our reference, base-R <code>lapply()</code>:</p>
-<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb128-1"><a href="appendix.html#cb128-1" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">1</span><span class="sc">:</span><span class="dv">2</span></span>
-<span id="cb128-2"><a href="appendix.html#cb128-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">lapply</span>(X, sqrt)</span>
-<span id="cb128-3"><a href="appendix.html#cb128-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning message:</span></span>
-<span id="cb128-4"><a href="appendix.html#cb128-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; In FUN(X[[i]], ...) : NaNs produced</span></span></code></pre></div>
+<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb128-1"><a href="appendix.html#cb128-1" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">1</span><span class="sc">:</span><span class="dv">2</span></span>
+<span id="cb128-2"><a href="appendix.html#cb128-2" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">lapply</span>(X, sqrt)</span>
+<span id="cb128-3"><a href="appendix.html#cb128-3" tabindex="-1"></a><span class="co">#&gt; Warning message:</span></span>
+<span id="cb128-4"><a href="appendix.html#cb128-4" tabindex="-1"></a><span class="co">#&gt; In FUN(X[[i]], ...) : NaNs produced</span></span></code></pre></div>
 <p>Details:</p>
-<div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb129-1"><a href="appendix.html#cb129-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tryCatch</span>(y <span class="ot">&lt;-</span> <span class="fu">lapply</span>(X, sqrt), <span class="at">warning =</span> str)</span>
-<span id="cb129-2"><a href="appendix.html#cb129-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; List of 2</span></span>
-<span id="cb129-3"><a href="appendix.html#cb129-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ message: chr &quot;NaNs produced&quot;</span></span>
-<span id="cb129-4"><a href="appendix.html#cb129-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ call   : language FUN(X[[i]], ...)</span></span>
-<span id="cb129-5"><a href="appendix.html#cb129-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  - attr(*, &quot;class&quot;)= chr [1:3] &quot;simpleWarning&quot; &quot;warning&quot; &quot;condition&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb129-1"><a href="appendix.html#cb129-1" tabindex="-1"></a><span class="fu">tryCatch</span>(y <span class="ot">&lt;-</span> <span class="fu">lapply</span>(X, sqrt), <span class="at">warning =</span> str)</span>
+<span id="cb129-2"><a href="appendix.html#cb129-2" tabindex="-1"></a><span class="co">#&gt; List of 2</span></span>
+<span id="cb129-3"><a href="appendix.html#cb129-3" tabindex="-1"></a><span class="co">#&gt;  $ message: chr &quot;NaNs produced&quot;</span></span>
+<span id="cb129-4"><a href="appendix.html#cb129-4" tabindex="-1"></a><span class="co">#&gt;  $ call   : language FUN(X[[i]], ...)</span></span>
+<span id="cb129-5"><a href="appendix.html#cb129-5" tabindex="-1"></a><span class="co">#&gt;  - attr(*, &quot;class&quot;)= chr [1:3] &quot;simpleWarning&quot; &quot;warning&quot; &quot;condition&quot;</span></span></code></pre></div>
 <p><strong><a href="https://future.apply.futureverse.org">future.apply</a></strong> (works as expected):</p>
-<div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb130-1"><a href="appendix.html#cb130-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(future.apply)</span>
-<span id="cb130-2"><a href="appendix.html#cb130-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plan</span>(multisession, <span class="at">workers =</span> <span class="dv">2</span>)</span>
-<span id="cb130-3"><a href="appendix.html#cb130-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb130-4"><a href="appendix.html#cb130-4" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">1</span><span class="sc">:</span><span class="dv">2</span></span>
-<span id="cb130-5"><a href="appendix.html#cb130-5" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">future_lapply</span>(X, sqrt)</span>
-<span id="cb130-6"><a href="appendix.html#cb130-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning message:</span></span>
-<span id="cb130-7"><a href="appendix.html#cb130-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; In ...future.FUN(...future.X_jj, ...) : NaNs produced</span></span></code></pre></div>
+<div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb130-1"><a href="appendix.html#cb130-1" tabindex="-1"></a><span class="fu">library</span>(future.apply)</span>
+<span id="cb130-2"><a href="appendix.html#cb130-2" tabindex="-1"></a><span class="fu">plan</span>(multisession, <span class="at">workers =</span> <span class="dv">2</span>)</span>
+<span id="cb130-3"><a href="appendix.html#cb130-3" tabindex="-1"></a></span>
+<span id="cb130-4"><a href="appendix.html#cb130-4" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">1</span><span class="sc">:</span><span class="dv">2</span></span>
+<span id="cb130-5"><a href="appendix.html#cb130-5" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">future_lapply</span>(X, sqrt)</span>
+<span id="cb130-6"><a href="appendix.html#cb130-6" tabindex="-1"></a><span class="co">#&gt; Warning message:</span></span>
+<span id="cb130-7"><a href="appendix.html#cb130-7" tabindex="-1"></a><span class="co">#&gt; In ...future.FUN(...future.X_jj, ...) : NaNs produced</span></span></code></pre></div>
 <p>Details:</p>
-<div class="sourceCode" id="cb131"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb131-1"><a href="appendix.html#cb131-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tryCatch</span>(y <span class="ot">&lt;-</span> <span class="fu">future_lapply</span>(X, sqrt), <span class="at">warning =</span> str)</span>
-<span id="cb131-2"><a href="appendix.html#cb131-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; List of 2</span></span>
-<span id="cb131-3"><a href="appendix.html#cb131-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ message: chr &quot;NaNs produced&quot;</span></span>
-<span id="cb131-4"><a href="appendix.html#cb131-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ call   : language ...future.FUN(...future.X_jj, ...)</span></span>
-<span id="cb131-5"><a href="appendix.html#cb131-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  - attr(*, &quot;class&quot;)= chr [1:3] &quot;simpleWarning&quot; &quot;warning&quot; &quot;condition&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb131"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb131-1"><a href="appendix.html#cb131-1" tabindex="-1"></a><span class="fu">tryCatch</span>(y <span class="ot">&lt;-</span> <span class="fu">future_lapply</span>(X, sqrt), <span class="at">warning =</span> str)</span>
+<span id="cb131-2"><a href="appendix.html#cb131-2" tabindex="-1"></a><span class="co">#&gt; List of 2</span></span>
+<span id="cb131-3"><a href="appendix.html#cb131-3" tabindex="-1"></a><span class="co">#&gt;  $ message: chr &quot;NaNs produced&quot;</span></span>
+<span id="cb131-4"><a href="appendix.html#cb131-4" tabindex="-1"></a><span class="co">#&gt;  $ call   : language ...future.FUN(...future.X_jj, ...)</span></span>
+<span id="cb131-5"><a href="appendix.html#cb131-5" tabindex="-1"></a><span class="co">#&gt;  - attr(*, &quot;class&quot;)= chr [1:3] &quot;simpleWarning&quot; &quot;warning&quot; &quot;condition&quot;</span></span></code></pre></div>
 <p><strong><a href="https://furrr.futureverse.org">furrr</a></strong> (works as expected):</p>
-<div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb132-1"><a href="appendix.html#cb132-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(furrr)</span>
-<span id="cb132-2"><a href="appendix.html#cb132-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plan</span>(multisession, <span class="at">workers =</span> <span class="dv">2</span>)</span>
-<span id="cb132-3"><a href="appendix.html#cb132-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb132-4"><a href="appendix.html#cb132-4" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">1</span><span class="sc">:</span><span class="dv">2</span></span>
-<span id="cb132-5"><a href="appendix.html#cb132-5" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">future_map</span>(X, sqrt)</span>
-<span id="cb132-6"><a href="appendix.html#cb132-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning message:</span></span>
-<span id="cb132-7"><a href="appendix.html#cb132-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; In .Primitive(&quot;sqrt&quot;)(x) : NaNs produced</span></span></code></pre></div>
+<div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb132-1"><a href="appendix.html#cb132-1" tabindex="-1"></a><span class="fu">library</span>(furrr)</span>
+<span id="cb132-2"><a href="appendix.html#cb132-2" tabindex="-1"></a><span class="fu">plan</span>(multisession, <span class="at">workers =</span> <span class="dv">2</span>)</span>
+<span id="cb132-3"><a href="appendix.html#cb132-3" tabindex="-1"></a></span>
+<span id="cb132-4"><a href="appendix.html#cb132-4" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">1</span><span class="sc">:</span><span class="dv">2</span></span>
+<span id="cb132-5"><a href="appendix.html#cb132-5" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">future_map</span>(X, sqrt)</span>
+<span id="cb132-6"><a href="appendix.html#cb132-6" tabindex="-1"></a><span class="co">#&gt; Warning message:</span></span>
+<span id="cb132-7"><a href="appendix.html#cb132-7" tabindex="-1"></a><span class="co">#&gt; In .Primitive(&quot;sqrt&quot;)(x) : NaNs produced</span></span></code></pre></div>
 <p>Details:</p>
-<div class="sourceCode" id="cb133"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb133-1"><a href="appendix.html#cb133-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tryCatch</span>(y <span class="ot">&lt;-</span> <span class="fu">future_map</span>(X, sqrt), <span class="at">warning =</span> str)</span>
-<span id="cb133-2"><a href="appendix.html#cb133-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; List of 2</span></span>
-<span id="cb133-3"><a href="appendix.html#cb133-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ message: chr &quot;NaNs produced&quot;</span></span>
-<span id="cb133-4"><a href="appendix.html#cb133-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ call   : language .Primitive(&quot;sqrt&quot;)(x)</span></span>
-<span id="cb133-5"><a href="appendix.html#cb133-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  - attr(*, &quot;class&quot;)= chr [1:3] &quot;simpleWarning&quot; &quot;warning&quot; &quot;condition&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb133"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb133-1"><a href="appendix.html#cb133-1" tabindex="-1"></a><span class="fu">tryCatch</span>(y <span class="ot">&lt;-</span> <span class="fu">future_map</span>(X, sqrt), <span class="at">warning =</span> str)</span>
+<span id="cb133-2"><a href="appendix.html#cb133-2" tabindex="-1"></a><span class="co">#&gt; List of 2</span></span>
+<span id="cb133-3"><a href="appendix.html#cb133-3" tabindex="-1"></a><span class="co">#&gt;  $ message: chr &quot;NaNs produced&quot;</span></span>
+<span id="cb133-4"><a href="appendix.html#cb133-4" tabindex="-1"></a><span class="co">#&gt;  $ call   : language .Primitive(&quot;sqrt&quot;)(x)</span></span>
+<span id="cb133-5"><a href="appendix.html#cb133-5" tabindex="-1"></a><span class="co">#&gt;  - attr(*, &quot;class&quot;)= chr [1:3] &quot;simpleWarning&quot; &quot;warning&quot; &quot;condition&quot;</span></span></code></pre></div>
 <p><strong><a href="https://cran.r-project.org/package=foreach">foreach</a></strong> with <strong><a href="https://doFuture.futureverse.org">doFuture</a></strong> (works as expected):</p>
-<div class="sourceCode" id="cb134"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb134-1"><a href="appendix.html#cb134-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(foreach)</span>
-<span id="cb134-2"><a href="appendix.html#cb134-2" aria-hidden="true" tabindex="-1"></a>doFuture<span class="sc">::</span><span class="fu">registerDoFuture</span>()</span>
-<span id="cb134-3"><a href="appendix.html#cb134-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plan</span>(multisession, <span class="at">workers =</span> <span class="dv">2</span>)</span>
-<span id="cb134-4"><a href="appendix.html#cb134-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb134-5"><a href="appendix.html#cb134-5" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">1</span><span class="sc">:</span><span class="dv">2</span></span>
-<span id="cb134-6"><a href="appendix.html#cb134-6" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">foreach</span>(<span class="at">x =</span> X) <span class="sc">%dopar%</span> <span class="fu">sqrt</span>(x)</span>
-<span id="cb134-7"><a href="appendix.html#cb134-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning message:</span></span>
-<span id="cb134-8"><a href="appendix.html#cb134-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; In sqrt(x) : NaNs produced</span></span></code></pre></div>
-<div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb135-1"><a href="appendix.html#cb135-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tryCatch</span>(y <span class="ot">&lt;-</span> <span class="fu">foreach</span>(<span class="at">x =</span> X) <span class="sc">%dopar%</span> <span class="fu">sqrt</span>(x), <span class="at">warning =</span> str)</span>
-<span id="cb135-2"><a href="appendix.html#cb135-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; List of 2</span></span>
-<span id="cb135-3"><a href="appendix.html#cb135-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ message: chr &quot;NaNs produced&quot;</span></span>
-<span id="cb135-4"><a href="appendix.html#cb135-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ call   : language sqrt(x)</span></span>
-<span id="cb135-5"><a href="appendix.html#cb135-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  - attr(*, &quot;class&quot;)= chr [1:3] &quot;simpleWarning&quot; &quot;warning&quot; &quot;condition&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb134"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb134-1"><a href="appendix.html#cb134-1" tabindex="-1"></a><span class="fu">library</span>(foreach)</span>
+<span id="cb134-2"><a href="appendix.html#cb134-2" tabindex="-1"></a>doFuture<span class="sc">::</span><span class="fu">registerDoFuture</span>()</span>
+<span id="cb134-3"><a href="appendix.html#cb134-3" tabindex="-1"></a><span class="fu">plan</span>(multisession, <span class="at">workers =</span> <span class="dv">2</span>)</span>
+<span id="cb134-4"><a href="appendix.html#cb134-4" tabindex="-1"></a></span>
+<span id="cb134-5"><a href="appendix.html#cb134-5" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">1</span><span class="sc">:</span><span class="dv">2</span></span>
+<span id="cb134-6"><a href="appendix.html#cb134-6" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">foreach</span>(<span class="at">x =</span> X) <span class="sc">%dopar%</span> <span class="fu">sqrt</span>(x)</span>
+<span id="cb134-7"><a href="appendix.html#cb134-7" tabindex="-1"></a><span class="co">#&gt; Warning message:</span></span>
+<span id="cb134-8"><a href="appendix.html#cb134-8" tabindex="-1"></a><span class="co">#&gt; In sqrt(x) : NaNs produced</span></span></code></pre></div>
+<div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb135-1"><a href="appendix.html#cb135-1" tabindex="-1"></a><span class="fu">tryCatch</span>(y <span class="ot">&lt;-</span> <span class="fu">foreach</span>(<span class="at">x =</span> X) <span class="sc">%dopar%</span> <span class="fu">sqrt</span>(x), <span class="at">warning =</span> str)</span>
+<span id="cb135-2"><a href="appendix.html#cb135-2" tabindex="-1"></a><span class="co">#&gt; List of 2</span></span>
+<span id="cb135-3"><a href="appendix.html#cb135-3" tabindex="-1"></a><span class="co">#&gt;  $ message: chr &quot;NaNs produced&quot;</span></span>
+<span id="cb135-4"><a href="appendix.html#cb135-4" tabindex="-1"></a><span class="co">#&gt;  $ call   : language sqrt(x)</span></span>
+<span id="cb135-5"><a href="appendix.html#cb135-5" tabindex="-1"></a><span class="co">#&gt;  - attr(*, &quot;class&quot;)= chr [1:3] &quot;simpleWarning&quot; &quot;warning&quot; &quot;condition&quot;</span></span></code></pre></div>
 <p><strong><a href="https://cran.r-project.org/package=foreach">foreach</a></strong> with <strong><a href="https://cran.r-project.org/package=doParallel">doParallel</a></strong> (does not work):</p>
-<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb136-1"><a href="appendix.html#cb136-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(doParallel)</span>
-<span id="cb136-2"><a href="appendix.html#cb136-2" aria-hidden="true" tabindex="-1"></a>cl <span class="ot">&lt;-</span> parallel<span class="sc">::</span><span class="fu">makeCluster</span>(<span class="dv">2</span>)</span>
-<span id="cb136-3"><a href="appendix.html#cb136-3" aria-hidden="true" tabindex="-1"></a><span class="fu">registerDoParallel</span>(cl)</span>
-<span id="cb136-4"><a href="appendix.html#cb136-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb136-5"><a href="appendix.html#cb136-5" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">1</span><span class="sc">:</span><span class="dv">2</span></span>
-<span id="cb136-6"><a href="appendix.html#cb136-6" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">foreach</span>(<span class="at">x =</span> X) <span class="sc">%dopar%</span> <span class="fu">sqrt</span>(x)</span></code></pre></div>
+<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb136-1"><a href="appendix.html#cb136-1" tabindex="-1"></a><span class="fu">library</span>(doParallel)</span>
+<span id="cb136-2"><a href="appendix.html#cb136-2" tabindex="-1"></a>cl <span class="ot">&lt;-</span> parallel<span class="sc">::</span><span class="fu">makeCluster</span>(<span class="dv">2</span>)</span>
+<span id="cb136-3"><a href="appendix.html#cb136-3" tabindex="-1"></a><span class="fu">registerDoParallel</span>(cl)</span>
+<span id="cb136-4"><a href="appendix.html#cb136-4" tabindex="-1"></a></span>
+<span id="cb136-5"><a href="appendix.html#cb136-5" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">1</span><span class="sc">:</span><span class="dv">2</span></span>
+<span id="cb136-6"><a href="appendix.html#cb136-6" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">foreach</span>(<span class="at">x =</span> X) <span class="sc">%dopar%</span> <span class="fu">sqrt</span>(x)</span></code></pre></div>
 <p>Note, warnings are <em>not</em> signalled.</p>
 <p><strong><a href="https://cran.r-project.org/package=foreach">foreach</a></strong> with <strong><a href="https://cran.r-project.org/package=doMC">doMC</a></strong> (does not work):</p>
-<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb137-1"><a href="appendix.html#cb137-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(doMC)</span>
-<span id="cb137-2"><a href="appendix.html#cb137-2" aria-hidden="true" tabindex="-1"></a><span class="fu">registerDoMC</span>(<span class="dv">2</span>)</span>
-<span id="cb137-3"><a href="appendix.html#cb137-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb137-4"><a href="appendix.html#cb137-4" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">1</span><span class="sc">:</span><span class="dv">2</span></span>
-<span id="cb137-5"><a href="appendix.html#cb137-5" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">foreach</span>(<span class="at">x =</span> X) <span class="sc">%dopar%</span> <span class="fu">sqrt</span>(x)</span></code></pre></div>
+<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb137-1"><a href="appendix.html#cb137-1" tabindex="-1"></a><span class="fu">library</span>(doMC)</span>
+<span id="cb137-2"><a href="appendix.html#cb137-2" tabindex="-1"></a><span class="fu">registerDoMC</span>(<span class="dv">2</span>)</span>
+<span id="cb137-3"><a href="appendix.html#cb137-3" tabindex="-1"></a></span>
+<span id="cb137-4"><a href="appendix.html#cb137-4" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">1</span><span class="sc">:</span><span class="dv">2</span></span>
+<span id="cb137-5"><a href="appendix.html#cb137-5" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">foreach</span>(<span class="at">x =</span> X) <span class="sc">%dopar%</span> <span class="fu">sqrt</span>(x)</span></code></pre></div>
 <p>Note, warnings are <em>not</em> signalled.</p>
 <p><strong>parallel</strong> and <code>parLapply()</code> (does not work):</p>
-<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="appendix.html#cb138-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(parallel)</span>
-<span id="cb138-2"><a href="appendix.html#cb138-2" aria-hidden="true" tabindex="-1"></a>cl <span class="ot">&lt;-</span> <span class="fu">makePSOCKcluster</span>(<span class="dv">2</span>)</span>
-<span id="cb138-3"><a href="appendix.html#cb138-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb138-4"><a href="appendix.html#cb138-4" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">1</span><span class="sc">:</span><span class="dv">2</span></span>
-<span id="cb138-5"><a href="appendix.html#cb138-5" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">parLapply</span>(X, sqrt, <span class="at">cl =</span> cl)</span></code></pre></div>
+<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="appendix.html#cb138-1" tabindex="-1"></a><span class="fu">library</span>(parallel)</span>
+<span id="cb138-2"><a href="appendix.html#cb138-2" tabindex="-1"></a>cl <span class="ot">&lt;-</span> <span class="fu">makePSOCKcluster</span>(<span class="dv">2</span>)</span>
+<span id="cb138-3"><a href="appendix.html#cb138-3" tabindex="-1"></a></span>
+<span id="cb138-4"><a href="appendix.html#cb138-4" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">1</span><span class="sc">:</span><span class="dv">2</span></span>
+<span id="cb138-5"><a href="appendix.html#cb138-5" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">parLapply</span>(X, sqrt, <span class="at">cl =</span> cl)</span></code></pre></div>
 <p>Note, warnings are <em>not</em> signalled.</p>
 <p><strong>parallel</strong> and <code>mclapply()</code> (does not work):</p>
-<div class="sourceCode" id="cb139"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb139-1"><a href="appendix.html#cb139-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(parallel)</span>
-<span id="cb139-2"><a href="appendix.html#cb139-2" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">mc.cores =</span> <span class="dv">2</span>)</span>
-<span id="cb139-3"><a href="appendix.html#cb139-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb139-4"><a href="appendix.html#cb139-4" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">1</span><span class="sc">:</span><span class="dv">2</span></span>
-<span id="cb139-5"><a href="appendix.html#cb139-5" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">mclapply</span>(X, sqrt)</span></code></pre></div>
+<div class="sourceCode" id="cb139"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb139-1"><a href="appendix.html#cb139-1" tabindex="-1"></a><span class="fu">library</span>(parallel)</span>
+<span id="cb139-2"><a href="appendix.html#cb139-2" tabindex="-1"></a><span class="fu">options</span>(<span class="at">mc.cores =</span> <span class="dv">2</span>)</span>
+<span id="cb139-3"><a href="appendix.html#cb139-3" tabindex="-1"></a></span>
+<span id="cb139-4"><a href="appendix.html#cb139-4" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">1</span><span class="sc">:</span><span class="dv">2</span></span>
+<span id="cb139-5"><a href="appendix.html#cb139-5" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">mclapply</span>(X, sqrt)</span></code></pre></div>
 <p>Note, warnings are <em>not</em> signalled.</p>
 </div>
 <div id="appendix-standard-output-by-other-parallel-map-reduce-apis" class="section level2 hasAnchor" number="8.3">
 <h2><span class="header-section-number">8.3</span> Appendix: Standard output by other parallel map-reduce APIs<a href="appendix.html#appendix-standard-output-by-other-parallel-map-reduce-apis" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>TL;DR: It’s only the <strong><a href="https://future.futureverse.org">future</a></strong> framework that captures and relays standard output in the main R session.</p>
 <p>Our reference, base-R <code>lapply()</code>:</p>
-<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="appendix.html#cb140-1" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span></span>
-<span id="cb140-2"><a href="appendix.html#cb140-2" aria-hidden="true" tabindex="-1"></a>void <span class="ot">&lt;-</span> <span class="fu">lapply</span>(X, print)</span>
-<span id="cb140-3"><a href="appendix.html#cb140-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 1</span></span>
-<span id="cb140-4"><a href="appendix.html#cb140-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 2</span></span>
-<span id="cb140-5"><a href="appendix.html#cb140-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 3</span></span></code></pre></div>
-<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb141-1"><a href="appendix.html#cb141-1" aria-hidden="true" tabindex="-1"></a>output <span class="ot">&lt;-</span> <span class="fu">capture.output</span>(void <span class="ot">&lt;-</span> <span class="fu">lapply</span>(X, print))</span>
-<span id="cb141-2"><a href="appendix.html#cb141-2" aria-hidden="true" tabindex="-1"></a>output</span>
-<span id="cb141-3"><a href="appendix.html#cb141-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;[1] 1&quot; &quot;[1] 2&quot; &quot;[1] 3&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="appendix.html#cb140-1" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span></span>
+<span id="cb140-2"><a href="appendix.html#cb140-2" tabindex="-1"></a>void <span class="ot">&lt;-</span> <span class="fu">lapply</span>(X, print)</span>
+<span id="cb140-3"><a href="appendix.html#cb140-3" tabindex="-1"></a><span class="co">#&gt; [1] 1</span></span>
+<span id="cb140-4"><a href="appendix.html#cb140-4" tabindex="-1"></a><span class="co">#&gt; [1] 2</span></span>
+<span id="cb140-5"><a href="appendix.html#cb140-5" tabindex="-1"></a><span class="co">#&gt; [1] 3</span></span></code></pre></div>
+<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb141-1"><a href="appendix.html#cb141-1" tabindex="-1"></a>output <span class="ot">&lt;-</span> <span class="fu">capture.output</span>(void <span class="ot">&lt;-</span> <span class="fu">lapply</span>(X, print))</span>
+<span id="cb141-2"><a href="appendix.html#cb141-2" tabindex="-1"></a>output</span>
+<span id="cb141-3"><a href="appendix.html#cb141-3" tabindex="-1"></a><span class="co">#&gt; [1] &quot;[1] 1&quot; &quot;[1] 2&quot; &quot;[1] 3&quot;</span></span></code></pre></div>
 <p><strong><a href="https://future.apply.futureverse.org">future.apply</a></strong> (works as expected):</p>
-<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb142-1"><a href="appendix.html#cb142-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(future.apply)</span>
-<span id="cb142-2"><a href="appendix.html#cb142-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plan</span>(multisession, <span class="at">workers =</span> <span class="dv">2</span>)</span>
-<span id="cb142-3"><a href="appendix.html#cb142-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb142-4"><a href="appendix.html#cb142-4" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span></span>
-<span id="cb142-5"><a href="appendix.html#cb142-5" aria-hidden="true" tabindex="-1"></a>void <span class="ot">&lt;-</span> <span class="fu">future_lapply</span>(X, print)</span>
-<span id="cb142-6"><a href="appendix.html#cb142-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 1</span></span>
-<span id="cb142-7"><a href="appendix.html#cb142-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 2</span></span>
-<span id="cb142-8"><a href="appendix.html#cb142-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 3</span></span></code></pre></div>
-<div class="sourceCode" id="cb143"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb143-1"><a href="appendix.html#cb143-1" aria-hidden="true" tabindex="-1"></a>output <span class="ot">&lt;-</span> <span class="fu">capture.output</span>(void <span class="ot">&lt;-</span> <span class="fu">future_lapply</span>(X, print))</span>
-<span id="cb143-2"><a href="appendix.html#cb143-2" aria-hidden="true" tabindex="-1"></a>output</span>
-<span id="cb143-3"><a href="appendix.html#cb143-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;[1] 1&quot; &quot;[1] 2&quot; &quot;[1] 3&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb142-1"><a href="appendix.html#cb142-1" tabindex="-1"></a><span class="fu">library</span>(future.apply)</span>
+<span id="cb142-2"><a href="appendix.html#cb142-2" tabindex="-1"></a><span class="fu">plan</span>(multisession, <span class="at">workers =</span> <span class="dv">2</span>)</span>
+<span id="cb142-3"><a href="appendix.html#cb142-3" tabindex="-1"></a></span>
+<span id="cb142-4"><a href="appendix.html#cb142-4" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span></span>
+<span id="cb142-5"><a href="appendix.html#cb142-5" tabindex="-1"></a>void <span class="ot">&lt;-</span> <span class="fu">future_lapply</span>(X, print)</span>
+<span id="cb142-6"><a href="appendix.html#cb142-6" tabindex="-1"></a><span class="co">#&gt; [1] 1</span></span>
+<span id="cb142-7"><a href="appendix.html#cb142-7" tabindex="-1"></a><span class="co">#&gt; [1] 2</span></span>
+<span id="cb142-8"><a href="appendix.html#cb142-8" tabindex="-1"></a><span class="co">#&gt; [1] 3</span></span></code></pre></div>
+<div class="sourceCode" id="cb143"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb143-1"><a href="appendix.html#cb143-1" tabindex="-1"></a>output <span class="ot">&lt;-</span> <span class="fu">capture.output</span>(void <span class="ot">&lt;-</span> <span class="fu">future_lapply</span>(X, print))</span>
+<span id="cb143-2"><a href="appendix.html#cb143-2" tabindex="-1"></a>output</span>
+<span id="cb143-3"><a href="appendix.html#cb143-3" tabindex="-1"></a><span class="co">#&gt; [1] &quot;[1] 1&quot; &quot;[1] 2&quot; &quot;[1] 3&quot;</span></span></code></pre></div>
 <p><strong><a href="https://furrr.futureverse.org">furrr</a></strong> (works as expected):</p>
-<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb144-1"><a href="appendix.html#cb144-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(furrr)</span>
-<span id="cb144-2"><a href="appendix.html#cb144-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plan</span>(multisession, <span class="at">workers =</span> <span class="dv">2</span>)</span>
-<span id="cb144-3"><a href="appendix.html#cb144-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb144-4"><a href="appendix.html#cb144-4" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span></span>
-<span id="cb144-5"><a href="appendix.html#cb144-5" aria-hidden="true" tabindex="-1"></a>void <span class="ot">&lt;-</span> <span class="fu">future_map</span>(X, print)</span>
-<span id="cb144-6"><a href="appendix.html#cb144-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 1</span></span>
-<span id="cb144-7"><a href="appendix.html#cb144-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 2</span></span>
-<span id="cb144-8"><a href="appendix.html#cb144-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 3</span></span></code></pre></div>
-<div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb145-1"><a href="appendix.html#cb145-1" aria-hidden="true" tabindex="-1"></a>output <span class="ot">&lt;-</span> <span class="fu">capture.output</span>(void <span class="ot">&lt;-</span> <span class="fu">future_map</span>(X, print))</span>
-<span id="cb145-2"><a href="appendix.html#cb145-2" aria-hidden="true" tabindex="-1"></a>output</span>
-<span id="cb145-3"><a href="appendix.html#cb145-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;[1] 1&quot; &quot;[1] 2&quot; &quot;[1] 3&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb144-1"><a href="appendix.html#cb144-1" tabindex="-1"></a><span class="fu">library</span>(furrr)</span>
+<span id="cb144-2"><a href="appendix.html#cb144-2" tabindex="-1"></a><span class="fu">plan</span>(multisession, <span class="at">workers =</span> <span class="dv">2</span>)</span>
+<span id="cb144-3"><a href="appendix.html#cb144-3" tabindex="-1"></a></span>
+<span id="cb144-4"><a href="appendix.html#cb144-4" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span></span>
+<span id="cb144-5"><a href="appendix.html#cb144-5" tabindex="-1"></a>void <span class="ot">&lt;-</span> <span class="fu">future_map</span>(X, print)</span>
+<span id="cb144-6"><a href="appendix.html#cb144-6" tabindex="-1"></a><span class="co">#&gt; [1] 1</span></span>
+<span id="cb144-7"><a href="appendix.html#cb144-7" tabindex="-1"></a><span class="co">#&gt; [1] 2</span></span>
+<span id="cb144-8"><a href="appendix.html#cb144-8" tabindex="-1"></a><span class="co">#&gt; [1] 3</span></span></code></pre></div>
+<div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb145-1"><a href="appendix.html#cb145-1" tabindex="-1"></a>output <span class="ot">&lt;-</span> <span class="fu">capture.output</span>(void <span class="ot">&lt;-</span> <span class="fu">future_map</span>(X, print))</span>
+<span id="cb145-2"><a href="appendix.html#cb145-2" tabindex="-1"></a>output</span>
+<span id="cb145-3"><a href="appendix.html#cb145-3" tabindex="-1"></a><span class="co">#&gt; [1] &quot;[1] 1&quot; &quot;[1] 2&quot; &quot;[1] 3&quot;</span></span></code></pre></div>
 <p><strong><a href="https://cran.r-project.org/package=foreach">foreach</a></strong> w/ <strong><a href="https://doFuture.futureverse.org">doFuture</a></strong> (works as expected):</p>
-<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="appendix.html#cb146-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(doFuture)</span>
-<span id="cb146-2"><a href="appendix.html#cb146-2" aria-hidden="true" tabindex="-1"></a><span class="fu">registerDoFuture</span>()</span>
-<span id="cb146-3"><a href="appendix.html#cb146-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plan</span>(multisession, <span class="at">workers =</span> <span class="dv">2</span>)</span>
-<span id="cb146-4"><a href="appendix.html#cb146-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb146-5"><a href="appendix.html#cb146-5" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span></span>
-<span id="cb146-6"><a href="appendix.html#cb146-6" aria-hidden="true" tabindex="-1"></a>void <span class="ot">&lt;-</span> <span class="fu">foreach</span>(<span class="at">x =</span> X) <span class="sc">%dopar%</span> <span class="fu">print</span>(x)</span>
-<span id="cb146-7"><a href="appendix.html#cb146-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 1</span></span>
-<span id="cb146-8"><a href="appendix.html#cb146-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 2</span></span>
-<span id="cb146-9"><a href="appendix.html#cb146-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 3</span></span></code></pre></div>
-<div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb147-1"><a href="appendix.html#cb147-1" aria-hidden="true" tabindex="-1"></a>output <span class="ot">&lt;-</span> <span class="fu">capture.output</span>({</span>
-<span id="cb147-2"><a href="appendix.html#cb147-2" aria-hidden="true" tabindex="-1"></a>  void <span class="ot">&lt;-</span> <span class="fu">foreach</span>(<span class="at">x =</span> X) <span class="sc">%dopar%</span> <span class="fu">print</span>(x)</span>
-<span id="cb147-3"><a href="appendix.html#cb147-3" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb147-4"><a href="appendix.html#cb147-4" aria-hidden="true" tabindex="-1"></a>output</span>
-<span id="cb147-5"><a href="appendix.html#cb147-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;[1] 1&quot; &quot;[1] 2&quot; &quot;[1] 3&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="appendix.html#cb146-1" tabindex="-1"></a><span class="fu">library</span>(doFuture)</span>
+<span id="cb146-2"><a href="appendix.html#cb146-2" tabindex="-1"></a><span class="fu">registerDoFuture</span>()</span>
+<span id="cb146-3"><a href="appendix.html#cb146-3" tabindex="-1"></a><span class="fu">plan</span>(multisession, <span class="at">workers =</span> <span class="dv">2</span>)</span>
+<span id="cb146-4"><a href="appendix.html#cb146-4" tabindex="-1"></a></span>
+<span id="cb146-5"><a href="appendix.html#cb146-5" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span></span>
+<span id="cb146-6"><a href="appendix.html#cb146-6" tabindex="-1"></a>void <span class="ot">&lt;-</span> <span class="fu">foreach</span>(<span class="at">x =</span> X) <span class="sc">%dopar%</span> <span class="fu">print</span>(x)</span>
+<span id="cb146-7"><a href="appendix.html#cb146-7" tabindex="-1"></a><span class="co">#&gt; [1] 1</span></span>
+<span id="cb146-8"><a href="appendix.html#cb146-8" tabindex="-1"></a><span class="co">#&gt; [1] 2</span></span>
+<span id="cb146-9"><a href="appendix.html#cb146-9" tabindex="-1"></a><span class="co">#&gt; [1] 3</span></span></code></pre></div>
+<div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb147-1"><a href="appendix.html#cb147-1" tabindex="-1"></a>output <span class="ot">&lt;-</span> <span class="fu">capture.output</span>({</span>
+<span id="cb147-2"><a href="appendix.html#cb147-2" tabindex="-1"></a>  void <span class="ot">&lt;-</span> <span class="fu">foreach</span>(<span class="at">x =</span> X) <span class="sc">%dopar%</span> <span class="fu">print</span>(x)</span>
+<span id="cb147-3"><a href="appendix.html#cb147-3" tabindex="-1"></a>})</span>
+<span id="cb147-4"><a href="appendix.html#cb147-4" tabindex="-1"></a>output</span>
+<span id="cb147-5"><a href="appendix.html#cb147-5" tabindex="-1"></a><span class="co">#&gt; [1] &quot;[1] 1&quot; &quot;[1] 2&quot; &quot;[1] 3&quot;</span></span></code></pre></div>
 <p><strong><a href="https://cran.r-project.org/package=foreach">foreach</a></strong> w/ <strong><a href="https://cran.r-project.org/package=doParallel">doParallel</a></strong> (doesn’t work):</p>
-<div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb148-1"><a href="appendix.html#cb148-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(doParallel)</span>
-<span id="cb148-2"><a href="appendix.html#cb148-2" aria-hidden="true" tabindex="-1"></a>cl <span class="ot">&lt;-</span> parallel<span class="sc">::</span><span class="fu">makeCluster</span>(<span class="dv">2</span>)</span>
-<span id="cb148-3"><a href="appendix.html#cb148-3" aria-hidden="true" tabindex="-1"></a><span class="fu">registerDoParallel</span>(cl)</span>
-<span id="cb148-4"><a href="appendix.html#cb148-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb148-5"><a href="appendix.html#cb148-5" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span></span>
-<span id="cb148-6"><a href="appendix.html#cb148-6" aria-hidden="true" tabindex="-1"></a>void <span class="ot">&lt;-</span> <span class="fu">foreach</span>(<span class="at">x =</span> X) <span class="sc">%dopar%</span> <span class="fu">print</span>(x)</span></code></pre></div>
-<div class="sourceCode" id="cb149"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb149-1"><a href="appendix.html#cb149-1" aria-hidden="true" tabindex="-1"></a>output <span class="ot">&lt;-</span> <span class="fu">capture.output</span>({</span>
-<span id="cb149-2"><a href="appendix.html#cb149-2" aria-hidden="true" tabindex="-1"></a>  void <span class="ot">&lt;-</span> <span class="fu">foreach</span>(<span class="at">x =</span> X) <span class="sc">%dopar%</span> <span class="fu">print</span>(x)</span>
-<span id="cb149-3"><a href="appendix.html#cb149-3" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb149-4"><a href="appendix.html#cb149-4" aria-hidden="true" tabindex="-1"></a>output</span>
-<span id="cb149-5"><a href="appendix.html#cb149-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; character(0)</span></span></code></pre></div>
+<div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb148-1"><a href="appendix.html#cb148-1" tabindex="-1"></a><span class="fu">library</span>(doParallel)</span>
+<span id="cb148-2"><a href="appendix.html#cb148-2" tabindex="-1"></a>cl <span class="ot">&lt;-</span> parallel<span class="sc">::</span><span class="fu">makeCluster</span>(<span class="dv">2</span>)</span>
+<span id="cb148-3"><a href="appendix.html#cb148-3" tabindex="-1"></a><span class="fu">registerDoParallel</span>(cl)</span>
+<span id="cb148-4"><a href="appendix.html#cb148-4" tabindex="-1"></a></span>
+<span id="cb148-5"><a href="appendix.html#cb148-5" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span></span>
+<span id="cb148-6"><a href="appendix.html#cb148-6" tabindex="-1"></a>void <span class="ot">&lt;-</span> <span class="fu">foreach</span>(<span class="at">x =</span> X) <span class="sc">%dopar%</span> <span class="fu">print</span>(x)</span></code></pre></div>
+<div class="sourceCode" id="cb149"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb149-1"><a href="appendix.html#cb149-1" tabindex="-1"></a>output <span class="ot">&lt;-</span> <span class="fu">capture.output</span>({</span>
+<span id="cb149-2"><a href="appendix.html#cb149-2" tabindex="-1"></a>  void <span class="ot">&lt;-</span> <span class="fu">foreach</span>(<span class="at">x =</span> X) <span class="sc">%dopar%</span> <span class="fu">print</span>(x)</span>
+<span id="cb149-3"><a href="appendix.html#cb149-3" tabindex="-1"></a>})</span>
+<span id="cb149-4"><a href="appendix.html#cb149-4" tabindex="-1"></a>output</span>
+<span id="cb149-5"><a href="appendix.html#cb149-5" tabindex="-1"></a><span class="co">#&gt; character(0)</span></span></code></pre></div>
 <p><strong><a href="https://cran.r-project.org/package=foreach">foreach</a></strong> w/ <strong><a href="https://cran.r-project.org/package=doMC">doMC</a></strong> (doesn’t work):</p>
-<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb150-1"><a href="appendix.html#cb150-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(doMC)</span>
-<span id="cb150-2"><a href="appendix.html#cb150-2" aria-hidden="true" tabindex="-1"></a><span class="fu">registerDoMC</span>(<span class="dv">2</span>)</span>
-<span id="cb150-3"><a href="appendix.html#cb150-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb150-4"><a href="appendix.html#cb150-4" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span></span>
-<span id="cb150-5"><a href="appendix.html#cb150-5" aria-hidden="true" tabindex="-1"></a>void <span class="ot">&lt;-</span> <span class="fu">foreach</span>(<span class="at">x =</span> X) <span class="sc">%dopar%</span> <span class="fu">print</span>(x)</span>
-<span id="cb150-6"><a href="appendix.html#cb150-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 1</span></span>
-<span id="cb150-7"><a href="appendix.html#cb150-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 3</span></span>
-<span id="cb150-8"><a href="appendix.html#cb150-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 2</span></span></code></pre></div>
+<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb150-1"><a href="appendix.html#cb150-1" tabindex="-1"></a><span class="fu">library</span>(doMC)</span>
+<span id="cb150-2"><a href="appendix.html#cb150-2" tabindex="-1"></a><span class="fu">registerDoMC</span>(<span class="dv">2</span>)</span>
+<span id="cb150-3"><a href="appendix.html#cb150-3" tabindex="-1"></a></span>
+<span id="cb150-4"><a href="appendix.html#cb150-4" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span></span>
+<span id="cb150-5"><a href="appendix.html#cb150-5" tabindex="-1"></a>void <span class="ot">&lt;-</span> <span class="fu">foreach</span>(<span class="at">x =</span> X) <span class="sc">%dopar%</span> <span class="fu">print</span>(x)</span>
+<span id="cb150-6"><a href="appendix.html#cb150-6" tabindex="-1"></a><span class="co">#&gt; [1] 1</span></span>
+<span id="cb150-7"><a href="appendix.html#cb150-7" tabindex="-1"></a><span class="co">#&gt; [1] 3</span></span>
+<span id="cb150-8"><a href="appendix.html#cb150-8" tabindex="-1"></a><span class="co">#&gt; [1] 2</span></span></code></pre></div>
 <p>We did get some output, but not in order. As we will see next, it’s actually only output to the same terminal but not to the R main session. If you run this in RStudio, you may not see anything. This means, there is nothing to capture;</p>
-<div class="sourceCode" id="cb151"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb151-1"><a href="appendix.html#cb151-1" aria-hidden="true" tabindex="-1"></a>output <span class="ot">&lt;-</span> <span class="fu">capture.output</span>({</span>
-<span id="cb151-2"><a href="appendix.html#cb151-2" aria-hidden="true" tabindex="-1"></a>  void <span class="ot">&lt;-</span> <span class="fu">foreach</span>(<span class="at">x =</span> X) <span class="sc">%dopar%</span> <span class="fu">print</span>(x)</span>
-<span id="cb151-3"><a href="appendix.html#cb151-3" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb151-4"><a href="appendix.html#cb151-4" aria-hidden="true" tabindex="-1"></a>output</span>
-<span id="cb151-5"><a href="appendix.html#cb151-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; character(0)</span></span></code></pre></div>
+<div class="sourceCode" id="cb151"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb151-1"><a href="appendix.html#cb151-1" tabindex="-1"></a>output <span class="ot">&lt;-</span> <span class="fu">capture.output</span>({</span>
+<span id="cb151-2"><a href="appendix.html#cb151-2" tabindex="-1"></a>  void <span class="ot">&lt;-</span> <span class="fu">foreach</span>(<span class="at">x =</span> X) <span class="sc">%dopar%</span> <span class="fu">print</span>(x)</span>
+<span id="cb151-3"><a href="appendix.html#cb151-3" tabindex="-1"></a>})</span>
+<span id="cb151-4"><a href="appendix.html#cb151-4" tabindex="-1"></a>output</span>
+<span id="cb151-5"><a href="appendix.html#cb151-5" tabindex="-1"></a><span class="co">#&gt; character(0)</span></span></code></pre></div>
 <p>Thus, the output we <em>see</em> above, does <em>not</em> end up in our main R session.</p>
 <p><strong>parallel</strong> and <code>mclapply()</code> (doesn’t work):</p>
-<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb152-1"><a href="appendix.html#cb152-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(parallel)</span>
-<span id="cb152-2"><a href="appendix.html#cb152-2" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">mc.cores =</span> <span class="dv">2</span>)</span>
-<span id="cb152-3"><a href="appendix.html#cb152-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb152-4"><a href="appendix.html#cb152-4" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span></span>
-<span id="cb152-5"><a href="appendix.html#cb152-5" aria-hidden="true" tabindex="-1"></a>void <span class="ot">&lt;-</span> <span class="fu">mclapply</span>(X, print)</span>
-<span id="cb152-6"><a href="appendix.html#cb152-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 1</span></span>
-<span id="cb152-7"><a href="appendix.html#cb152-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 3</span></span>
-<span id="cb152-8"><a href="appendix.html#cb152-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 2</span></span></code></pre></div>
+<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb152-1"><a href="appendix.html#cb152-1" tabindex="-1"></a><span class="fu">library</span>(parallel)</span>
+<span id="cb152-2"><a href="appendix.html#cb152-2" tabindex="-1"></a><span class="fu">options</span>(<span class="at">mc.cores =</span> <span class="dv">2</span>)</span>
+<span id="cb152-3"><a href="appendix.html#cb152-3" tabindex="-1"></a></span>
+<span id="cb152-4"><a href="appendix.html#cb152-4" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span></span>
+<span id="cb152-5"><a href="appendix.html#cb152-5" tabindex="-1"></a>void <span class="ot">&lt;-</span> <span class="fu">mclapply</span>(X, print)</span>
+<span id="cb152-6"><a href="appendix.html#cb152-6" tabindex="-1"></a><span class="co">#&gt; [1] 1</span></span>
+<span id="cb152-7"><a href="appendix.html#cb152-7" tabindex="-1"></a><span class="co">#&gt; [1] 3</span></span>
+<span id="cb152-8"><a href="appendix.html#cb152-8" tabindex="-1"></a><span class="co">#&gt; [1] 2</span></span></code></pre></div>
 <p>We did get some output, but not in order. As we will see next, it’s actually only output to the same terminal but not to the R main session. If you run this in RStudio, you may not see anything. This means, there is nothing to capture;</p>
-<div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb153-1"><a href="appendix.html#cb153-1" aria-hidden="true" tabindex="-1"></a>output <span class="ot">&lt;-</span> <span class="fu">capture.output</span>({</span>
-<span id="cb153-2"><a href="appendix.html#cb153-2" aria-hidden="true" tabindex="-1"></a>  void <span class="ot">&lt;-</span> <span class="fu">mclapply</span>(X, print)</span>
-<span id="cb153-3"><a href="appendix.html#cb153-3" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb153-4"><a href="appendix.html#cb153-4" aria-hidden="true" tabindex="-1"></a>output</span>
-<span id="cb153-5"><a href="appendix.html#cb153-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; character(0)</span></span></code></pre></div>
+<div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb153-1"><a href="appendix.html#cb153-1" tabindex="-1"></a>output <span class="ot">&lt;-</span> <span class="fu">capture.output</span>({</span>
+<span id="cb153-2"><a href="appendix.html#cb153-2" tabindex="-1"></a>  void <span class="ot">&lt;-</span> <span class="fu">mclapply</span>(X, print)</span>
+<span id="cb153-3"><a href="appendix.html#cb153-3" tabindex="-1"></a>})</span>
+<span id="cb153-4"><a href="appendix.html#cb153-4" tabindex="-1"></a>output</span>
+<span id="cb153-5"><a href="appendix.html#cb153-5" tabindex="-1"></a><span class="co">#&gt; character(0)</span></span></code></pre></div>
 <p>Thus, the output we <em>see</em> above, does <em>not</em> end up in our main R session.</p>
 <p><strong>parallel</strong> and <code>parLapply()</code> (doesn’t work):</p>
-<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="appendix.html#cb154-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(parallel)</span>
-<span id="cb154-2"><a href="appendix.html#cb154-2" aria-hidden="true" tabindex="-1"></a>cl <span class="ot">&lt;-</span> <span class="fu">makePSOCKcluster</span>(<span class="dv">2</span>)</span>
-<span id="cb154-3"><a href="appendix.html#cb154-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb154-4"><a href="appendix.html#cb154-4" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span></span>
-<span id="cb154-5"><a href="appendix.html#cb154-5" aria-hidden="true" tabindex="-1"></a>void <span class="ot">&lt;-</span> <span class="fu">parLapply</span>(X, print, <span class="at">cl =</span> cl)</span></code></pre></div>
+<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="appendix.html#cb154-1" tabindex="-1"></a><span class="fu">library</span>(parallel)</span>
+<span id="cb154-2"><a href="appendix.html#cb154-2" tabindex="-1"></a>cl <span class="ot">&lt;-</span> <span class="fu">makePSOCKcluster</span>(<span class="dv">2</span>)</span>
+<span id="cb154-3"><a href="appendix.html#cb154-3" tabindex="-1"></a></span>
+<span id="cb154-4"><a href="appendix.html#cb154-4" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span></span>
+<span id="cb154-5"><a href="appendix.html#cb154-5" tabindex="-1"></a>void <span class="ot">&lt;-</span> <span class="fu">parLapply</span>(X, print, <span class="at">cl =</span> cl)</span></code></pre></div>
 <p>No output, and nothing to capture;</p>
-<div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb155-1"><a href="appendix.html#cb155-1" aria-hidden="true" tabindex="-1"></a>output <span class="ot">&lt;-</span> <span class="fu">capture.output</span>({</span>
-<span id="cb155-2"><a href="appendix.html#cb155-2" aria-hidden="true" tabindex="-1"></a>  void <span class="ot">&lt;-</span> <span class="fu">parLapply</span>(X, print, <span class="at">cl =</span> cl)</span>
-<span id="cb155-3"><a href="appendix.html#cb155-3" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb155-4"><a href="appendix.html#cb155-4" aria-hidden="true" tabindex="-1"></a>output</span>
-<span id="cb155-5"><a href="appendix.html#cb155-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; character(0)</span></span></code></pre></div>
+<div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb155-1"><a href="appendix.html#cb155-1" tabindex="-1"></a>output <span class="ot">&lt;-</span> <span class="fu">capture.output</span>({</span>
+<span id="cb155-2"><a href="appendix.html#cb155-2" tabindex="-1"></a>  void <span class="ot">&lt;-</span> <span class="fu">parLapply</span>(X, print, <span class="at">cl =</span> cl)</span>
+<span id="cb155-3"><a href="appendix.html#cb155-3" tabindex="-1"></a>})</span>
+<span id="cb155-4"><a href="appendix.html#cb155-4" tabindex="-1"></a>output</span>
+<span id="cb155-5"><a href="appendix.html#cb155-5" tabindex="-1"></a><span class="co">#&gt; character(0)</span></span></code></pre></div>
 <p>What about the <code>outfile = ""</code> trick?</p>
-<div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb156-1"><a href="appendix.html#cb156-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(parallel)</span>
-<span id="cb156-2"><a href="appendix.html#cb156-2" aria-hidden="true" tabindex="-1"></a>cl <span class="ot">&lt;-</span> <span class="fu">makePSOCKcluster</span>(<span class="dv">2</span>, <span class="at">outfile =</span> <span class="st">&quot;&quot;</span>)</span>
-<span id="cb156-3"><a href="appendix.html#cb156-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb156-4"><a href="appendix.html#cb156-4" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span></span>
-<span id="cb156-5"><a href="appendix.html#cb156-5" aria-hidden="true" tabindex="-1"></a>void <span class="ot">&lt;-</span> <span class="fu">parLapply</span>(X, print, <span class="at">cl =</span> cl)</span>
-<span id="cb156-6"><a href="appendix.html#cb156-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 1</span></span>
-<span id="cb156-7"><a href="appendix.html#cb156-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 2</span></span>
-<span id="cb156-8"><a href="appendix.html#cb156-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 3</span></span></code></pre></div>
+<div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb156-1"><a href="appendix.html#cb156-1" tabindex="-1"></a><span class="fu">library</span>(parallel)</span>
+<span id="cb156-2"><a href="appendix.html#cb156-2" tabindex="-1"></a>cl <span class="ot">&lt;-</span> <span class="fu">makePSOCKcluster</span>(<span class="dv">2</span>, <span class="at">outfile =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb156-3"><a href="appendix.html#cb156-3" tabindex="-1"></a></span>
+<span id="cb156-4"><a href="appendix.html#cb156-4" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span></span>
+<span id="cb156-5"><a href="appendix.html#cb156-5" tabindex="-1"></a>void <span class="ot">&lt;-</span> <span class="fu">parLapply</span>(X, print, <span class="at">cl =</span> cl)</span>
+<span id="cb156-6"><a href="appendix.html#cb156-6" tabindex="-1"></a><span class="co">#&gt; [1] 1</span></span>
+<span id="cb156-7"><a href="appendix.html#cb156-7" tabindex="-1"></a><span class="co">#&gt; [1] 2</span></span>
+<span id="cb156-8"><a href="appendix.html#cb156-8" tabindex="-1"></a><span class="co">#&gt; [1] 3</span></span></code></pre></div>
 <p>It turns out also this only outputs to the terminal in which R is running. If you run this in RStudio, you may not see anything. This means, there is nothing to capture;</p>
-<div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb157-1"><a href="appendix.html#cb157-1" aria-hidden="true" tabindex="-1"></a>output <span class="ot">&lt;-</span> <span class="fu">capture.output</span>({</span>
-<span id="cb157-2"><a href="appendix.html#cb157-2" aria-hidden="true" tabindex="-1"></a>  void <span class="ot">&lt;-</span> <span class="fu">parLapply</span>(X, print, <span class="at">cl =</span> workers)</span>
-<span id="cb157-3"><a href="appendix.html#cb157-3" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb157-4"><a href="appendix.html#cb157-4" aria-hidden="true" tabindex="-1"></a>output</span>
-<span id="cb157-5"><a href="appendix.html#cb157-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; character(0)</span></span></code></pre></div>
+<div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb157-1"><a href="appendix.html#cb157-1" tabindex="-1"></a>output <span class="ot">&lt;-</span> <span class="fu">capture.output</span>({</span>
+<span id="cb157-2"><a href="appendix.html#cb157-2" tabindex="-1"></a>  void <span class="ot">&lt;-</span> <span class="fu">parLapply</span>(X, print, <span class="at">cl =</span> workers)</span>
+<span id="cb157-3"><a href="appendix.html#cb157-3" tabindex="-1"></a>})</span>
+<span id="cb157-4"><a href="appendix.html#cb157-4" tabindex="-1"></a>output</span>
+<span id="cb157-5"><a href="appendix.html#cb157-5" tabindex="-1"></a><span class="co">#&gt; character(0)</span></span></code></pre></div>
 </div>
 <div id="appendix-not-everything-can-be-parallelized" class="section level2 hasAnchor" number="8.4">
 <h2><span class="header-section-number">8.4</span> Appendix: Not everything can be parallelized<a href="appendix.html#appendix-not-everything-can-be-parallelized" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -722,48 +722,48 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </table>
 <div id="example-r-connections-can-be-exported-to-parallel-workers" class="section level3 hasAnchor" number="8.4.1">
 <h3><span class="header-section-number">8.4.1</span> Example: R connections can be exported to parallel workers<a href="appendix.html#example-r-connections-can-be-exported-to-parallel-workers" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb158-1"><a href="appendix.html#cb158-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(future)</span>
-<span id="cb158-2"><a href="appendix.html#cb158-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plan</span>(multisession, <span class="at">workers =</span> <span class="dv">2</span>)</span>
-<span id="cb158-3"><a href="appendix.html#cb158-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb158-4"><a href="appendix.html#cb158-4" aria-hidden="true" tabindex="-1"></a>file <span class="ot">&lt;-</span> <span class="fu">tempfile</span>()</span>
-<span id="cb158-5"><a href="appendix.html#cb158-5" aria-hidden="true" tabindex="-1"></a>con <span class="ot">&lt;-</span> <span class="fu">file</span>(file, <span class="at">open =</span> <span class="st">&quot;wb&quot;</span>)</span>
-<span id="cb158-6"><a href="appendix.html#cb158-6" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;hello</span><span class="sc">\n</span><span class="st">&quot;</span>, <span class="at">file =</span> con)</span>
-<span id="cb158-7"><a href="appendix.html#cb158-7" aria-hidden="true" tabindex="-1"></a><span class="fu">readLines</span>(file)</span>
-<span id="cb158-8"><a href="appendix.html#cb158-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;hello&quot;</span></span>
-<span id="cb158-9"><a href="appendix.html#cb158-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb158-10"><a href="appendix.html#cb158-10" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">future</span>({ <span class="fu">cat</span>(<span class="st">&quot;world</span><span class="sc">\n</span><span class="st">&quot;</span>, <span class="at">file =</span> con); <span class="dv">42</span> })</span>
-<span id="cb158-11"><a href="appendix.html#cb158-11" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">value</span>(f)</span>
-<span id="cb158-12"><a href="appendix.html#cb158-12" aria-hidden="true" tabindex="-1"></a><span class="fu">readLines</span>(file)</span>
-<span id="cb158-13"><a href="appendix.html#cb158-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;hello&quot;    # &lt;= Huh, where did &#39;world&#39; end up?!?</span></span></code></pre></div>
+<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb158-1"><a href="appendix.html#cb158-1" tabindex="-1"></a><span class="fu">library</span>(future)</span>
+<span id="cb158-2"><a href="appendix.html#cb158-2" tabindex="-1"></a><span class="fu">plan</span>(multisession, <span class="at">workers =</span> <span class="dv">2</span>)</span>
+<span id="cb158-3"><a href="appendix.html#cb158-3" tabindex="-1"></a></span>
+<span id="cb158-4"><a href="appendix.html#cb158-4" tabindex="-1"></a>file <span class="ot">&lt;-</span> <span class="fu">tempfile</span>()</span>
+<span id="cb158-5"><a href="appendix.html#cb158-5" tabindex="-1"></a>con <span class="ot">&lt;-</span> <span class="fu">file</span>(file, <span class="at">open =</span> <span class="st">&quot;wb&quot;</span>)</span>
+<span id="cb158-6"><a href="appendix.html#cb158-6" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;hello</span><span class="sc">\n</span><span class="st">&quot;</span>, <span class="at">file =</span> con)</span>
+<span id="cb158-7"><a href="appendix.html#cb158-7" tabindex="-1"></a><span class="fu">readLines</span>(file)</span>
+<span id="cb158-8"><a href="appendix.html#cb158-8" tabindex="-1"></a><span class="co">#&gt; [1] &quot;hello&quot;</span></span>
+<span id="cb158-9"><a href="appendix.html#cb158-9" tabindex="-1"></a></span>
+<span id="cb158-10"><a href="appendix.html#cb158-10" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">future</span>({ <span class="fu">cat</span>(<span class="st">&quot;world</span><span class="sc">\n</span><span class="st">&quot;</span>, <span class="at">file =</span> con); <span class="dv">42</span> })</span>
+<span id="cb158-11"><a href="appendix.html#cb158-11" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">value</span>(f)</span>
+<span id="cb158-12"><a href="appendix.html#cb158-12" tabindex="-1"></a><span class="fu">readLines</span>(file)</span>
+<span id="cb158-13"><a href="appendix.html#cb158-13" tabindex="-1"></a><span class="co">#&gt; [1] &quot;hello&quot;    # &lt;= Huh, where did &#39;world&#39; end up?!?</span></span></code></pre></div>
 <p>It turns out that we are actually silently writing to another R connection on the parallel worker with the same connection index as our temporary file:</p>
-<div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb159-1"><a href="appendix.html#cb159-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as.integer</span>(con)</span>
-<span id="cb159-2"><a href="appendix.html#cb159-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 3</span></span></code></pre></div>
-<div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb160-1"><a href="appendix.html#cb160-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">showConnections</span>()</span>
-<span id="cb160-2"><a href="appendix.html#cb160-2" aria-hidden="true" tabindex="-1"></a>  description                             class      mode  text     isopen  </span>
-<span id="cb160-3"><a href="appendix.html#cb160-3" aria-hidden="true" tabindex="-1"></a><span class="dv">3</span> <span class="st">&quot;/tmp/hb/RtmpZMAQG0/file1ec6b03b87be50&quot;</span> <span class="st">&quot;file&quot;</span>     <span class="st">&quot;wb&quot;</span>  <span class="st">&quot;binary&quot;</span> <span class="st">&quot;opened&quot;</span></span>
-<span id="cb160-4"><a href="appendix.html#cb160-4" aria-hidden="true" tabindex="-1"></a><span class="dv">4</span> <span class="st">&quot;&lt;-localhost:11362&quot;</span>                     <span class="st">&quot;sockconn&quot;</span> <span class="st">&quot;a+b&quot;</span> <span class="st">&quot;binary&quot;</span> <span class="st">&quot;opened&quot;</span></span>
-<span id="cb160-5"><a href="appendix.html#cb160-5" aria-hidden="true" tabindex="-1"></a><span class="dv">5</span> <span class="st">&quot;&lt;-localhost:11362&quot;</span>                     <span class="st">&quot;sockconn&quot;</span> <span class="st">&quot;a+b&quot;</span> <span class="st">&quot;binary&quot;</span> <span class="st">&quot;opened&quot;</span></span>
-<span id="cb160-6"><a href="appendix.html#cb160-6" aria-hidden="true" tabindex="-1"></a>  can read can write</span>
-<span id="cb160-7"><a href="appendix.html#cb160-7" aria-hidden="true" tabindex="-1"></a><span class="dv">3</span> <span class="st">&quot;no&quot;</span>     <span class="st">&quot;yes&quot;</span>    </span>
-<span id="cb160-8"><a href="appendix.html#cb160-8" aria-hidden="true" tabindex="-1"></a><span class="dv">4</span> <span class="st">&quot;yes&quot;</span>    <span class="st">&quot;yes&quot;</span>    </span>
-<span id="cb160-9"><a href="appendix.html#cb160-9" aria-hidden="true" tabindex="-1"></a><span class="dv">5</span> <span class="st">&quot;yes&quot;</span>    <span class="st">&quot;yes&quot;</span>  </span></code></pre></div>
+<div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb159-1"><a href="appendix.html#cb159-1" tabindex="-1"></a><span class="fu">as.integer</span>(con)</span>
+<span id="cb159-2"><a href="appendix.html#cb159-2" tabindex="-1"></a><span class="co">#&gt; [1] 3</span></span></code></pre></div>
+<div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb160-1"><a href="appendix.html#cb160-1" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">showConnections</span>()</span>
+<span id="cb160-2"><a href="appendix.html#cb160-2" tabindex="-1"></a>  description                             class      mode  text     isopen  </span>
+<span id="cb160-3"><a href="appendix.html#cb160-3" tabindex="-1"></a><span class="dv">3</span> <span class="st">&quot;/tmp/hb/RtmpZMAQG0/file1ec6b03b87be50&quot;</span> <span class="st">&quot;file&quot;</span>     <span class="st">&quot;wb&quot;</span>  <span class="st">&quot;binary&quot;</span> <span class="st">&quot;opened&quot;</span></span>
+<span id="cb160-4"><a href="appendix.html#cb160-4" tabindex="-1"></a><span class="dv">4</span> <span class="st">&quot;&lt;-localhost:11362&quot;</span>                     <span class="st">&quot;sockconn&quot;</span> <span class="st">&quot;a+b&quot;</span> <span class="st">&quot;binary&quot;</span> <span class="st">&quot;opened&quot;</span></span>
+<span id="cb160-5"><a href="appendix.html#cb160-5" tabindex="-1"></a><span class="dv">5</span> <span class="st">&quot;&lt;-localhost:11362&quot;</span>                     <span class="st">&quot;sockconn&quot;</span> <span class="st">&quot;a+b&quot;</span> <span class="st">&quot;binary&quot;</span> <span class="st">&quot;opened&quot;</span></span>
+<span id="cb160-6"><a href="appendix.html#cb160-6" tabindex="-1"></a>  can read can write</span>
+<span id="cb160-7"><a href="appendix.html#cb160-7" tabindex="-1"></a><span class="dv">3</span> <span class="st">&quot;no&quot;</span>     <span class="st">&quot;yes&quot;</span>    </span>
+<span id="cb160-8"><a href="appendix.html#cb160-8" tabindex="-1"></a><span class="dv">4</span> <span class="st">&quot;yes&quot;</span>    <span class="st">&quot;yes&quot;</span>    </span>
+<span id="cb160-9"><a href="appendix.html#cb160-9" tabindex="-1"></a><span class="dv">5</span> <span class="st">&quot;yes&quot;</span>    <span class="st">&quot;yes&quot;</span>  </span></code></pre></div>
 <p>This is really bad, because we might end up overwriting another file. This is a limitation in R. Here, R should ideally detect this and give an error.</p>
 <p>If we create yet another connection, with a higher connection index:</p>
-<div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb161-1"><a href="appendix.html#cb161-1" aria-hidden="true" tabindex="-1"></a>con2 <span class="ot">&lt;-</span> <span class="fu">file</span>(file, <span class="at">open =</span> <span class="st">&quot;wb&quot;</span>)</span>
-<span id="cb161-2"><a href="appendix.html#cb161-2" aria-hidden="true" tabindex="-1"></a><span class="fu">as.integer</span>(con2)</span>
-<span id="cb161-3"><a href="appendix.html#cb161-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 6</span></span></code></pre></div>
+<div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb161-1"><a href="appendix.html#cb161-1" tabindex="-1"></a>con2 <span class="ot">&lt;-</span> <span class="fu">file</span>(file, <span class="at">open =</span> <span class="st">&quot;wb&quot;</span>)</span>
+<span id="cb161-2"><a href="appendix.html#cb161-2" tabindex="-1"></a><span class="fu">as.integer</span>(con2)</span>
+<span id="cb161-3"><a href="appendix.html#cb161-3" tabindex="-1"></a><span class="co">#&gt; [1] 6</span></span></code></pre></div>
 <p>and try to use that in parallel, we get:</p>
-<div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb162-1"><a href="appendix.html#cb162-1" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">future</span>({ <span class="fu">cat</span>(<span class="st">&quot;world</span><span class="sc">\n</span><span class="st">&quot;</span>, <span class="at">file =</span> con2); <span class="dv">42</span> })</span>
-<span id="cb162-2"><a href="appendix.html#cb162-2" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">value</span>(f)</span>
-<span id="cb162-3"><a href="appendix.html#cb162-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Error in cat(&quot;world\n&quot;, file = con2) : invalid connection</span></span></code></pre></div>
+<div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb162-1"><a href="appendix.html#cb162-1" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">future</span>({ <span class="fu">cat</span>(<span class="st">&quot;world</span><span class="sc">\n</span><span class="st">&quot;</span>, <span class="at">file =</span> con2); <span class="dv">42</span> })</span>
+<span id="cb162-2"><a href="appendix.html#cb162-2" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">value</span>(f)</span>
+<span id="cb162-3"><a href="appendix.html#cb162-3" tabindex="-1"></a><span class="co">#&gt; Error in cat(&quot;world\n&quot;, file = con2) : invalid connection</span></span></code></pre></div>
 <p>This is because there is no connection on the worker with index 6.</p>
 <p>Either, this is <em>not</em> good. This is a problem for all parallelization frameworks in R. There’s no solution to this.</p>
 <p>However, for troubleshooting, we can ask the <strong><a href="https://future.futureverse.org">future</a></strong> framework to look for non-exportable objects:</p>
-<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb163-1"><a href="appendix.html#cb163-1" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">future.globals.onReference =</span> <span class="st">&quot;error&quot;</span>)</span>
-<span id="cb163-2"><a href="appendix.html#cb163-2" aria-hidden="true" tabindex="-1"></a>‎</span>
-<span id="cb163-3"><a href="appendix.html#cb163-3" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">future</span>({ <span class="fu">cat</span>(<span class="st">&quot;world&quot;</span>, <span class="at">file =</span> con2); <span class="dv">42</span> })</span>
-<span id="cb163-4"><a href="appendix.html#cb163-4" aria-hidden="true" tabindex="-1"></a>Error<span class="sc">:</span> Detected a non<span class="sc">-</span>exportable <span class="fu">reference</span> (<span class="st">&#39;externalptr&#39;</span>) <span class="cf">in</span> one of</span>
-<span id="cb163-5"><a href="appendix.html#cb163-5" aria-hidden="true" tabindex="-1"></a>the <span class="fu">globals</span> (<span class="st">&#39;con2&#39;</span> of class <span class="st">&#39;file&#39;</span>) used <span class="cf">in</span> the future expression</span></code></pre></div>
+<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb163-1"><a href="appendix.html#cb163-1" tabindex="-1"></a><span class="fu">options</span>(<span class="at">future.globals.onReference =</span> <span class="st">&quot;error&quot;</span>)</span>
+<span id="cb163-2"><a href="appendix.html#cb163-2" tabindex="-1"></a>‎</span>
+<span id="cb163-3"><a href="appendix.html#cb163-3" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">future</span>({ <span class="fu">cat</span>(<span class="st">&quot;world&quot;</span>, <span class="at">file =</span> con2); <span class="dv">42</span> })</span>
+<span id="cb163-4"><a href="appendix.html#cb163-4" tabindex="-1"></a>Error<span class="sc">:</span> Detected a non<span class="sc">-</span>exportable <span class="fu">reference</span> (<span class="st">&#39;externalptr&#39;</span>) <span class="cf">in</span> one of</span>
+<span id="cb163-5"><a href="appendix.html#cb163-5" tabindex="-1"></a>the <span class="fu">globals</span> (<span class="st">&#39;con2&#39;</span> of class <span class="st">&#39;file&#39;</span>) used <span class="cf">in</span> the future expression</span></code></pre></div>
 <p>Note how the problem was detected <em>when creating the future</em>. This prevents damage from happening.</p>
 <p>This option is disabled by default, because:</p>
 <ol style="list-style-type: decimal">
@@ -773,32 +773,32 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="example-xml2-objects-cannot-be-exported" class="section level3 hasAnchor" number="8.4.2">
 <h3><span class="header-section-number">8.4.2</span> Example: xml2 objects cannot be exported<a href="appendix.html#example-xml2-objects-cannot-be-exported" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb164-1"><a href="appendix.html#cb164-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(xml2)</span>
-<span id="cb164-2"><a href="appendix.html#cb164-2" aria-hidden="true" tabindex="-1"></a>xml <span class="ot">&lt;-</span> <span class="fu">read_xml</span>(<span class="st">&quot;&lt;body&gt;&lt;/body&gt;&quot;</span>)</span>
-<span id="cb164-3"><a href="appendix.html#cb164-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb164-4"><a href="appendix.html#cb164-4" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">future</span>({ <span class="fu">xml_children</span>(xml) })</span>
-<span id="cb164-5"><a href="appendix.html#cb164-5" aria-hidden="true" tabindex="-1"></a><span class="fu">value</span>(f)</span>
-<span id="cb164-6"><a href="appendix.html#cb164-6" aria-hidden="true" tabindex="-1"></a><span class="do">## Error: external pointer is not valid</span></span>
-<span id="cb164-7"><a href="appendix.html#cb164-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb164-8"><a href="appendix.html#cb164-8" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(xml)</span>
-<span id="cb164-9"><a href="appendix.html#cb164-9" aria-hidden="true" tabindex="-1"></a><span class="do">## List of 2</span></span>
-<span id="cb164-10"><a href="appendix.html#cb164-10" aria-hidden="true" tabindex="-1"></a><span class="do">##  $ node:&lt;externalptr&gt; </span></span>
-<span id="cb164-11"><a href="appendix.html#cb164-11" aria-hidden="true" tabindex="-1"></a><span class="do">##  $ doc :&lt;externalptr&gt; </span></span>
-<span id="cb164-12"><a href="appendix.html#cb164-12" aria-hidden="true" tabindex="-1"></a><span class="do">##  - attr(*, &quot;class&quot;)= chr [1:2] &quot;xml_document&quot; &quot;xml_node&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb164-1"><a href="appendix.html#cb164-1" tabindex="-1"></a><span class="fu">library</span>(xml2)</span>
+<span id="cb164-2"><a href="appendix.html#cb164-2" tabindex="-1"></a>xml <span class="ot">&lt;-</span> <span class="fu">read_xml</span>(<span class="st">&quot;&lt;body&gt;&lt;/body&gt;&quot;</span>)</span>
+<span id="cb164-3"><a href="appendix.html#cb164-3" tabindex="-1"></a></span>
+<span id="cb164-4"><a href="appendix.html#cb164-4" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">future</span>({ <span class="fu">xml_children</span>(xml) })</span>
+<span id="cb164-5"><a href="appendix.html#cb164-5" tabindex="-1"></a><span class="fu">value</span>(f)</span>
+<span id="cb164-6"><a href="appendix.html#cb164-6" tabindex="-1"></a><span class="do">## Error: external pointer is not valid</span></span>
+<span id="cb164-7"><a href="appendix.html#cb164-7" tabindex="-1"></a></span>
+<span id="cb164-8"><a href="appendix.html#cb164-8" tabindex="-1"></a><span class="fu">str</span>(xml)</span>
+<span id="cb164-9"><a href="appendix.html#cb164-9" tabindex="-1"></a><span class="do">## List of 2</span></span>
+<span id="cb164-10"><a href="appendix.html#cb164-10" tabindex="-1"></a><span class="do">##  $ node:&lt;externalptr&gt; </span></span>
+<span id="cb164-11"><a href="appendix.html#cb164-11" tabindex="-1"></a><span class="do">##  $ doc :&lt;externalptr&gt; </span></span>
+<span id="cb164-12"><a href="appendix.html#cb164-12" tabindex="-1"></a><span class="do">##  - attr(*, &quot;class&quot;)= chr [1:2] &quot;xml_document&quot; &quot;xml_node&quot;</span></span></code></pre></div>
 <p>As before, we can set an R options for <strong><a href="https://future.futureverse.org">future</a></strong> to look for and report on these problems before trying to parallelize:</p>
-<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb165-1"><a href="appendix.html#cb165-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(future)</span>
-<span id="cb165-2"><a href="appendix.html#cb165-2" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">future.globals.onReference =</span> <span class="st">&quot;error&quot;</span>)</span>
-<span id="cb165-3"><a href="appendix.html#cb165-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb165-4"><a href="appendix.html#cb165-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(xml2)</span>
-<span id="cb165-5"><a href="appendix.html#cb165-5" aria-hidden="true" tabindex="-1"></a>xml <span class="ot">&lt;-</span> <span class="fu">read_xml</span>(<span class="st">&quot;&lt;body&gt;&lt;/body&gt;&quot;</span>)</span>
-<span id="cb165-6"><a href="appendix.html#cb165-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb165-7"><a href="appendix.html#cb165-7" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">future</span>({ <span class="fu">xml_children</span>(xml) })</span>
-<span id="cb165-8"><a href="appendix.html#cb165-8" aria-hidden="true" tabindex="-1"></a>Error<span class="sc">:</span> Detected a non<span class="sc">-</span>exportable <span class="fu">reference</span> (<span class="st">&#39;externalptr&#39;</span>) <span class="cf">in</span> one of the</span>
-<span id="cb165-9"><a href="appendix.html#cb165-9" aria-hidden="true" tabindex="-1"></a><span class="fu">globals</span> (<span class="st">&#39;xml&#39;</span> of class <span class="st">&#39;xml_document&#39;</span>) used <span class="cf">in</span> the future expression</span></code></pre></div>
+<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb165-1"><a href="appendix.html#cb165-1" tabindex="-1"></a><span class="fu">library</span>(future)</span>
+<span id="cb165-2"><a href="appendix.html#cb165-2" tabindex="-1"></a><span class="fu">options</span>(<span class="at">future.globals.onReference =</span> <span class="st">&quot;error&quot;</span>)</span>
+<span id="cb165-3"><a href="appendix.html#cb165-3" tabindex="-1"></a></span>
+<span id="cb165-4"><a href="appendix.html#cb165-4" tabindex="-1"></a><span class="fu">library</span>(xml2)</span>
+<span id="cb165-5"><a href="appendix.html#cb165-5" tabindex="-1"></a>xml <span class="ot">&lt;-</span> <span class="fu">read_xml</span>(<span class="st">&quot;&lt;body&gt;&lt;/body&gt;&quot;</span>)</span>
+<span id="cb165-6"><a href="appendix.html#cb165-6" tabindex="-1"></a></span>
+<span id="cb165-7"><a href="appendix.html#cb165-7" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">future</span>({ <span class="fu">xml_children</span>(xml) })</span>
+<span id="cb165-8"><a href="appendix.html#cb165-8" tabindex="-1"></a>Error<span class="sc">:</span> Detected a non<span class="sc">-</span>exportable <span class="fu">reference</span> (<span class="st">&#39;externalptr&#39;</span>) <span class="cf">in</span> one of the</span>
+<span id="cb165-9"><a href="appendix.html#cb165-9" tabindex="-1"></a><span class="fu">globals</span> (<span class="st">&#39;xml&#39;</span> of class <span class="st">&#39;xml_document&#39;</span>) used <span class="cf">in</span> the future expression</span></code></pre></div>
 </div>
 </div>
-<div id="appendix-careful-with-forked-parallization" class="section level2 hasAnchor" number="8.5">
-<h2><span class="header-section-number">8.5</span> Appendix: Careful with forked parallization<a href="appendix.html#appendix-careful-with-forked-parallization" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="appendix-careful-with-forked-parallelization" class="section level2 hasAnchor" number="8.5">
+<h2><span class="header-section-number">8.5</span> Appendix: Careful with forked parallelization<a href="appendix.html#appendix-careful-with-forked-parallelization" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>The <code>parallel::mclapply()</code> function relies on <em>forked</em> parallel processing provided by the operating system;</p>
 <ol style="list-style-type: decimal">
 <li>It works only on Linux and macOS</li>
@@ -806,17 +806,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ol>
 <p>Because it uses forks, <code>parallel::mclapply()</code> is extremely easy to use. For example, you never have to worry about global variables. “It just works!”</p>
 <p>The corresponding <strong><a href="https://future.futureverse.org">future</a></strong> backend is <code>multicore</code>, which use the same underlying code base as <code>mclapply()</code>. In other words, using:</p>
-<div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb166-1"><a href="appendix.html#cb166-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(future.apply)</span>
-<span id="cb166-2"><a href="appendix.html#cb166-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plan</span>(multicore, <span class="at">workers =</span> <span class="dv">4</span>)</span>
-<span id="cb166-3"><a href="appendix.html#cb166-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb166-4"><a href="appendix.html#cb166-4" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span></span>
-<span id="cb166-5"><a href="appendix.html#cb166-5" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">future_lapply</span>(X, <span class="at">FUN =</span> slow_sqrt)</span></code></pre></div>
+<div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb166-1"><a href="appendix.html#cb166-1" tabindex="-1"></a><span class="fu">library</span>(future.apply)</span>
+<span id="cb166-2"><a href="appendix.html#cb166-2" tabindex="-1"></a><span class="fu">plan</span>(multicore, <span class="at">workers =</span> <span class="dv">4</span>)</span>
+<span id="cb166-3"><a href="appendix.html#cb166-3" tabindex="-1"></a></span>
+<span id="cb166-4"><a href="appendix.html#cb166-4" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span></span>
+<span id="cb166-5"><a href="appendix.html#cb166-5" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">future_lapply</span>(X, <span class="at">FUN =</span> slow_sqrt)</span></code></pre></div>
 <p>is almost the same as using:</p>
-<div class="sourceCode" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb167-1"><a href="appendix.html#cb167-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(parallel)</span>
-<span id="cb167-2"><a href="appendix.html#cb167-2" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">mc.cores =</span> <span class="dv">4</span>)</span>
-<span id="cb167-3"><a href="appendix.html#cb167-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb167-4"><a href="appendix.html#cb167-4" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span></span>
-<span id="cb167-5"><a href="appendix.html#cb167-5" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">mclapply</span>(X, <span class="at">FUN =</span> slow_sqrt)</span></code></pre></div>
+<div class="sourceCode" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb167-1"><a href="appendix.html#cb167-1" tabindex="-1"></a><span class="fu">library</span>(parallel)</span>
+<span id="cb167-2"><a href="appendix.html#cb167-2" tabindex="-1"></a><span class="fu">options</span>(<span class="at">mc.cores =</span> <span class="dv">4</span>)</span>
+<span id="cb167-3"><a href="appendix.html#cb167-3" tabindex="-1"></a></span>
+<span id="cb167-4"><a href="appendix.html#cb167-4" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span></span>
+<span id="cb167-5"><a href="appendix.html#cb167-5" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">mclapply</span>(X, <span class="at">FUN =</span> slow_sqrt)</span></code></pre></div>
 <p>but with the all the other benefits that comes with the <strong><a href="https://future.futureverse.org">future</a></strong> framework, e.g. errors, warnings, output, and random number generation.</p>
 <p><strong>However</strong>, it is not always safe to use forked parallelization; you really need to know when and when not to use it, which is complicated.</p>
 <p>Simon Urbanek, author of <code>mclapply()</code> and R Core member, wrote:</p>
@@ -831,88 +831,88 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 “globals”. They are identified by automatically code inspection. This
 works most of the time, but there are cases were it might fail. For
 example, consider:</p>
-<div class="sourceCode" id="cb168"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb168-1"><a href="appendix.html#cb168-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span></span>
-<span id="cb168-2"><a href="appendix.html#cb168-2" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="dv">4</span><span class="sc">:</span><span class="dv">7</span></span>
-<span id="cb168-3"><a href="appendix.html#cb168-3" aria-hidden="true" tabindex="-1"></a>c <span class="ot">&lt;-</span> <span class="dv">3</span><span class="sc">:</span><span class="dv">5</span></span>
-<span id="cb168-4"><a href="appendix.html#cb168-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb168-5"><a href="appendix.html#cb168-5" aria-hidden="true" tabindex="-1"></a>my_sum <span class="ot">&lt;-</span> <span class="cf">function</span>(var) { <span class="fu">sum</span>(<span class="fu">get</span>(var)) }</span>
-<span id="cb168-6"><a href="appendix.html#cb168-6" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">my_sum</span>(<span class="at">var =</span> <span class="st">&quot;a&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb168"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb168-1"><a href="appendix.html#cb168-1" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span></span>
+<span id="cb168-2"><a href="appendix.html#cb168-2" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="dv">4</span><span class="sc">:</span><span class="dv">7</span></span>
+<span id="cb168-3"><a href="appendix.html#cb168-3" tabindex="-1"></a>c <span class="ot">&lt;-</span> <span class="dv">3</span><span class="sc">:</span><span class="dv">5</span></span>
+<span id="cb168-4"><a href="appendix.html#cb168-4" tabindex="-1"></a></span>
+<span id="cb168-5"><a href="appendix.html#cb168-5" tabindex="-1"></a>my_sum <span class="ot">&lt;-</span> <span class="cf">function</span>(var) { <span class="fu">sum</span>(<span class="fu">get</span>(var)) }</span>
+<span id="cb168-6"><a href="appendix.html#cb168-6" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">my_sum</span>(<span class="at">var =</span> <span class="st">&quot;a&quot;</span>)</span></code></pre></div>
 <p>In this case, it is impossible for R to know <em>upfront</em> that <code>var = "a"</code> is going to be used to retrieve the value of a global variable.
 Because of this, calling:</p>
-<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb169-1"><a href="appendix.html#cb169-1" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">future</span>(<span class="fu">my_sum</span>(<span class="at">var =</span> <span class="st">&quot;a&quot;</span>))</span>
-<span id="cb169-2"><a href="appendix.html#cb169-2" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">value</span>(f)</span>
-<span id="cb169-3"><a href="appendix.html#cb169-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Error in get(var) : object &#39;a&#39; not found</span></span></code></pre></div>
+<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb169-1"><a href="appendix.html#cb169-1" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">future</span>(<span class="fu">my_sum</span>(<span class="at">var =</span> <span class="st">&quot;a&quot;</span>))</span>
+<span id="cb169-2"><a href="appendix.html#cb169-2" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">value</span>(f)</span>
+<span id="cb169-3"><a href="appendix.html#cb169-3" tabindex="-1"></a><span class="co">#&gt; Error in get(var) : object &#39;a&#39; not found</span></span></code></pre></div>
 <p>fails.</p>
 <p>The solution is to guide the <strong><a href="https://future.futureverse.org">future</a></strong> framework to identify <code>a</code> as a global variable. We can do this by adding a dummy use of <code>a</code>, e.g.</p>
-<div class="sourceCode" id="cb170"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb170-1"><a href="appendix.html#cb170-1" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">future</span>({</span>
-<span id="cb170-2"><a href="appendix.html#cb170-2" aria-hidden="true" tabindex="-1"></a>  a  <span class="do">## fake use of &#39;a&#39;</span></span>
-<span id="cb170-3"><a href="appendix.html#cb170-3" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb170-4"><a href="appendix.html#cb170-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">my_sum</span>(<span class="at">var =</span> <span class="st">&quot;a&quot;</span>)</span>
-<span id="cb170-5"><a href="appendix.html#cb170-5" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb170-6"><a href="appendix.html#cb170-6" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">value</span>(f)</span></code></pre></div>
+<div class="sourceCode" id="cb170"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb170-1"><a href="appendix.html#cb170-1" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">future</span>({</span>
+<span id="cb170-2"><a href="appendix.html#cb170-2" tabindex="-1"></a>  a  <span class="do">## fake use of &#39;a&#39;</span></span>
+<span id="cb170-3"><a href="appendix.html#cb170-3" tabindex="-1"></a>  </span>
+<span id="cb170-4"><a href="appendix.html#cb170-4" tabindex="-1"></a>  <span class="fu">my_sum</span>(<span class="at">var =</span> <span class="st">&quot;a&quot;</span>)</span>
+<span id="cb170-5"><a href="appendix.html#cb170-5" tabindex="-1"></a>})</span>
+<span id="cb170-6"><a href="appendix.html#cb170-6" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">value</span>(f)</span></code></pre></div>
 <div id="example-glueglue---object-not-found" class="section level3 hasAnchor" number="8.6.1">
 <h3><span class="header-section-number">8.6.1</span> Example: glue::glue() - object not found<a href="appendix.html#example-glueglue---object-not-found" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Here’s another, more common example:</p>
-<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb171-1"><a href="appendix.html#cb171-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glue)</span>
-<span id="cb171-2"><a href="appendix.html#cb171-2" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="dv">42</span></span>
-<span id="cb171-3"><a href="appendix.html#cb171-3" aria-hidden="true" tabindex="-1"></a>s <span class="ot">&lt;-</span> <span class="fu">glue</span>(<span class="st">&quot;The value of a is {a}.&quot;</span>)</span>
-<span id="cb171-4"><a href="appendix.html#cb171-4" aria-hidden="true" tabindex="-1"></a>s</span>
-<span id="cb171-5"><a href="appendix.html#cb171-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; The value of a is 42.</span></span></code></pre></div>
+<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb171-1"><a href="appendix.html#cb171-1" tabindex="-1"></a><span class="fu">library</span>(glue)</span>
+<span id="cb171-2"><a href="appendix.html#cb171-2" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="dv">42</span></span>
+<span id="cb171-3"><a href="appendix.html#cb171-3" tabindex="-1"></a>s <span class="ot">&lt;-</span> <span class="fu">glue</span>(<span class="st">&quot;The value of a is {a}.&quot;</span>)</span>
+<span id="cb171-4"><a href="appendix.html#cb171-4" tabindex="-1"></a>s</span>
+<span id="cb171-5"><a href="appendix.html#cb171-5" tabindex="-1"></a><span class="co">#&gt; The value of a is 42.</span></span></code></pre></div>
 <p>If we run this in parallel as-is, the <strong><a href="https://future.futureverse.org">future</a></strong> framework won’t be able to identify <code>a</code> as a needed object;</p>
-<div class="sourceCode" id="cb172"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb172-1"><a href="appendix.html#cb172-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glue)</span>
-<span id="cb172-2"><a href="appendix.html#cb172-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(future)</span>
-<span id="cb172-3"><a href="appendix.html#cb172-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plan</span>(multisession)</span>
-<span id="cb172-4"><a href="appendix.html#cb172-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb172-5"><a href="appendix.html#cb172-5" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="dv">42</span></span>
-<span id="cb172-6"><a href="appendix.html#cb172-6" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">future</span>(<span class="fu">glue</span>(<span class="st">&quot;The value of a is {a}.&quot;</span>))</span>
-<span id="cb172-7"><a href="appendix.html#cb172-7" aria-hidden="true" tabindex="-1"></a>s <span class="ot">&lt;-</span> <span class="fu">value</span>(f)</span>
-<span id="cb172-8"><a href="appendix.html#cb172-8" aria-hidden="true" tabindex="-1"></a>Error <span class="cf">in</span> <span class="fu">eval</span>(<span class="fu">parse</span>(<span class="at">text =</span> text, <span class="at">keep.source =</span> <span class="cn">FALSE</span>), envir) <span class="sc">:</span> </span>
-<span id="cb172-9"><a href="appendix.html#cb172-9" aria-hidden="true" tabindex="-1"></a>  object <span class="st">&#39;a&#39;</span> not found</span></code></pre></div>
+<div class="sourceCode" id="cb172"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb172-1"><a href="appendix.html#cb172-1" tabindex="-1"></a><span class="fu">library</span>(glue)</span>
+<span id="cb172-2"><a href="appendix.html#cb172-2" tabindex="-1"></a><span class="fu">library</span>(future)</span>
+<span id="cb172-3"><a href="appendix.html#cb172-3" tabindex="-1"></a><span class="fu">plan</span>(multisession)</span>
+<span id="cb172-4"><a href="appendix.html#cb172-4" tabindex="-1"></a></span>
+<span id="cb172-5"><a href="appendix.html#cb172-5" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="dv">42</span></span>
+<span id="cb172-6"><a href="appendix.html#cb172-6" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">future</span>(<span class="fu">glue</span>(<span class="st">&quot;The value of a is {a}.&quot;</span>))</span>
+<span id="cb172-7"><a href="appendix.html#cb172-7" tabindex="-1"></a>s <span class="ot">&lt;-</span> <span class="fu">value</span>(f)</span>
+<span id="cb172-8"><a href="appendix.html#cb172-8" tabindex="-1"></a>Error <span class="cf">in</span> <span class="fu">eval</span>(<span class="fu">parse</span>(<span class="at">text =</span> text, <span class="at">keep.source =</span> <span class="cn">FALSE</span>), envir) <span class="sc">:</span> </span>
+<span id="cb172-9"><a href="appendix.html#cb172-9" tabindex="-1"></a>  object <span class="st">&#39;a&#39;</span> not found</span></code></pre></div>
 <p>As before, we can workaround it by:</p>
-<div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb173-1"><a href="appendix.html#cb173-1" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">future</span>({</span>
-<span id="cb173-2"><a href="appendix.html#cb173-2" aria-hidden="true" tabindex="-1"></a>  a  <span class="do">## fake use of &#39;a&#39;</span></span>
-<span id="cb173-3"><a href="appendix.html#cb173-3" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb173-4"><a href="appendix.html#cb173-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">glue</span>(<span class="st">&quot;The value of a is {a}.&quot;</span>)</span>
-<span id="cb173-5"><a href="appendix.html#cb173-5" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb173-6"><a href="appendix.html#cb173-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb173-7"><a href="appendix.html#cb173-7" aria-hidden="true" tabindex="-1"></a>s <span class="ot">&lt;-</span> <span class="fu">value</span>(f)</span>
-<span id="cb173-8"><a href="appendix.html#cb173-8" aria-hidden="true" tabindex="-1"></a>s</span>
-<span id="cb173-9"><a href="appendix.html#cb173-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; The value of a is 42.</span></span></code></pre></div>
+<div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb173-1"><a href="appendix.html#cb173-1" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">future</span>({</span>
+<span id="cb173-2"><a href="appendix.html#cb173-2" tabindex="-1"></a>  a  <span class="do">## fake use of &#39;a&#39;</span></span>
+<span id="cb173-3"><a href="appendix.html#cb173-3" tabindex="-1"></a>  </span>
+<span id="cb173-4"><a href="appendix.html#cb173-4" tabindex="-1"></a>  <span class="fu">glue</span>(<span class="st">&quot;The value of a is {a}.&quot;</span>)</span>
+<span id="cb173-5"><a href="appendix.html#cb173-5" tabindex="-1"></a>})</span>
+<span id="cb173-6"><a href="appendix.html#cb173-6" tabindex="-1"></a></span>
+<span id="cb173-7"><a href="appendix.html#cb173-7" tabindex="-1"></a>s <span class="ot">&lt;-</span> <span class="fu">value</span>(f)</span>
+<span id="cb173-8"><a href="appendix.html#cb173-8" tabindex="-1"></a>s</span>
+<span id="cb173-9"><a href="appendix.html#cb173-9" tabindex="-1"></a><span class="co">#&gt; The value of a is 42.</span></span></code></pre></div>
 </div>
 <div id="example-do.call" class="section level3 hasAnchor" number="8.6.2">
 <h3><span class="header-section-number">8.6.2</span> Example: do.call()<a href="appendix.html#example-do.call" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Function <code>do.call()</code> can be used to call a function with a set of arguments. For example,</p>
-<div class="sourceCode" id="cb174"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb174-1"><a href="appendix.html#cb174-1" aria-hidden="true" tabindex="-1"></a>fcn <span class="ot">&lt;-</span> sum</span>
-<span id="cb174-2"><a href="appendix.html#cb174-2" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">do.call</span>(fcn, <span class="at">args =</span> <span class="fu">list</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>))</span>
-<span id="cb174-3"><a href="appendix.html#cb174-3" aria-hidden="true" tabindex="-1"></a>z</span>
-<span id="cb174-4"><a href="appendix.html#cb174-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 55</span></span></code></pre></div>
+<div class="sourceCode" id="cb174"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb174-1"><a href="appendix.html#cb174-1" tabindex="-1"></a>fcn <span class="ot">&lt;-</span> sum</span>
+<span id="cb174-2"><a href="appendix.html#cb174-2" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">do.call</span>(fcn, <span class="at">args =</span> <span class="fu">list</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>))</span>
+<span id="cb174-3"><a href="appendix.html#cb174-3" tabindex="-1"></a>z</span>
+<span id="cb174-4"><a href="appendix.html#cb174-4" tabindex="-1"></a><span class="co">#&gt; [1] 55</span></span></code></pre></div>
 <p>calls <code>fcn(1:10)</code> == <code>sum(1:10)</code>. This works in parallel too:</p>
-<div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb175-1"><a href="appendix.html#cb175-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(future)</span>
-<span id="cb175-2"><a href="appendix.html#cb175-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plan</span>(multisession)</span>
-<span id="cb175-3"><a href="appendix.html#cb175-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb175-4"><a href="appendix.html#cb175-4" aria-hidden="true" tabindex="-1"></a>fcn <span class="ot">&lt;-</span> sum</span>
-<span id="cb175-5"><a href="appendix.html#cb175-5" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">future</span>(<span class="fu">do.call</span>(fcn, <span class="at">args =</span> <span class="fu">list</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)))</span>
-<span id="cb175-6"><a href="appendix.html#cb175-6" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">value</span>(f)</span>
-<span id="cb175-7"><a href="appendix.html#cb175-7" aria-hidden="true" tabindex="-1"></a>z</span>
-<span id="cb175-8"><a href="appendix.html#cb175-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 55</span></span></code></pre></div>
+<div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb175-1"><a href="appendix.html#cb175-1" tabindex="-1"></a><span class="fu">library</span>(future)</span>
+<span id="cb175-2"><a href="appendix.html#cb175-2" tabindex="-1"></a><span class="fu">plan</span>(multisession)</span>
+<span id="cb175-3"><a href="appendix.html#cb175-3" tabindex="-1"></a></span>
+<span id="cb175-4"><a href="appendix.html#cb175-4" tabindex="-1"></a>fcn <span class="ot">&lt;-</span> sum</span>
+<span id="cb175-5"><a href="appendix.html#cb175-5" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">future</span>(<span class="fu">do.call</span>(fcn, <span class="at">args =</span> <span class="fu">list</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)))</span>
+<span id="cb175-6"><a href="appendix.html#cb175-6" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">value</span>(f)</span>
+<span id="cb175-7"><a href="appendix.html#cb175-7" tabindex="-1"></a>z</span>
+<span id="cb175-8"><a href="appendix.html#cb175-8" tabindex="-1"></a><span class="co">#&gt; [1] 55</span></span></code></pre></div>
 <p>As an alternative to a function, <code>do.call()</code> also takes the <em>name</em> of a function as input. For example, we can also do:</p>
-<div class="sourceCode" id="cb176"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb176-1"><a href="appendix.html#cb176-1" aria-hidden="true" tabindex="-1"></a>fcn <span class="ot">&lt;-</span> sum</span>
-<span id="cb176-2"><a href="appendix.html#cb176-2" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">do.call</span>(<span class="st">&quot;fcn&quot;</span>, <span class="at">args =</span> <span class="fu">list</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>))</span>
-<span id="cb176-3"><a href="appendix.html#cb176-3" aria-hidden="true" tabindex="-1"></a>z</span>
-<span id="cb176-4"><a href="appendix.html#cb176-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 55</span></span></code></pre></div>
+<div class="sourceCode" id="cb176"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb176-1"><a href="appendix.html#cb176-1" tabindex="-1"></a>fcn <span class="ot">&lt;-</span> sum</span>
+<span id="cb176-2"><a href="appendix.html#cb176-2" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">do.call</span>(<span class="st">&quot;fcn&quot;</span>, <span class="at">args =</span> <span class="fu">list</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>))</span>
+<span id="cb176-3"><a href="appendix.html#cb176-3" tabindex="-1"></a>z</span>
+<span id="cb176-4"><a href="appendix.html#cb176-4" tabindex="-1"></a><span class="co">#&gt; [1] 55</span></span></code></pre></div>
 <p>However, this is like the problem of using <code>get()</code>, as explained above. If we try this in parallel, we get:</p>
-<div class="sourceCode" id="cb177"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb177-1"><a href="appendix.html#cb177-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(future)</span>
-<span id="cb177-2"><a href="appendix.html#cb177-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plan</span>(multisession)</span>
-<span id="cb177-3"><a href="appendix.html#cb177-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb177-4"><a href="appendix.html#cb177-4" aria-hidden="true" tabindex="-1"></a>fcn <span class="ot">&lt;-</span> sum</span>
-<span id="cb177-5"><a href="appendix.html#cb177-5" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">future</span>(<span class="fu">do.call</span>(<span class="st">&quot;fcn&quot;</span>, <span class="at">args =</span> <span class="fu">list</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)))</span>
-<span id="cb177-6"><a href="appendix.html#cb177-6" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">value</span>(f)</span>
-<span id="cb177-7"><a href="appendix.html#cb177-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Error in fcn(1:10) : could not find function &quot;fcn&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb177"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb177-1"><a href="appendix.html#cb177-1" tabindex="-1"></a><span class="fu">library</span>(future)</span>
+<span id="cb177-2"><a href="appendix.html#cb177-2" tabindex="-1"></a><span class="fu">plan</span>(multisession)</span>
+<span id="cb177-3"><a href="appendix.html#cb177-3" tabindex="-1"></a></span>
+<span id="cb177-4"><a href="appendix.html#cb177-4" tabindex="-1"></a>fcn <span class="ot">&lt;-</span> sum</span>
+<span id="cb177-5"><a href="appendix.html#cb177-5" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">future</span>(<span class="fu">do.call</span>(<span class="st">&quot;fcn&quot;</span>, <span class="at">args =</span> <span class="fu">list</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)))</span>
+<span id="cb177-6"><a href="appendix.html#cb177-6" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">value</span>(f)</span>
+<span id="cb177-7"><a href="appendix.html#cb177-7" tabindex="-1"></a><span class="co">#&gt; Error in fcn(1:10) : could not find function &quot;fcn&quot;</span></span></code></pre></div>
 <p>We could declare by adding a dummy <code>fcn</code>, but it’s much better to never pass the <em>name</em> of a function (<code>"fcn"</code>) to <code>do.call()</code>; it’s always much better to pass the function object (<code>fcn</code>) itself.</p>
 <p>The same is true for apply functions, e.g. use:</p>
-<div class="sourceCode" id="cb178"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb178-1"><a href="appendix.html#cb178-1" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">lapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="at">FUN =</span> sum)</span></code></pre></div>
+<div class="sourceCode" id="cb178"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb178-1"><a href="appendix.html#cb178-1" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">lapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="at">FUN =</span> sum)</span></code></pre></div>
 <p>but avoid:</p>
-<div class="sourceCode" id="cb179"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb179-1"><a href="appendix.html#cb179-1" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">lapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="at">FUN =</span> <span class="st">&quot;sum&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb179"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb179-1"><a href="appendix.html#cb179-1" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">lapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="at">FUN =</span> <span class="st">&quot;sum&quot;</span>)</span></code></pre></div>
 </div>
 </div>
 <div id="appendix-dont-assign-to-global-environment" class="section level2 hasAnchor" number="8.7">
@@ -922,19 +922,19 @@ Because of this, calling:</p>
 <li>If you find yourself using <code>&lt;&lt;-</code>, it’s a strong hint that you should approach you problem in a different way!</li>
 </ul>
 <p>For example, if you find yourself turning:</p>
-<div class="sourceCode" id="cb180"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb180-1"><a href="appendix.html#cb180-1" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
-<span id="cb180-2"><a href="appendix.html#cb180-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (ii <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>) {</span>
-<span id="cb180-3"><a href="appendix.html#cb180-3" aria-hidden="true" tabindex="-1"></a>  res[[ii]] <span class="ot">&lt;-</span> letters[ii]</span>
-<span id="cb180-4"><a href="appendix.html#cb180-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb180"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb180-1"><a href="appendix.html#cb180-1" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb180-2"><a href="appendix.html#cb180-2" tabindex="-1"></a><span class="cf">for</span> (ii <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>) {</span>
+<span id="cb180-3"><a href="appendix.html#cb180-3" tabindex="-1"></a>  res[[ii]] <span class="ot">&lt;-</span> letters[ii]</span>
+<span id="cb180-4"><a href="appendix.html#cb180-4" tabindex="-1"></a>}</span></code></pre></div>
 <p>into:</p>
-<div class="sourceCode" id="cb181"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb181-1"><a href="appendix.html#cb181-1" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
-<span id="cb181-2"><a href="appendix.html#cb181-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">FUN =</span> <span class="cf">function</span>(ii) {</span>
-<span id="cb181-3"><a href="appendix.html#cb181-3" aria-hidden="true" tabindex="-1"></a>  res[[ii]] <span class="ot">&lt;&lt;-</span> letters[ii]</span>
-<span id="cb181-4"><a href="appendix.html#cb181-4" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div>
+<div class="sourceCode" id="cb181"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb181-1"><a href="appendix.html#cb181-1" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb181-2"><a href="appendix.html#cb181-2" tabindex="-1"></a><span class="fu">lapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">FUN =</span> <span class="cf">function</span>(ii) {</span>
+<span id="cb181-3"><a href="appendix.html#cb181-3" tabindex="-1"></a>  res[[ii]] <span class="ot">&lt;&lt;-</span> letters[ii]</span>
+<span id="cb181-4"><a href="appendix.html#cb181-4" tabindex="-1"></a>})</span></code></pre></div>
 <p>then you should stop and think. The correct solution is:</p>
-<div class="sourceCode" id="cb182"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb182-1"><a href="appendix.html#cb182-1" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">lapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">FUN =</span> <span class="cf">function</span>(ii) {</span>
-<span id="cb182-2"><a href="appendix.html#cb182-2" aria-hidden="true" tabindex="-1"></a>  letters[ii]</span>
-<span id="cb182-3"><a href="appendix.html#cb182-3" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div>
+<div class="sourceCode" id="cb182"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb182-1"><a href="appendix.html#cb182-1" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">lapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">FUN =</span> <span class="cf">function</span>(ii) {</span>
+<span id="cb182-2"><a href="appendix.html#cb182-2" tabindex="-1"></a>  letters[ii]</span>
+<span id="cb182-3"><a href="appendix.html#cb182-3" tabindex="-1"></a>})</span></code></pre></div>
 <p>This can easily be parallelize by replace <code>lapply()</code> with <code>future_lapply()</code> from the <strong><a href="https://future.apply.futureverse.org">future.apply</a></strong> package.</p>
 </div>
 <div id="appendix-foreach-is-not-a-for-loop" class="section level2 hasAnchor" number="8.8">
@@ -944,29 +944,29 @@ to global environment</a>
 happens when using <strong><a href="https://cran.r-project.org/package=foreach">foreach</a></strong> to turn a for-loop into a <code>foreach()</code>
 call. As before, if you find yourself needing to use <code>&lt;&lt;-</code> in order
 to turn:</p>
-<div class="sourceCode" id="cb183"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb183-1"><a href="appendix.html#cb183-1" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
-<span id="cb183-2"><a href="appendix.html#cb183-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (ii <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>) {</span>
-<span id="cb183-3"><a href="appendix.html#cb183-3" aria-hidden="true" tabindex="-1"></a>  res[[ii]] <span class="ot">&lt;-</span> letters[ii]</span>
-<span id="cb183-4"><a href="appendix.html#cb183-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb183"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb183-1"><a href="appendix.html#cb183-1" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb183-2"><a href="appendix.html#cb183-2" tabindex="-1"></a><span class="cf">for</span> (ii <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>) {</span>
+<span id="cb183-3"><a href="appendix.html#cb183-3" tabindex="-1"></a>  res[[ii]] <span class="ot">&lt;-</span> letters[ii]</span>
+<span id="cb183-4"><a href="appendix.html#cb183-4" tabindex="-1"></a>}</span></code></pre></div>
 <p>into</p>
-<div class="sourceCode" id="cb184"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb184-1"><a href="appendix.html#cb184-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(doFuture)</span>
-<span id="cb184-2"><a href="appendix.html#cb184-2" aria-hidden="true" tabindex="-1"></a><span class="fu">registerDoFuture</span>()</span>
-<span id="cb184-3"><a href="appendix.html#cb184-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plan</span>(multisession)</span>
-<span id="cb184-4"><a href="appendix.html#cb184-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb184-5"><a href="appendix.html#cb184-5" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
-<span id="cb184-6"><a href="appendix.html#cb184-6" aria-hidden="true" tabindex="-1"></a><span class="fu">foreach</span>(<span class="at">ii =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>) <span class="sc">%dopar%</span> {</span>
-<span id="cb184-7"><a href="appendix.html#cb184-7" aria-hidden="true" tabindex="-1"></a>  res[[ii]] <span class="ot">&lt;&lt;-</span> letters[ii]</span>
-<span id="cb184-8"><a href="appendix.html#cb184-8" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb184"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb184-1"><a href="appendix.html#cb184-1" tabindex="-1"></a><span class="fu">library</span>(doFuture)</span>
+<span id="cb184-2"><a href="appendix.html#cb184-2" tabindex="-1"></a><span class="fu">registerDoFuture</span>()</span>
+<span id="cb184-3"><a href="appendix.html#cb184-3" tabindex="-1"></a><span class="fu">plan</span>(multisession)</span>
+<span id="cb184-4"><a href="appendix.html#cb184-4" tabindex="-1"></a></span>
+<span id="cb184-5"><a href="appendix.html#cb184-5" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb184-6"><a href="appendix.html#cb184-6" tabindex="-1"></a><span class="fu">foreach</span>(<span class="at">ii =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>) <span class="sc">%dopar%</span> {</span>
+<span id="cb184-7"><a href="appendix.html#cb184-7" tabindex="-1"></a>  res[[ii]] <span class="ot">&lt;&lt;-</span> letters[ii]</span>
+<span id="cb184-8"><a href="appendix.html#cb184-8" tabindex="-1"></a>}</span></code></pre></div>
 <p>then the <code>&lt;&lt;-</code> is a strong indication that this should not be done and it won’t work, especially when running in parallel. If you try to run the above in parallel, you will get:</p>
-<div class="sourceCode" id="cb185"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb185-1"><a href="appendix.html#cb185-1" aria-hidden="true" tabindex="-1"></a>Error <span class="cf">in</span> { <span class="sc">:</span> task <span class="dv">1</span> failed <span class="sc">-</span> <span class="st">&quot;object &#39;res&#39; not found&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb185"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb185-1"><a href="appendix.html#cb185-1" tabindex="-1"></a>Error <span class="cf">in</span> { <span class="sc">:</span> task <span class="dv">1</span> failed <span class="sc">-</span> <span class="st">&quot;object &#39;res&#39; not found&quot;</span></span></code></pre></div>
 <p>If you try to export <code>res</code>, e.g.</p>
-<div class="sourceCode" id="cb186"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb186-1"><a href="appendix.html#cb186-1" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
-<span id="cb186-2"><a href="appendix.html#cb186-2" aria-hidden="true" tabindex="-1"></a><span class="fu">foreach</span>(<span class="at">ii =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">.export =</span> <span class="st">&quot;res&quot;</span>) <span class="sc">%dopar%</span> {</span>
-<span id="cb186-3"><a href="appendix.html#cb186-3" aria-hidden="true" tabindex="-1"></a>  res[[ii]] <span class="ot">&lt;&lt;-</span> letters[ii]</span>
-<span id="cb186-4"><a href="appendix.html#cb186-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb186"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb186-1"><a href="appendix.html#cb186-1" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb186-2"><a href="appendix.html#cb186-2" tabindex="-1"></a><span class="fu">foreach</span>(<span class="at">ii =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">.export =</span> <span class="st">&quot;res&quot;</span>) <span class="sc">%dopar%</span> {</span>
+<span id="cb186-3"><a href="appendix.html#cb186-3" tabindex="-1"></a>  res[[ii]] <span class="ot">&lt;&lt;-</span> letters[ii]</span>
+<span id="cb186-4"><a href="appendix.html#cb186-4" tabindex="-1"></a>}</span></code></pre></div>
 <p>you’ll find that <code>res</code> is not populated;</p>
-<div class="sourceCode" id="cb187"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb187-1"><a href="appendix.html#cb187-1" aria-hidden="true" tabindex="-1"></a>res</span>
-<span id="cb187-2"><a href="appendix.html#cb187-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; list()</span></span></code></pre></div>
+<div class="sourceCode" id="cb187"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb187-1"><a href="appendix.html#cb187-1" tabindex="-1"></a>res</span>
+<span id="cb187-2"><a href="appendix.html#cb187-2" tabindex="-1"></a><span class="co">#&gt; list()</span></span></code></pre></div>
 <p>The mistake is believing that <code>foreach()</code> is a replacement to a for-loop. It is not. Repeat after me:</p>
 <ul>
 <li><code>foreach() %dopar% { ... }</code> is <em>not</em> a for-loop!</li>
@@ -981,14 +981,14 @@ to turn:</p>
 <li><code>foreach() %dopar% { ... }</code> is just like <code>lapply()</code> or <code>future_lapply()</code></li>
 </ul>
 <p>What tricks us, is the <code>%dopar%</code> infix operator. It makes <code>foreach()</code> look like a for-loop, although it isn’t one. If the author of <strong><a href="https://cran.r-project.org/package=foreach">foreach</a></strong> wouldn’t have invented <code>%dopar%</code>, they would probably have written <code>foreach()</code> to work like:</p>
-<div class="sourceCode" id="cb188"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb188-1"><a href="appendix.html#cb188-1" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">foreach</span>(<span class="at">ii =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">FUN =</span> <span class="cf">function</span>(ii) {</span>
-<span id="cb188-2"><a href="appendix.html#cb188-2" aria-hidden="true" tabindex="-1"></a>  letters[ii]</span>
-<span id="cb188-3"><a href="appendix.html#cb188-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb188"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb188-1"><a href="appendix.html#cb188-1" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">foreach</span>(<span class="at">ii =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">FUN =</span> <span class="cf">function</span>(ii) {</span>
+<span id="cb188-2"><a href="appendix.html#cb188-2" tabindex="-1"></a>  letters[ii]</span>
+<span id="cb188-3"><a href="appendix.html#cb188-3" tabindex="-1"></a>}</span></code></pre></div>
 <p>which would make it clear that <code>foreach()</code> is just another map-reduce function very similar to <code>lapply()</code>.</p>
 <p>To further bring the message home, it wouldn’t be hard to imagine an implementation of <code>lapply()</code> that could be written as:</p>
-<div class="sourceCode" id="cb189"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb189-1"><a href="appendix.html#cb189-1" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">lapply</span>(<span class="at">ii =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>) <span class="sc">%dopar%</span> {</span>
-<span id="cb189-2"><a href="appendix.html#cb189-2" aria-hidden="true" tabindex="-1"></a>  letters[ii]</span>
-<span id="cb189-3"><a href="appendix.html#cb189-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb189"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb189-1"><a href="appendix.html#cb189-1" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">lapply</span>(<span class="at">ii =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>) <span class="sc">%dopar%</span> {</span>
+<span id="cb189-2"><a href="appendix.html#cb189-2" tabindex="-1"></a>  letters[ii]</span>
+<span id="cb189-3"><a href="appendix.html#cb189-3" tabindex="-1"></a>}</span></code></pre></div>
 <p>I hope that clarifies it.</p>
 </div>
 <div id="appendix-debugging" class="section level2 hasAnchor" number="8.9">
@@ -1005,24 +1005,24 @@ to turn:</p>
 </ul></li>
 </ul>
 <p>It’s always a good practice to never override users settings, including with <strong><a href="https://cran.r-project.org/package=foreach">foreach</a></strong> adapter they might already have registered. For instance, if you do:</p>
-<div class="sourceCode" id="cb190"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb190-1"><a href="appendix.html#cb190-1" aria-hidden="true" tabindex="-1"></a>llply_slow <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
-<span id="cb190-2"><a href="appendix.html#cb190-2" aria-hidden="true" tabindex="-1"></a>  doFuture<span class="sc">::</span><span class="fu">registerDoFuture</span>()</span>
-<span id="cb190-3"><a href="appendix.html#cb190-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">llply</span>(x, slow, <span class="at">.parallel =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb190-4"><a href="appendix.html#cb190-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb190"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb190-1"><a href="appendix.html#cb190-1" tabindex="-1"></a>llply_slow <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb190-2"><a href="appendix.html#cb190-2" tabindex="-1"></a>  doFuture<span class="sc">::</span><span class="fu">registerDoFuture</span>()</span>
+<span id="cb190-3"><a href="appendix.html#cb190-3" tabindex="-1"></a>  <span class="fu">llply</span>(x, slow, <span class="at">.parallel =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb190-4"><a href="appendix.html#cb190-4" tabindex="-1"></a>}</span></code></pre></div>
 <p>you will break the user’s intentions if they use it as:</p>
-<div class="sourceCode" id="cb191"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb191-1"><a href="appendix.html#cb191-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(foreach)</span>
-<span id="cb191-2"><a href="appendix.html#cb191-2" aria-hidden="true" tabindex="-1"></a>doParallel<span class="sc">::</span><span class="fu">registerDoParallel</span>(<span class="dv">2</span>)</span>
-<span id="cb191-3"><a href="appendix.html#cb191-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb191-4"><a href="appendix.html#cb191-4" aria-hidden="true" tabindex="-1"></a>y1 <span class="ot">&lt;-</span> <span class="fu">foreach</span>(<span class="at">ii =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>) <span class="sc">%dopar%</span> { <span class="fu">some_other_fcn</span>(ii) }</span>
-<span id="cb191-5"><a href="appendix.html#cb191-5" aria-hidden="true" tabindex="-1"></a>y2 <span class="ot">&lt;-</span> <span class="fu">llply_slow</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)  <span class="do">## here you change the adaptor</span></span>
-<span id="cb191-6"><a href="appendix.html#cb191-6" aria-hidden="true" tabindex="-1"></a>y3 <span class="ot">&lt;-</span> <span class="fu">foreach</span>(<span class="at">ii =</span> <span class="dv">3</span><span class="sc">:</span><span class="dv">1</span>) <span class="sc">%dopar%</span> { <span class="fu">some_other_fcn</span>(ii) }</span></code></pre></div>
+<div class="sourceCode" id="cb191"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb191-1"><a href="appendix.html#cb191-1" tabindex="-1"></a><span class="fu">library</span>(foreach)</span>
+<span id="cb191-2"><a href="appendix.html#cb191-2" tabindex="-1"></a>doParallel<span class="sc">::</span><span class="fu">registerDoParallel</span>(<span class="dv">2</span>)</span>
+<span id="cb191-3"><a href="appendix.html#cb191-3" tabindex="-1"></a></span>
+<span id="cb191-4"><a href="appendix.html#cb191-4" tabindex="-1"></a>y1 <span class="ot">&lt;-</span> <span class="fu">foreach</span>(<span class="at">ii =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>) <span class="sc">%dopar%</span> { <span class="fu">some_other_fcn</span>(ii) }</span>
+<span id="cb191-5"><a href="appendix.html#cb191-5" tabindex="-1"></a>y2 <span class="ot">&lt;-</span> <span class="fu">llply_slow</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)  <span class="do">## here you change the adaptor</span></span>
+<span id="cb191-6"><a href="appendix.html#cb191-6" tabindex="-1"></a>y3 <span class="ot">&lt;-</span> <span class="fu">foreach</span>(<span class="at">ii =</span> <span class="dv">3</span><span class="sc">:</span><span class="dv">1</span>) <span class="sc">%dopar%</span> { <span class="fu">some_other_fcn</span>(ii) }</span></code></pre></div>
 <p>To avoid this, undo your adaptor changes as:</p>
-<div class="sourceCode" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb192-1"><a href="appendix.html#cb192-1" aria-hidden="true" tabindex="-1"></a>llply_slow <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
-<span id="cb192-2"><a href="appendix.html#cb192-2" aria-hidden="true" tabindex="-1"></a>  oldDoPar <span class="ot">&lt;-</span> <span class="fu">registerDoFuture</span>()</span>
-<span id="cb192-3"><a href="appendix.html#cb192-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">on.exit</span>(<span class="fu">with</span>(oldDoPar, foreach<span class="sc">::</span><span class="fu">setDoPar</span>(<span class="at">fun=</span>fun, <span class="at">data=</span>data, <span class="at">info=</span>info)), <span class="at">add =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb192-4"><a href="appendix.html#cb192-4" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb192-5"><a href="appendix.html#cb192-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">llply</span>(x, slow, <span class="at">.parallel =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb192-6"><a href="appendix.html#cb192-6" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb192-1"><a href="appendix.html#cb192-1" tabindex="-1"></a>llply_slow <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb192-2"><a href="appendix.html#cb192-2" tabindex="-1"></a>  oldDoPar <span class="ot">&lt;-</span> <span class="fu">registerDoFuture</span>()</span>
+<span id="cb192-3"><a href="appendix.html#cb192-3" tabindex="-1"></a>  <span class="fu">on.exit</span>(<span class="fu">with</span>(oldDoPar, foreach<span class="sc">::</span><span class="fu">setDoPar</span>(<span class="at">fun=</span>fun, <span class="at">data=</span>data, <span class="at">info=</span>info)), <span class="at">add =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb192-4"><a href="appendix.html#cb192-4" tabindex="-1"></a>  </span>
+<span id="cb192-5"><a href="appendix.html#cb192-5" tabindex="-1"></a>  <span class="fu">llply</span>(x, slow, <span class="at">.parallel =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb192-6"><a href="appendix.html#cb192-6" tabindex="-1"></a>}</span></code></pre></div>
 
 </div>
 </div>

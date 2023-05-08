@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Part 4 Errors and output | Tutorial: An Introduction to Futureverse for Parallel Processing in R</title>
   <meta name="description" content="N/A" />
-  <meta name="generator" content="bookdown 0.31 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.33 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Part 4 Errors and output | Tutorial: An Introduction to Futureverse for Parallel Processing in R" />
   <meta property="og:type" content="book" />
@@ -92,7 +92,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
+code span.bu { color: #008000; } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -105,7 +105,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
+code span.im { color: #008000; font-weight: bold; } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -260,7 +260,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="8.4.1" data-path="appendix.html"><a href="appendix.html#example-r-connections-can-be-exported-to-parallel-workers"><i class="fa fa-check"></i><b>8.4.1</b> Example: R connections can be exported to parallel workers</a></li>
 <li class="chapter" data-level="8.4.2" data-path="appendix.html"><a href="appendix.html#example-xml2-objects-cannot-be-exported"><i class="fa fa-check"></i><b>8.4.2</b> Example: xml2 objects cannot be exported</a></li>
 </ul></li>
-<li class="chapter" data-level="8.5" data-path="appendix.html"><a href="appendix.html#appendix-careful-with-forked-parallization"><i class="fa fa-check"></i><b>8.5</b> Appendix: Careful with forked parallization</a></li>
+<li class="chapter" data-level="8.5" data-path="appendix.html"><a href="appendix.html#appendix-careful-with-forked-parallelization"><i class="fa fa-check"></i><b>8.5</b> Appendix: Careful with forked parallelization</a></li>
 <li class="chapter" data-level="8.6" data-path="appendix.html"><a href="appendix.html#appendix-missing-globals"><i class="fa fa-check"></i><b>8.6</b> Appendix: Missing globals</a>
 <ul>
 <li class="chapter" data-level="8.6.1" data-path="appendix.html"><a href="appendix.html#example-glueglue---object-not-found"><i class="fa fa-check"></i><b>8.6.1</b> Example: glue::glue() - object not found</a></li>
@@ -289,7 +289,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="errors-and-output" class="section level1 hasAnchor" number="4">
 <h1><span class="header-section-number">Part 4</span> Errors and output<a href="errors-and-output.html#errors-and-output" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>Whe using the <strong><a href="https://future.futureverse.org">future</a></strong> framework, it’s business as usual:</p>
+<p>When using the <strong><a href="https://future.futureverse.org">future</a></strong> framework, it’s business as usual:</p>
 <ul>
 <li>Errors produced in parallel, are relayed as-is in the main R session</li>
 <li>Warnings produced in parallel, are relayed as-is in the main R session</li>
@@ -308,59 +308,59 @@ throw their own custom error when they detect errors.</p>
 <div id="example-setup" class="section level3 hasAnchor" number="4.1.1">
 <h3><span class="header-section-number">4.1.1</span> Example setup<a href="errors-and-output.html#example-setup" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The regular <code>sqrt()</code> function gives a warning if we try with a negative number, e.g.</p>
-<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="errors-and-output.html#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="sc">-</span><span class="dv">1</span>)</span>
-<span id="cb58-2"><a href="errors-and-output.html#cb58-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] NaN</span></span>
-<span id="cb58-3"><a href="errors-and-output.html#cb58-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning message:</span></span>
-<span id="cb58-4"><a href="errors-and-output.html#cb58-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; In sqrt(-1) : NaNs produced</span></span></code></pre></div>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="errors-and-output.html#cb58-1" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb58-2"><a href="errors-and-output.html#cb58-2" tabindex="-1"></a><span class="co">#&gt; [1] NaN</span></span>
+<span id="cb58-3"><a href="errors-and-output.html#cb58-3" tabindex="-1"></a><span class="co">#&gt; Warning message:</span></span>
+<span id="cb58-4"><a href="errors-and-output.html#cb58-4" tabindex="-1"></a><span class="co">#&gt; In sqrt(-1) : NaNs produced</span></span></code></pre></div>
 <p>If we want to be more strict, we could define:</p>
-<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="errors-and-output.html#cb59-1" aria-hidden="true" tabindex="-1"></a>strict_sqrt <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
-<span id="cb59-2"><a href="errors-and-output.html#cb59-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (x <span class="sc">&lt;</span> <span class="dv">0</span>) {</span>
-<span id="cb59-3"><a href="errors-and-output.html#cb59-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stop</span>(<span class="st">&quot;sqrt(x) with x &lt; 0 not allowed: &quot;</span>, x)</span>
-<span id="cb59-4"><a href="errors-and-output.html#cb59-4" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb59-5"><a href="errors-and-output.html#cb59-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sqrt</span>(x)</span>
-<span id="cb59-6"><a href="errors-and-output.html#cb59-6" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="errors-and-output.html#cb59-1" tabindex="-1"></a>strict_sqrt <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb59-2"><a href="errors-and-output.html#cb59-2" tabindex="-1"></a>  <span class="cf">if</span> (x <span class="sc">&lt;</span> <span class="dv">0</span>) {</span>
+<span id="cb59-3"><a href="errors-and-output.html#cb59-3" tabindex="-1"></a>    <span class="fu">stop</span>(<span class="st">&quot;sqrt(x) with x &lt; 0 not allowed: &quot;</span>, x)</span>
+<span id="cb59-4"><a href="errors-and-output.html#cb59-4" tabindex="-1"></a>  }</span>
+<span id="cb59-5"><a href="errors-and-output.html#cb59-5" tabindex="-1"></a>  <span class="fu">sqrt</span>(x)</span>
+<span id="cb59-6"><a href="errors-and-output.html#cb59-6" tabindex="-1"></a>}</span></code></pre></div>
 <p>which gives:</p>
-<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="errors-and-output.html#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">strict_sqrt</span>(<span class="sc">-</span><span class="dv">1</span>)</span>
-<span id="cb60-2"><a href="errors-and-output.html#cb60-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Error in strict_sqrt(-1) : sqrt(x) with x &lt; 0 not allowed: -1</span></span></code></pre></div>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="errors-and-output.html#cb60-1" tabindex="-1"></a><span class="fu">strict_sqrt</span>(<span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb60-2"><a href="errors-and-output.html#cb60-2" tabindex="-1"></a><span class="co">#&gt; Error in strict_sqrt(-1) : sqrt(x) with x &lt; 0 not allowed: -1</span></span></code></pre></div>
 <p>Let’s see how this behaves with futures:</p>
-<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="errors-and-output.html#cb61-1" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">future</span>(<span class="fu">strict_sqrt</span>(<span class="sc">-</span><span class="dv">1</span>))</span>
-<span id="cb61-2"><a href="errors-and-output.html#cb61-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb61-3"><a href="errors-and-output.html#cb61-3" aria-hidden="true" tabindex="-1"></a><span class="fu">message</span>(<span class="st">&quot;All good this far&quot;</span>)</span>
-<span id="cb61-4"><a href="errors-and-output.html#cb61-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; All good this far</span></span>
-<span id="cb61-5"><a href="errors-and-output.html#cb61-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb61-6"><a href="errors-and-output.html#cb61-6" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">value</span>(f)</span>
-<span id="cb61-7"><a href="errors-and-output.html#cb61-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Error in strict_sqrt(-1) : sqrt(x) with x &lt; 0 not allowed: -1</span></span></code></pre></div>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="errors-and-output.html#cb61-1" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">future</span>(<span class="fu">strict_sqrt</span>(<span class="sc">-</span><span class="dv">1</span>))</span>
+<span id="cb61-2"><a href="errors-and-output.html#cb61-2" tabindex="-1"></a></span>
+<span id="cb61-3"><a href="errors-and-output.html#cb61-3" tabindex="-1"></a><span class="fu">message</span>(<span class="st">&quot;All good this far&quot;</span>)</span>
+<span id="cb61-4"><a href="errors-and-output.html#cb61-4" tabindex="-1"></a><span class="co">#&gt; All good this far</span></span>
+<span id="cb61-5"><a href="errors-and-output.html#cb61-5" tabindex="-1"></a></span>
+<span id="cb61-6"><a href="errors-and-output.html#cb61-6" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">value</span>(f)</span>
+<span id="cb61-7"><a href="errors-and-output.html#cb61-7" tabindex="-1"></a><span class="co">#&gt; Error in strict_sqrt(-1) : sqrt(x) with x &lt; 0 not allowed: -1</span></span></code></pre></div>
 <p>Note how the error is signalled when we call <code>value()</code> - not when we call <code>future()</code>, which would not be possible because the latter starts the evaluation and returns immediately.</p>
 <p>Because of this, regular exception handling applies, e.g.</p>
-<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="errors-and-output.html#cb62-1" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">tryCatch</span>({</span>
-<span id="cb62-2"><a href="errors-and-output.html#cb62-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">value</span>(f)</span>
-<span id="cb62-3"><a href="errors-and-output.html#cb62-3" aria-hidden="true" tabindex="-1"></a>}, <span class="at">error =</span> <span class="cf">function</span>(e) {</span>
-<span id="cb62-4"><a href="errors-and-output.html#cb62-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">message</span>(<span class="st">&quot;An error occurred: &quot;</span>, <span class="fu">conditionMessage</span>(e))</span>
-<span id="cb62-5"><a href="errors-and-output.html#cb62-5" aria-hidden="true" tabindex="-1"></a>  <span class="cn">NA_real_</span></span>
-<span id="cb62-6"><a href="errors-and-output.html#cb62-6" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb62-7"><a href="errors-and-output.html#cb62-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; An error occurred: sqrt(x) with x &lt; 0 not allowed: -1</span></span>
-<span id="cb62-8"><a href="errors-and-output.html#cb62-8" aria-hidden="true" tabindex="-1"></a>v</span>
-<span id="cb62-9"><a href="errors-and-output.html#cb62-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] NA</span></span></code></pre></div>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="errors-and-output.html#cb62-1" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">tryCatch</span>({</span>
+<span id="cb62-2"><a href="errors-and-output.html#cb62-2" tabindex="-1"></a>  <span class="fu">value</span>(f)</span>
+<span id="cb62-3"><a href="errors-and-output.html#cb62-3" tabindex="-1"></a>}, <span class="at">error =</span> <span class="cf">function</span>(e) {</span>
+<span id="cb62-4"><a href="errors-and-output.html#cb62-4" tabindex="-1"></a>  <span class="fu">message</span>(<span class="st">&quot;An error occurred: &quot;</span>, <span class="fu">conditionMessage</span>(e))</span>
+<span id="cb62-5"><a href="errors-and-output.html#cb62-5" tabindex="-1"></a>  <span class="cn">NA_real_</span></span>
+<span id="cb62-6"><a href="errors-and-output.html#cb62-6" tabindex="-1"></a>})</span>
+<span id="cb62-7"><a href="errors-and-output.html#cb62-7" tabindex="-1"></a><span class="co">#&gt; An error occurred: sqrt(x) with x &lt; 0 not allowed: -1</span></span>
+<span id="cb62-8"><a href="errors-and-output.html#cb62-8" tabindex="-1"></a>v</span>
+<span id="cb62-9"><a href="errors-and-output.html#cb62-9" tabindex="-1"></a><span class="co">#&gt; [1] NA</span></span></code></pre></div>
 </div>
 <div id="exception-handling-works-the-same-with-map-reduce-functions" class="section level3 hasAnchor" number="4.1.2">
 <h3><span class="header-section-number">4.1.2</span> Exception handling works the same with map-reduce functions<a href="errors-and-output.html#exception-handling-works-the-same-with-map-reduce-functions" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Let’s see how this behaves with different map-reduce functions. If we use it with base R map-reduce functions, errors are produced like:</p>
-<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="errors-and-output.html#cb63-1" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">1</span><span class="sc">:</span><span class="dv">2</span></span>
-<span id="cb63-2"><a href="errors-and-output.html#cb63-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">lapply</span>(X, strict_sqrt)</span>
-<span id="cb63-3"><a href="errors-and-output.html#cb63-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Error in FUN(X[[i]], ...) : sqrt(x) with x &lt; 0 not allowed: -1</span></span></code></pre></div>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="errors-and-output.html#cb63-1" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">1</span><span class="sc">:</span><span class="dv">2</span></span>
+<span id="cb63-2"><a href="errors-and-output.html#cb63-2" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">lapply</span>(X, strict_sqrt)</span>
+<span id="cb63-3"><a href="errors-and-output.html#cb63-3" tabindex="-1"></a><span class="co">#&gt; Error in FUN(X[[i]], ...) : sqrt(x) with x &lt; 0 not allowed: -1</span></span></code></pre></div>
 <p>We get a similar behavior with <strong><a href="https://future.apply.futureverse.org">future.apply</a></strong>:</p>
-<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="errors-and-output.html#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(future.apply)</span>
-<span id="cb64-2"><a href="errors-and-output.html#cb64-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plan</span>(multisession, <span class="at">workers =</span> <span class="dv">2</span>)</span>
-<span id="cb64-3"><a href="errors-and-output.html#cb64-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-4"><a href="errors-and-output.html#cb64-4" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">future_lapply</span>(X, strict_sqrt)</span>
-<span id="cb64-5"><a href="errors-and-output.html#cb64-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Error in ...future.FUN(...future.X_jj, ...) : </span></span>
-<span id="cb64-6"><a href="errors-and-output.html#cb64-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   sqrt(x) with x &lt; 0 not allowed: -1</span></span></code></pre></div>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="errors-and-output.html#cb64-1" tabindex="-1"></a><span class="fu">library</span>(future.apply)</span>
+<span id="cb64-2"><a href="errors-and-output.html#cb64-2" tabindex="-1"></a><span class="fu">plan</span>(multisession, <span class="at">workers =</span> <span class="dv">2</span>)</span>
+<span id="cb64-3"><a href="errors-and-output.html#cb64-3" tabindex="-1"></a></span>
+<span id="cb64-4"><a href="errors-and-output.html#cb64-4" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">future_lapply</span>(X, strict_sqrt)</span>
+<span id="cb64-5"><a href="errors-and-output.html#cb64-5" tabindex="-1"></a><span class="co">#&gt; Error in ...future.FUN(...future.X_jj, ...) : </span></span>
+<span id="cb64-6"><a href="errors-and-output.html#cb64-6" tabindex="-1"></a><span class="co">#&gt;   sqrt(x) with x &lt; 0 not allowed: -1</span></span></code></pre></div>
 <p>and <strong><a href="https://furrr.futureverse.org">furrr</a></strong>:</p>
-<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="errors-and-output.html#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(furrr)</span>
-<span id="cb65-2"><a href="errors-and-output.html#cb65-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plan</span>(multisession, <span class="at">workers =</span> <span class="dv">2</span>)</span>
-<span id="cb65-3"><a href="errors-and-output.html#cb65-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb65-4"><a href="errors-and-output.html#cb65-4" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">future_map</span>(X, strict_sqrt)</span>
-<span id="cb65-5"><a href="errors-and-output.html#cb65-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Error in ...furrr_fn(...) : sqrt(x) with x &lt; 0 not allowed: -1</span></span></code></pre></div>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="errors-and-output.html#cb65-1" tabindex="-1"></a><span class="fu">library</span>(furrr)</span>
+<span id="cb65-2"><a href="errors-and-output.html#cb65-2" tabindex="-1"></a><span class="fu">plan</span>(multisession, <span class="at">workers =</span> <span class="dv">2</span>)</span>
+<span id="cb65-3"><a href="errors-and-output.html#cb65-3" tabindex="-1"></a></span>
+<span id="cb65-4"><a href="errors-and-output.html#cb65-4" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">future_map</span>(X, strict_sqrt)</span>
+<span id="cb65-5"><a href="errors-and-output.html#cb65-5" tabindex="-1"></a><span class="co">#&gt; Error in ...furrr_fn(...) : sqrt(x) with x &lt; 0 not allowed: -1</span></span></code></pre></div>
 <p>Take-home message: You can treat errors the same way as when running sequentially.</p>
 <p>See Appendix <a href="appendix.html#appendix-exception-handling-by-other-parallel-map-reduce-apis">Exception handling by other parallel map-reduce APIs</a> for a comparison with other parallel solutions that does not rely on future-based, and for why the future solution is often more natural.</p>
 </div>
@@ -371,37 +371,37 @@ throw their own custom error when they detect errors.</p>
 <li>Warnings produced in parallel, are relayed as-is in the main R session</li>
 </ul>
 <p>When you use <code>warning()</code>, the warning message is signalled as a <code>warning</code> condition, very similar to how errors are signalled as <code>error</code> conditions. For example,</p>
-<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="errors-and-output.html#cb66-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">1</span><span class="sc">:</span><span class="dv">2</span></span>
-<span id="cb66-2"><a href="errors-and-output.html#cb66-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">log</span>(x)</span>
-<span id="cb66-3"><a href="errors-and-output.html#cb66-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning message:</span></span>
-<span id="cb66-4"><a href="errors-and-output.html#cb66-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; In log(x) : NaNs produced</span></span></code></pre></div>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="errors-and-output.html#cb66-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">1</span><span class="sc">:</span><span class="dv">2</span></span>
+<span id="cb66-2"><a href="errors-and-output.html#cb66-2" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">log</span>(x)</span>
+<span id="cb66-3"><a href="errors-and-output.html#cb66-3" tabindex="-1"></a><span class="co">#&gt; Warning message:</span></span>
+<span id="cb66-4"><a href="errors-and-output.html#cb66-4" tabindex="-1"></a><span class="co">#&gt; In log(x) : NaNs produced</span></span></code></pre></div>
 <p>Futures capture <code>warning</code> conditions, which then are re-signalled by <code>value()</code>, e.g.</p>
-<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="errors-and-output.html#cb67-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">1</span><span class="sc">:</span><span class="dv">2</span></span>
-<span id="cb67-2"><a href="errors-and-output.html#cb67-2" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">future</span>(<span class="fu">log</span>(x))</span>
-<span id="cb67-3"><a href="errors-and-output.html#cb67-3" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">value</span>(f)</span>
-<span id="cb67-4"><a href="errors-and-output.html#cb67-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning message:</span></span>
-<span id="cb67-5"><a href="errors-and-output.html#cb67-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; In log(x) : NaNs produced</span></span></code></pre></div>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="errors-and-output.html#cb67-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">1</span><span class="sc">:</span><span class="dv">2</span></span>
+<span id="cb67-2"><a href="errors-and-output.html#cb67-2" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">future</span>(<span class="fu">log</span>(x))</span>
+<span id="cb67-3"><a href="errors-and-output.html#cb67-3" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">value</span>(f)</span>
+<span id="cb67-4"><a href="errors-and-output.html#cb67-4" tabindex="-1"></a><span class="co">#&gt; Warning message:</span></span>
+<span id="cb67-5"><a href="errors-and-output.html#cb67-5" tabindex="-1"></a><span class="co">#&gt; In log(x) : NaNs produced</span></span></code></pre></div>
 <p>We can suppress warning using <code>suppressWarnings()</code>. This works the same way regardless whether futures are used or not. For example,</p>
-<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="errors-and-output.html#cb68-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">value</span>(f)</span>
-<span id="cb68-2"><a href="errors-and-output.html#cb68-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning message:</span></span>
-<span id="cb68-3"><a href="errors-and-output.html#cb68-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; In log(x) : NaNs produced</span></span>
-<span id="cb68-4"><a href="errors-and-output.html#cb68-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-5"><a href="errors-and-output.html#cb68-5" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressWarnings</span>(y <span class="ot">&lt;-</span> <span class="fu">value</span>(f))</span></code></pre></div>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="errors-and-output.html#cb68-1" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">value</span>(f)</span>
+<span id="cb68-2"><a href="errors-and-output.html#cb68-2" tabindex="-1"></a><span class="co">#&gt; Warning message:</span></span>
+<span id="cb68-3"><a href="errors-and-output.html#cb68-3" tabindex="-1"></a><span class="co">#&gt; In log(x) : NaNs produced</span></span>
+<span id="cb68-4"><a href="errors-and-output.html#cb68-4" tabindex="-1"></a></span>
+<span id="cb68-5"><a href="errors-and-output.html#cb68-5" tabindex="-1"></a><span class="fu">suppressWarnings</span>(y <span class="ot">&lt;-</span> <span class="fu">value</span>(f))</span></code></pre></div>
 <p>One can handle <code>warning</code> conditions using <code>withCallingHandlers()</code> and <code>globalCallingHandlers()</code> for maximum control what to do with them, but that’s beyond this tutorial.</p>
 <p>Just like errors, <strong><a href="https://future.futureverse.org">future</a></strong> map-reduce functions handles warnings consistently, e.g.</p>
-<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="errors-and-output.html#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(future.apply)</span>
-<span id="cb69-2"><a href="errors-and-output.html#cb69-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plan</span>(multisession, <span class="at">workers =</span> <span class="dv">2</span>)</span>
-<span id="cb69-3"><a href="errors-and-output.html#cb69-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb69-4"><a href="errors-and-output.html#cb69-4" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">1</span><span class="sc">:</span><span class="dv">2</span></span>
-<span id="cb69-5"><a href="errors-and-output.html#cb69-5" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">future_lapply</span>(X, sqrt)</span>
-<span id="cb69-6"><a href="errors-and-output.html#cb69-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning message:</span></span>
-<span id="cb69-7"><a href="errors-and-output.html#cb69-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; In ...future.FUN(...future.X_jj, ...) : NaNs produced</span></span>
-<span id="cb69-8"><a href="errors-and-output.html#cb69-8" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(y)</span>
-<span id="cb69-9"><a href="errors-and-output.html#cb69-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; List of 4</span></span>
-<span id="cb69-10"><a href="errors-and-output.html#cb69-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ : num NaN</span></span>
-<span id="cb69-11"><a href="errors-and-output.html#cb69-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ : num 0</span></span>
-<span id="cb69-12"><a href="errors-and-output.html#cb69-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ : num 1</span></span>
-<span id="cb69-13"><a href="errors-and-output.html#cb69-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ : num 1.41</span></span></code></pre></div>
+<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="errors-and-output.html#cb69-1" tabindex="-1"></a><span class="fu">library</span>(future.apply)</span>
+<span id="cb69-2"><a href="errors-and-output.html#cb69-2" tabindex="-1"></a><span class="fu">plan</span>(multisession, <span class="at">workers =</span> <span class="dv">2</span>)</span>
+<span id="cb69-3"><a href="errors-and-output.html#cb69-3" tabindex="-1"></a></span>
+<span id="cb69-4"><a href="errors-and-output.html#cb69-4" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">1</span><span class="sc">:</span><span class="dv">2</span></span>
+<span id="cb69-5"><a href="errors-and-output.html#cb69-5" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">future_lapply</span>(X, sqrt)</span>
+<span id="cb69-6"><a href="errors-and-output.html#cb69-6" tabindex="-1"></a><span class="co">#&gt; Warning message:</span></span>
+<span id="cb69-7"><a href="errors-and-output.html#cb69-7" tabindex="-1"></a><span class="co">#&gt; In ...future.FUN(...future.X_jj, ...) : NaNs produced</span></span>
+<span id="cb69-8"><a href="errors-and-output.html#cb69-8" tabindex="-1"></a><span class="fu">str</span>(y)</span>
+<span id="cb69-9"><a href="errors-and-output.html#cb69-9" tabindex="-1"></a><span class="co">#&gt; List of 4</span></span>
+<span id="cb69-10"><a href="errors-and-output.html#cb69-10" tabindex="-1"></a><span class="co">#&gt;  $ : num NaN</span></span>
+<span id="cb69-11"><a href="errors-and-output.html#cb69-11" tabindex="-1"></a><span class="co">#&gt;  $ : num 0</span></span>
+<span id="cb69-12"><a href="errors-and-output.html#cb69-12" tabindex="-1"></a><span class="co">#&gt;  $ : num 1</span></span>
+<span id="cb69-13"><a href="errors-and-output.html#cb69-13" tabindex="-1"></a><span class="co">#&gt;  $ : num 1.41</span></span></code></pre></div>
 <p>Take-home message: You can treat warnings the same way as when running sequentially.</p>
 <p>See Appendix <a href="appendix.html#appendix-condition-handling-by-other-parallel-map-reduce-apis">Condition handling by other parallel map-reduce APIs</a> for a comparison with other parallel solutions. The future framework is the only solution where it works.</p>
 </div>
@@ -411,33 +411,33 @@ throw their own custom error when they detect errors.</p>
 <li>Messages produced in parallel, are relayed as-is in the main R session</li>
 </ul>
 <p>When you use <code>message()</code>, the message are signalled the same way warnings and errors are signalled, and they eventually end up in the <em>standard error</em> (stderr) stream - <em>not</em> outputted to the standard output (stdout) stream. For example,</p>
-<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="errors-and-output.html#cb70-1" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> letters[<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>]</span>
-<span id="cb70-2"><a href="errors-and-output.html#cb70-2" aria-hidden="true" tabindex="-1"></a><span class="fu">message</span>(<span class="st">&quot;Number of letters: &quot;</span>, <span class="fu">length</span>(z))</span>
-<span id="cb70-3"><a href="errors-and-output.html#cb70-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Number of letters: 8</span></span></code></pre></div>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="errors-and-output.html#cb70-1" tabindex="-1"></a>z <span class="ot">&lt;-</span> letters[<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>]</span>
+<span id="cb70-2"><a href="errors-and-output.html#cb70-2" tabindex="-1"></a><span class="fu">message</span>(<span class="st">&quot;Number of letters: &quot;</span>, <span class="fu">length</span>(z))</span>
+<span id="cb70-3"><a href="errors-and-output.html#cb70-3" tabindex="-1"></a><span class="co">#&gt; Number of letters: 8</span></span></code></pre></div>
 <p>As with warnings and errors, futures capture <code>message</code> conditions, which then are re-signalled by <code>value()</code>, e.g.</p>
-<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="errors-and-output.html#cb71-1" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">future</span>({</span>
-<span id="cb71-2"><a href="errors-and-output.html#cb71-2" aria-hidden="true" tabindex="-1"></a>  z <span class="ot">&lt;-</span> letters[<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>]</span>
-<span id="cb71-3"><a href="errors-and-output.html#cb71-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">message</span>(<span class="st">&quot;Number of letters: &quot;</span>, <span class="fu">length</span>(z))</span>
-<span id="cb71-4"><a href="errors-and-output.html#cb71-4" aria-hidden="true" tabindex="-1"></a>  z</span>
-<span id="cb71-5"><a href="errors-and-output.html#cb71-5" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb71-6"><a href="errors-and-output.html#cb71-6" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">value</span>(f)</span>
-<span id="cb71-7"><a href="errors-and-output.html#cb71-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Number of letters: 8</span></span>
-<span id="cb71-8"><a href="errors-and-output.html#cb71-8" aria-hidden="true" tabindex="-1"></a>y</span>
-<span id="cb71-9"><a href="errors-and-output.html#cb71-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;a&quot; &quot;b&quot; &quot;c&quot; &quot;d&quot; &quot;e&quot; &quot;f&quot; &quot;g&quot; &quot;h&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="errors-and-output.html#cb71-1" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">future</span>({</span>
+<span id="cb71-2"><a href="errors-and-output.html#cb71-2" tabindex="-1"></a>  z <span class="ot">&lt;-</span> letters[<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>]</span>
+<span id="cb71-3"><a href="errors-and-output.html#cb71-3" tabindex="-1"></a>  <span class="fu">message</span>(<span class="st">&quot;Number of letters: &quot;</span>, <span class="fu">length</span>(z))</span>
+<span id="cb71-4"><a href="errors-and-output.html#cb71-4" tabindex="-1"></a>  z</span>
+<span id="cb71-5"><a href="errors-and-output.html#cb71-5" tabindex="-1"></a>})</span>
+<span id="cb71-6"><a href="errors-and-output.html#cb71-6" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">value</span>(f)</span>
+<span id="cb71-7"><a href="errors-and-output.html#cb71-7" tabindex="-1"></a><span class="co">#&gt; Number of letters: 8</span></span>
+<span id="cb71-8"><a href="errors-and-output.html#cb71-8" tabindex="-1"></a>y</span>
+<span id="cb71-9"><a href="errors-and-output.html#cb71-9" tabindex="-1"></a><span class="co">#&gt; [1] &quot;a&quot; &quot;b&quot; &quot;c&quot; &quot;d&quot; &quot;e&quot; &quot;f&quot; &quot;g&quot; &quot;h&quot;</span></span></code></pre></div>
 <p>We can suppress messages using <code>suppressMessages()</code>. This works the same way regardless whether futures are used or not. For example,</p>
-<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="errors-and-output.html#cb72-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">value</span>(f)</span>
-<span id="cb72-2"><a href="errors-and-output.html#cb72-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Number of letters: 8</span></span>
-<span id="cb72-3"><a href="errors-and-output.html#cb72-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb72-4"><a href="errors-and-output.html#cb72-4" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(y <span class="ot">&lt;-</span> <span class="fu">value</span>(f))</span></code></pre></div>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="errors-and-output.html#cb72-1" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">value</span>(f)</span>
+<span id="cb72-2"><a href="errors-and-output.html#cb72-2" tabindex="-1"></a><span class="co">#&gt; Number of letters: 8</span></span>
+<span id="cb72-3"><a href="errors-and-output.html#cb72-3" tabindex="-1"></a></span>
+<span id="cb72-4"><a href="errors-and-output.html#cb72-4" tabindex="-1"></a><span class="fu">suppressMessages</span>(y <span class="ot">&lt;-</span> <span class="fu">value</span>(f))</span></code></pre></div>
 <p>Just like for warnings and errors, <strong><a href="https://future.futureverse.org">future</a></strong> map-reduce functions handles messages consistently, e.g.</p>
-<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="errors-and-output.html#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(future.apply)</span>
-<span id="cb73-2"><a href="errors-and-output.html#cb73-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plan</span>(multisession, <span class="at">workers =</span> <span class="dv">2</span>)</span>
-<span id="cb73-3"><a href="errors-and-output.html#cb73-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb73-4"><a href="errors-and-output.html#cb73-4" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span></span>
-<span id="cb73-5"><a href="errors-and-output.html#cb73-5" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">future_lapply</span>(X, <span class="cf">function</span>(x) <span class="fu">message</span>(<span class="st">&quot;x = &quot;</span>, x))</span>
-<span id="cb73-6"><a href="errors-and-output.html#cb73-6" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="dv">1</span></span>
-<span id="cb73-7"><a href="errors-and-output.html#cb73-7" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="dv">2</span></span>
-<span id="cb73-8"><a href="errors-and-output.html#cb73-8" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="dv">3</span></span></code></pre></div>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="errors-and-output.html#cb73-1" tabindex="-1"></a><span class="fu">library</span>(future.apply)</span>
+<span id="cb73-2"><a href="errors-and-output.html#cb73-2" tabindex="-1"></a><span class="fu">plan</span>(multisession, <span class="at">workers =</span> <span class="dv">2</span>)</span>
+<span id="cb73-3"><a href="errors-and-output.html#cb73-3" tabindex="-1"></a></span>
+<span id="cb73-4"><a href="errors-and-output.html#cb73-4" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span></span>
+<span id="cb73-5"><a href="errors-and-output.html#cb73-5" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">future_lapply</span>(X, <span class="cf">function</span>(x) <span class="fu">message</span>(<span class="st">&quot;x = &quot;</span>, x))</span>
+<span id="cb73-6"><a href="errors-and-output.html#cb73-6" tabindex="-1"></a>x <span class="ot">=</span> <span class="dv">1</span></span>
+<span id="cb73-7"><a href="errors-and-output.html#cb73-7" tabindex="-1"></a>x <span class="ot">=</span> <span class="dv">2</span></span>
+<span id="cb73-8"><a href="errors-and-output.html#cb73-8" tabindex="-1"></a>x <span class="ot">=</span> <span class="dv">3</span></span></code></pre></div>
 <p>One can handle <code>message</code> conditions using <code>withCallingHandlers()</code> and <code>globalCallingHandlers()</code> for maximum control what to do with them, but that’s beyond this tutorial.</p>
 <p>Take-home message: You can treat messages the same way as when running sequentially.</p>
 <p>See Appendix <a href="appendix.html#appendix-condition-handling-by-other-parallel-map-reduce-apis">Condition handling by other parallel map-reduce APIs</a> for a comparison with other parallel solutions. The future framework is the only solution where it works.</p>
@@ -449,41 +449,41 @@ throw their own custom error when they detect errors.</p>
 </ul>
 <p>When you use <code>cat()</code>, <code>print()</code>, and <code>str()</code>, the message string is (by default) outputted to the <em>standard output</em> (stdout) stream. Note that this does <em>not</em> rely on R’s condition system, so use a completely different infrastructure than <code>message()</code>.</p>
 <p>For example,</p>
-<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="errors-and-output.html#cb74-1" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> letters[<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>]</span>
-<span id="cb74-2"><a href="errors-and-output.html#cb74-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Number of letters:&quot;</span>, <span class="fu">length</span>(z), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb74-3"><a href="errors-and-output.html#cb74-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Number of letters: 8</span></span></code></pre></div>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="errors-and-output.html#cb74-1" tabindex="-1"></a>z <span class="ot">&lt;-</span> letters[<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>]</span>
+<span id="cb74-2"><a href="errors-and-output.html#cb74-2" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Number of letters:&quot;</span>, <span class="fu">length</span>(z), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb74-3"><a href="errors-and-output.html#cb74-3" tabindex="-1"></a><span class="co">#&gt; Number of letters: 8</span></span></code></pre></div>
 <p>When using futures, any standard output is automatically captured and re-outputted by <code>value()</code>, e.g.</p>
-<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="errors-and-output.html#cb75-1" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">future</span>({</span>
-<span id="cb75-2"><a href="errors-and-output.html#cb75-2" aria-hidden="true" tabindex="-1"></a>  z <span class="ot">&lt;-</span> letters[<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>]</span>
-<span id="cb75-3"><a href="errors-and-output.html#cb75-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;Number of letters:&quot;</span>, <span class="fu">length</span>(z), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb75-4"><a href="errors-and-output.html#cb75-4" aria-hidden="true" tabindex="-1"></a>  z</span>
-<span id="cb75-5"><a href="errors-and-output.html#cb75-5" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb75-6"><a href="errors-and-output.html#cb75-6" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">value</span>(f)</span>
-<span id="cb75-7"><a href="errors-and-output.html#cb75-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Number of letters: 8</span></span>
-<span id="cb75-8"><a href="errors-and-output.html#cb75-8" aria-hidden="true" tabindex="-1"></a>y</span>
-<span id="cb75-9"><a href="errors-and-output.html#cb75-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;a&quot; &quot;b&quot; &quot;c&quot; &quot;d&quot; &quot;e&quot; &quot;f&quot; &quot;g&quot; &quot;h&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="errors-and-output.html#cb75-1" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">future</span>({</span>
+<span id="cb75-2"><a href="errors-and-output.html#cb75-2" tabindex="-1"></a>  z <span class="ot">&lt;-</span> letters[<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>]</span>
+<span id="cb75-3"><a href="errors-and-output.html#cb75-3" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;Number of letters:&quot;</span>, <span class="fu">length</span>(z), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb75-4"><a href="errors-and-output.html#cb75-4" tabindex="-1"></a>  z</span>
+<span id="cb75-5"><a href="errors-and-output.html#cb75-5" tabindex="-1"></a>})</span>
+<span id="cb75-6"><a href="errors-and-output.html#cb75-6" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">value</span>(f)</span>
+<span id="cb75-7"><a href="errors-and-output.html#cb75-7" tabindex="-1"></a><span class="co">#&gt; Number of letters: 8</span></span>
+<span id="cb75-8"><a href="errors-and-output.html#cb75-8" tabindex="-1"></a>y</span>
+<span id="cb75-9"><a href="errors-and-output.html#cb75-9" tabindex="-1"></a><span class="co">#&gt; [1] &quot;a&quot; &quot;b&quot; &quot;c&quot; &quot;d&quot; &quot;e&quot; &quot;f&quot; &quot;g&quot; &quot;h&quot;</span></span></code></pre></div>
 <p>Just like you can use <code>utils::capture.output()</code> to capture standard output from <code>cat()</code>, <code>print()</code>, <code>str()</code>, …, you can use it to capture the output relayed by <code>value()</code>. For example,</p>
-<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="errors-and-output.html#cb76-1" aria-hidden="true" tabindex="-1"></a>stdout <span class="ot">&lt;-</span> <span class="fu">capture.output</span>({</span>
-<span id="cb76-2"><a href="errors-and-output.html#cb76-2" aria-hidden="true" tabindex="-1"></a>  y <span class="ot">&lt;-</span> <span class="fu">value</span>(f)</span>
-<span id="cb76-3"><a href="errors-and-output.html#cb76-3" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb76-4"><a href="errors-and-output.html#cb76-4" aria-hidden="true" tabindex="-1"></a>y</span>
-<span id="cb76-5"><a href="errors-and-output.html#cb76-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;a&quot; &quot;b&quot; &quot;c&quot; &quot;d&quot; &quot;e&quot; &quot;f&quot; &quot;g&quot; &quot;h&quot;</span></span>
-<span id="cb76-6"><a href="errors-and-output.html#cb76-6" aria-hidden="true" tabindex="-1"></a>stdout</span>
-<span id="cb76-7"><a href="errors-and-output.html#cb76-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Number of letters: 8 &quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="errors-and-output.html#cb76-1" tabindex="-1"></a>stdout <span class="ot">&lt;-</span> <span class="fu">capture.output</span>({</span>
+<span id="cb76-2"><a href="errors-and-output.html#cb76-2" tabindex="-1"></a>  y <span class="ot">&lt;-</span> <span class="fu">value</span>(f)</span>
+<span id="cb76-3"><a href="errors-and-output.html#cb76-3" tabindex="-1"></a>})</span>
+<span id="cb76-4"><a href="errors-and-output.html#cb76-4" tabindex="-1"></a>y</span>
+<span id="cb76-5"><a href="errors-and-output.html#cb76-5" tabindex="-1"></a><span class="co">#&gt; [1] &quot;a&quot; &quot;b&quot; &quot;c&quot; &quot;d&quot; &quot;e&quot; &quot;f&quot; &quot;g&quot; &quot;h&quot;</span></span>
+<span id="cb76-6"><a href="errors-and-output.html#cb76-6" tabindex="-1"></a>stdout</span>
+<span id="cb76-7"><a href="errors-and-output.html#cb76-7" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Number of letters: 8 &quot;</span></span></code></pre></div>
 <p>We can suppress standard output using <code>capture.output(..., file = nullfile())</code>. This works the same way regardless whether futures are used or not. For example,</p>
-<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb77-1"><a href="errors-and-output.html#cb77-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">value</span>(f)</span>
-<span id="cb77-2"><a href="errors-and-output.html#cb77-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Number of letters: 8</span></span>
-<span id="cb77-3"><a href="errors-and-output.html#cb77-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb77-4"><a href="errors-and-output.html#cb77-4" aria-hidden="true" tabindex="-1"></a><span class="fu">capture.output</span>(y <span class="ot">&lt;-</span> <span class="fu">value</span>(f), <span class="at">file =</span> <span class="fu">nullfile</span>())</span></code></pre></div>
+<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb77-1"><a href="errors-and-output.html#cb77-1" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">value</span>(f)</span>
+<span id="cb77-2"><a href="errors-and-output.html#cb77-2" tabindex="-1"></a><span class="co">#&gt; Number of letters: 8</span></span>
+<span id="cb77-3"><a href="errors-and-output.html#cb77-3" tabindex="-1"></a></span>
+<span id="cb77-4"><a href="errors-and-output.html#cb77-4" tabindex="-1"></a><span class="fu">capture.output</span>(y <span class="ot">&lt;-</span> <span class="fu">value</span>(f), <span class="at">file =</span> <span class="fu">nullfile</span>())</span></code></pre></div>
 <p>Just like for conditions, <strong><a href="https://future.futureverse.org">future</a></strong> map-reduce functions handles standard ouput consistently, e.g.</p>
-<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="errors-and-output.html#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(future.apply)</span>
-<span id="cb78-2"><a href="errors-and-output.html#cb78-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plan</span>(multisession, <span class="at">workers =</span> <span class="dv">2</span>)</span>
-<span id="cb78-3"><a href="errors-and-output.html#cb78-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb78-4"><a href="errors-and-output.html#cb78-4" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span></span>
-<span id="cb78-5"><a href="errors-and-output.html#cb78-5" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">future_lapply</span>(X, <span class="cf">function</span>(x) <span class="fu">cat</span>(<span class="st">&quot;x =&quot;</span>, x, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>))</span>
-<span id="cb78-6"><a href="errors-and-output.html#cb78-6" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="dv">1</span></span>
-<span id="cb78-7"><a href="errors-and-output.html#cb78-7" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="dv">2</span></span>
-<span id="cb78-8"><a href="errors-and-output.html#cb78-8" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="dv">3</span></span></code></pre></div>
+<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="errors-and-output.html#cb78-1" tabindex="-1"></a><span class="fu">library</span>(future.apply)</span>
+<span id="cb78-2"><a href="errors-and-output.html#cb78-2" tabindex="-1"></a><span class="fu">plan</span>(multisession, <span class="at">workers =</span> <span class="dv">2</span>)</span>
+<span id="cb78-3"><a href="errors-and-output.html#cb78-3" tabindex="-1"></a></span>
+<span id="cb78-4"><a href="errors-and-output.html#cb78-4" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span></span>
+<span id="cb78-5"><a href="errors-and-output.html#cb78-5" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">future_lapply</span>(X, <span class="cf">function</span>(x) <span class="fu">cat</span>(<span class="st">&quot;x =&quot;</span>, x, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>))</span>
+<span id="cb78-6"><a href="errors-and-output.html#cb78-6" tabindex="-1"></a>x <span class="ot">=</span> <span class="dv">1</span></span>
+<span id="cb78-7"><a href="errors-and-output.html#cb78-7" tabindex="-1"></a>x <span class="ot">=</span> <span class="dv">2</span></span>
+<span id="cb78-8"><a href="errors-and-output.html#cb78-8" tabindex="-1"></a>x <span class="ot">=</span> <span class="dv">3</span></span></code></pre></div>
 <p>Take-home message: You can treat output the same way as when running sequentially.</p>
 <p>See Appendix <a href="appendix.html#appendix-standard-output-by-other-parallel-map-reduce-apis">Standard output by other parallel map-reduce APIs</a> for a comparison with other parallel solutions that does not rely on future-based. The future-based solutions are the only ones that work correctly.</p>
 </div>
@@ -491,29 +491,29 @@ throw their own custom error when they detect errors.</p>
 <h2><span class="header-section-number">4.5</span> Summary: All types of output is relayed<a href="errors-and-output.html#summary-all-types-of-output-is-relayed" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Above, we’ve learned how <code>message</code>, <code>warning</code>, and <code>error</code> conditions are relayed. This is actually true for all other classes of conditions. We also learned that output sent to the standard output is relayed by futures.</p>
 <p>Here is a final example where we use most types of output:</p>
-<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="errors-and-output.html#cb79-1" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">future</span>({</span>
-<span id="cb79-2"><a href="errors-and-output.html#cb79-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;Hello world</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb79-3"><a href="errors-and-output.html#cb79-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">message</span>(<span class="st">&quot;Hi there&quot;</span>)</span>
-<span id="cb79-4"><a href="errors-and-output.html#cb79-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">warning</span>(<span class="st">&quot;whoops!&quot;</span>)</span>
-<span id="cb79-5"><a href="errors-and-output.html#cb79-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">message</span>(<span class="st">&quot;Please wait ...&quot;</span>)</span>
-<span id="cb79-6"><a href="errors-and-output.html#cb79-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">log</span>(<span class="st">&quot;a&quot;</span>)</span>
-<span id="cb79-7"><a href="errors-and-output.html#cb79-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">message</span>(<span class="st">&quot;Done&quot;</span>)</span>
-<span id="cb79-8"><a href="errors-and-output.html#cb79-8" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb79-9"><a href="errors-and-output.html#cb79-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-10"><a href="errors-and-output.html#cb79-10" aria-hidden="true" tabindex="-1"></a><span class="fu">value</span>(f)</span>
-<span id="cb79-11"><a href="errors-and-output.html#cb79-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Hello world</span></span>
-<span id="cb79-12"><a href="errors-and-output.html#cb79-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Hi there</span></span>
-<span id="cb79-13"><a href="errors-and-output.html#cb79-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Please wait ...</span></span>
-<span id="cb79-14"><a href="errors-and-output.html#cb79-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Error in log(&quot;a&quot;) : non-numeric argument to mathematical function</span></span>
-<span id="cb79-15"><a href="errors-and-output.html#cb79-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; In addition: Warning message:</span></span>
-<span id="cb79-16"><a href="errors-and-output.html#cb79-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; In withCallingHandlers({ : whoops!</span></span></code></pre></div>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="errors-and-output.html#cb79-1" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">future</span>({</span>
+<span id="cb79-2"><a href="errors-and-output.html#cb79-2" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;Hello world</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb79-3"><a href="errors-and-output.html#cb79-3" tabindex="-1"></a>  <span class="fu">message</span>(<span class="st">&quot;Hi there&quot;</span>)</span>
+<span id="cb79-4"><a href="errors-and-output.html#cb79-4" tabindex="-1"></a>  <span class="fu">warning</span>(<span class="st">&quot;whoops!&quot;</span>)</span>
+<span id="cb79-5"><a href="errors-and-output.html#cb79-5" tabindex="-1"></a>  <span class="fu">message</span>(<span class="st">&quot;Please wait ...&quot;</span>)</span>
+<span id="cb79-6"><a href="errors-and-output.html#cb79-6" tabindex="-1"></a>  <span class="fu">log</span>(<span class="st">&quot;a&quot;</span>)</span>
+<span id="cb79-7"><a href="errors-and-output.html#cb79-7" tabindex="-1"></a>  <span class="fu">message</span>(<span class="st">&quot;Done&quot;</span>)</span>
+<span id="cb79-8"><a href="errors-and-output.html#cb79-8" tabindex="-1"></a>})</span>
+<span id="cb79-9"><a href="errors-and-output.html#cb79-9" tabindex="-1"></a></span>
+<span id="cb79-10"><a href="errors-and-output.html#cb79-10" tabindex="-1"></a><span class="fu">value</span>(f)</span>
+<span id="cb79-11"><a href="errors-and-output.html#cb79-11" tabindex="-1"></a><span class="co">#&gt; Hello world</span></span>
+<span id="cb79-12"><a href="errors-and-output.html#cb79-12" tabindex="-1"></a><span class="co">#&gt; Hi there</span></span>
+<span id="cb79-13"><a href="errors-and-output.html#cb79-13" tabindex="-1"></a><span class="co">#&gt; Please wait ...</span></span>
+<span id="cb79-14"><a href="errors-and-output.html#cb79-14" tabindex="-1"></a><span class="co">#&gt; Error in log(&quot;a&quot;) : non-numeric argument to mathematical function</span></span>
+<span id="cb79-15"><a href="errors-and-output.html#cb79-15" tabindex="-1"></a><span class="co">#&gt; In addition: Warning message:</span></span>
+<span id="cb79-16"><a href="errors-and-output.html#cb79-16" tabindex="-1"></a><span class="co">#&gt; In withCallingHandlers({ : whoops!</span></span></code></pre></div>
 </div>
 <div id="odds-and-ends" class="section level2 hasAnchor" number="4.6">
 <h2><span class="header-section-number">4.6</span> Odds and ends<a href="errors-and-output.html#odds-and-ends" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div id="what-about-standard-error-stderr" class="section level3 hasAnchor" number="4.6.1">
 <h3><span class="header-section-number">4.6.1</span> What about standard error (stderr)?<a href="errors-and-output.html#what-about-standard-error-stderr" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>R’s support for capturing standard error (stderr) output is poor. It can be done using:</p>
-<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="errors-and-output.html#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="fu">capture.output</span>(..., <span class="at">type =</span> <span class="st">&quot;message&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="errors-and-output.html#cb80-1" tabindex="-1"></a><span class="fu">capture.output</span>(..., <span class="at">type =</span> <span class="st">&quot;message&quot;</span>)</span></code></pre></div>
 <p>However, I strongly advise against using it. The reason is that <code>capture.output(..., type = "message")</code> cannot be nested, and the most recent call will always trump any existing stderr captures. That is, if you capture standard error this way and call a function that does the same, the latter hijacks all capturing. <em>Importantly</em>, when it returns, remaining output to standard error will no longer be captured, despite your having requested it previously. For more details, see <a href="https://github.com/HenrikBengtsson/Wishlist-for-R/issues/55" class="uri">https://github.com/HenrikBengtsson/Wishlist-for-R/issues/55</a>.</p>
 <p><em>Conclusion:</em> Always avoid <code>capture.output(..., type = "message")</code>, and never ever use it in package code!</p>
 <p><em>Warning: Above <code>type = "message"</code> should not be mistaken for <code>message()</code>. A more informative value would have been <code>type = "stderr"</code>.</em></p>

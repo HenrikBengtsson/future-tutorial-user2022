@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Part 2 The core Future API | Tutorial: An Introduction to Futureverse for Parallel Processing in R</title>
   <meta name="description" content="N/A" />
-  <meta name="generator" content="bookdown 0.31 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.33 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Part 2 The core Future API | Tutorial: An Introduction to Futureverse for Parallel Processing in R" />
   <meta property="og:type" content="book" />
@@ -92,7 +92,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
+code span.bu { color: #008000; } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -105,7 +105,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
+code span.im { color: #008000; font-weight: bold; } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -260,7 +260,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="8.4.1" data-path="appendix.html"><a href="appendix.html#example-r-connections-can-be-exported-to-parallel-workers"><i class="fa fa-check"></i><b>8.4.1</b> Example: R connections can be exported to parallel workers</a></li>
 <li class="chapter" data-level="8.4.2" data-path="appendix.html"><a href="appendix.html#example-xml2-objects-cannot-be-exported"><i class="fa fa-check"></i><b>8.4.2</b> Example: xml2 objects cannot be exported</a></li>
 </ul></li>
-<li class="chapter" data-level="8.5" data-path="appendix.html"><a href="appendix.html#appendix-careful-with-forked-parallization"><i class="fa fa-check"></i><b>8.5</b> Appendix: Careful with forked parallization</a></li>
+<li class="chapter" data-level="8.5" data-path="appendix.html"><a href="appendix.html#appendix-careful-with-forked-parallelization"><i class="fa fa-check"></i><b>8.5</b> Appendix: Careful with forked parallelization</a></li>
 <li class="chapter" data-level="8.6" data-path="appendix.html"><a href="appendix.html#appendix-missing-globals"><i class="fa fa-check"></i><b>8.6</b> Appendix: Missing globals</a>
 <ul>
 <li class="chapter" data-level="8.6.1" data-path="appendix.html"><a href="appendix.html#example-glueglue---object-not-found"><i class="fa fa-check"></i><b>8.6.1</b> Example: glue::glue() - object not found</a></li>
@@ -300,40 +300,40 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="mental-model-the-future-api-decouples-a-regular-r-assignment-into-two-parts" class="section level3 hasAnchor" number="2.1.1">
 <h3><span class="header-section-number">2.1.1</span> Mental model: The Future API decouples a regular R assignment into two parts<a href="the-core-future-api.html#mental-model-the-future-api-decouples-a-regular-r-assignment-into-two-parts" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Let’s consider a regular assignment in R:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="the-core-future-api.html#cb11-1" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> expr</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="the-core-future-api.html#cb11-1" tabindex="-1"></a>v <span class="ot">&lt;-</span> expr</span></code></pre></div>
 <p>To us, this assignment is single operator, but internally it’s done in two steps:</p>
 <ol style="list-style-type: decimal">
 <li>R evaluates the expression <code>expr</code> on the right-hand side (RHS), and</li>
 <li>assigns the resulting value to the variable <code>v</code> on the left-hand side (LHS).</li>
 </ol>
 <p>We can think of the Future API as decoupling these two steps and giving us full access to them:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="the-core-future-api.html#cb12-1" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">future</span>(expr)</span>
-<span id="cb12-2"><a href="the-core-future-api.html#cb12-2" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">value</span>(f)</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="the-core-future-api.html#cb12-1" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">future</span>(expr)</span>
+<span id="cb12-2"><a href="the-core-future-api.html#cb12-2" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">value</span>(f)</span></code></pre></div>
 <p>This decoupling is the key feature of all parallel processing!</p>
 <p>Let’s break this down using a simple example. Consider the following, very slow, implementation of <code>sum()</code>;</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="the-core-future-api.html#cb13-1" aria-hidden="true" tabindex="-1"></a>slow_sum <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
-<span id="cb13-2"><a href="the-core-future-api.html#cb13-2" aria-hidden="true" tabindex="-1"></a>  sum <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb13-3"><a href="the-core-future-api.html#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (kk <span class="cf">in</span> <span class="fu">seq_along</span>(x)) {</span>
-<span id="cb13-4"><a href="the-core-future-api.html#cb13-4" aria-hidden="true" tabindex="-1"></a>    sum <span class="ot">&lt;-</span> sum <span class="sc">+</span> x[kk]</span>
-<span id="cb13-5"><a href="the-core-future-api.html#cb13-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">Sys.sleep</span>(<span class="fl">0.1</span>)  <span class="co"># emulate 0.1 second cost per addition</span></span>
-<span id="cb13-6"><a href="the-core-future-api.html#cb13-6" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb13-7"><a href="the-core-future-api.html#cb13-7" aria-hidden="true" tabindex="-1"></a>  sum</span>
-<span id="cb13-8"><a href="the-core-future-api.html#cb13-8" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="the-core-future-api.html#cb13-1" tabindex="-1"></a>slow_sum <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb13-2"><a href="the-core-future-api.html#cb13-2" tabindex="-1"></a>  sum <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb13-3"><a href="the-core-future-api.html#cb13-3" tabindex="-1"></a>  <span class="cf">for</span> (kk <span class="cf">in</span> <span class="fu">seq_along</span>(x)) {</span>
+<span id="cb13-4"><a href="the-core-future-api.html#cb13-4" tabindex="-1"></a>    sum <span class="ot">&lt;-</span> sum <span class="sc">+</span> x[kk]</span>
+<span id="cb13-5"><a href="the-core-future-api.html#cb13-5" tabindex="-1"></a>    <span class="fu">Sys.sleep</span>(<span class="fl">0.1</span>)  <span class="co"># emulate 0.1 second cost per addition</span></span>
+<span id="cb13-6"><a href="the-core-future-api.html#cb13-6" tabindex="-1"></a>  }</span>
+<span id="cb13-7"><a href="the-core-future-api.html#cb13-7" tabindex="-1"></a>  sum</span>
+<span id="cb13-8"><a href="the-core-future-api.html#cb13-8" tabindex="-1"></a>}</span></code></pre></div>
 <p>For example, if we call:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="the-core-future-api.html#cb14-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span></span>
-<span id="cb14-2"><a href="the-core-future-api.html#cb14-2" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">slow_sum</span>(x)</span>
-<span id="cb14-3"><a href="the-core-future-api.html#cb14-3" aria-hidden="true" tabindex="-1"></a>v</span>
-<span id="cb14-4"><a href="the-core-future-api.html#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 5050</span></span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="the-core-future-api.html#cb14-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span></span>
+<span id="cb14-2"><a href="the-core-future-api.html#cb14-2" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">slow_sum</span>(x)</span>
+<span id="cb14-3"><a href="the-core-future-api.html#cb14-3" tabindex="-1"></a>v</span>
+<span id="cb14-4"><a href="the-core-future-api.html#cb14-4" tabindex="-1"></a><span class="co">#&gt; [1] 5050</span></span></code></pre></div>
 <p>it takes ten seconds to complete.</p>
 <p>We can evaluate this via a future running in the background as:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="the-core-future-api.html#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(future)</span>
-<span id="cb15-2"><a href="the-core-future-api.html#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plan</span>(multisession) <span class="co"># evaluate futures in parallel</span></span>
-<span id="cb15-3"><a href="the-core-future-api.html#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-4"><a href="the-core-future-api.html#cb15-4" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span></span>
-<span id="cb15-5"><a href="the-core-future-api.html#cb15-5" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">future</span>(<span class="fu">slow_sum</span>(x))</span>
-<span id="cb15-6"><a href="the-core-future-api.html#cb15-6" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">value</span>(f)</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="the-core-future-api.html#cb15-1" tabindex="-1"></a><span class="fu">library</span>(future)</span>
+<span id="cb15-2"><a href="the-core-future-api.html#cb15-2" tabindex="-1"></a><span class="fu">plan</span>(multisession) <span class="co"># evaluate futures in parallel</span></span>
+<span id="cb15-3"><a href="the-core-future-api.html#cb15-3" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="the-core-future-api.html#cb15-4" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span></span>
+<span id="cb15-5"><a href="the-core-future-api.html#cb15-5" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">future</span>(<span class="fu">slow_sum</span>(x))</span>
+<span id="cb15-6"><a href="the-core-future-api.html#cb15-6" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">value</span>(f)</span></code></pre></div>
 <p>When we call:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="the-core-future-api.html#cb16-1" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">future</span>(<span class="fu">slow_sum</span>(x))</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="the-core-future-api.html#cb16-1" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">future</span>(<span class="fu">slow_sum</span>(x))</span></code></pre></div>
 <p>then:</p>
 <ol style="list-style-type: decimal">
 <li>a future is created, comprising:
@@ -348,7 +348,7 @@ evaluating the R expression</li>
 future, and before the future evaluation is completed</li>
 </ol>
 <p>When we call:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="the-core-future-api.html#cb17-1" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">value</span>(f)</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="the-core-future-api.html#cb17-1" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">value</span>(f)</span></code></pre></div>
 <p>then:</p>
 <ol style="list-style-type: decimal">
 <li>the future asks the worker if it’s ready or not (using <code>resolved()</code>
@@ -358,82 +358,82 @@ internally)</li>
 <li>the value of the expression is returned</li>
 </ol>
 <p>As we saw before, there is nothing preventing us from doing other
-things inbetween creating the future and asking for its value, e.g.</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="the-core-future-api.html#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Create future</span></span>
-<span id="cb18-2"><a href="the-core-future-api.html#cb18-2" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">future</span>(<span class="fu">slow_sum</span>(x))</span>
-<span id="cb18-3"><a href="the-core-future-api.html#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-4"><a href="the-core-future-api.html#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="do">## We are free to do whatever we want while future is running, e.g.</span></span>
-<span id="cb18-5"><a href="the-core-future-api.html#cb18-5" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">sd</span>(x)</span>
-<span id="cb18-6"><a href="the-core-future-api.html#cb18-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-7"><a href="the-core-future-api.html#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="do">## Wait for future to be done</span></span>
-<span id="cb18-8"><a href="the-core-future-api.html#cb18-8" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">value</span>(f)</span></code></pre></div>
+things in-between creating the future and asking for its value, e.g.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="the-core-future-api.html#cb18-1" tabindex="-1"></a><span class="do">## Create future</span></span>
+<span id="cb18-2"><a href="the-core-future-api.html#cb18-2" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">future</span>(<span class="fu">slow_sum</span>(x))</span>
+<span id="cb18-3"><a href="the-core-future-api.html#cb18-3" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="the-core-future-api.html#cb18-4" tabindex="-1"></a><span class="do">## We are free to do whatever we want while future is running, e.g.</span></span>
+<span id="cb18-5"><a href="the-core-future-api.html#cb18-5" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">sd</span>(x)</span>
+<span id="cb18-6"><a href="the-core-future-api.html#cb18-6" tabindex="-1"></a></span>
+<span id="cb18-7"><a href="the-core-future-api.html#cb18-7" tabindex="-1"></a><span class="do">## Wait for future to be done</span></span>
+<span id="cb18-8"><a href="the-core-future-api.html#cb18-8" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">value</span>(f)</span></code></pre></div>
 </div>
 <div id="keep-doing-other-things-while-waiting" class="section level3 hasAnchor" number="2.1.2">
 <h3><span class="header-section-number">2.1.2</span> Keep doing other things while waiting<a href="the-core-future-api.html#keep-doing-other-things-while-waiting" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>We can use the <code>resolved()</code> function to check whether the future is
 resolved or not. If not, we can choose to do other things,
 e.g. output a message:</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="the-core-future-api.html#cb19-1" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">future</span>(<span class="fu">slow_sum</span>(x))</span>
-<span id="cb19-2"><a href="the-core-future-api.html#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-3"><a href="the-core-future-api.html#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> (<span class="sc">!</span><span class="fu">resolved</span>(f)) {</span>
-<span id="cb19-4"><a href="the-core-future-api.html#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">message</span>(<span class="st">&quot;Waiting ...&quot;</span>)</span>
-<span id="cb19-5"><a href="the-core-future-api.html#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">Sys.sleep</span>(<span class="fl">1.0</span>)</span>
-<span id="cb19-6"><a href="the-core-future-api.html#cb19-6" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb19-7"><a href="the-core-future-api.html#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="fu">message</span>(<span class="st">&quot;Done!&quot;</span>)</span>
-<span id="cb19-8"><a href="the-core-future-api.html#cb19-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-9"><a href="the-core-future-api.html#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Waiting ...</span></span>
-<span id="cb19-10"><a href="the-core-future-api.html#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Waiting ...</span></span>
-<span id="cb19-11"><a href="the-core-future-api.html#cb19-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Waiting ...</span></span>
-<span id="cb19-12"><a href="the-core-future-api.html#cb19-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ...</span></span>
-<span id="cb19-13"><a href="the-core-future-api.html#cb19-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Waiting ...</span></span>
-<span id="cb19-14"><a href="the-core-future-api.html#cb19-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Done!</span></span>
-<span id="cb19-15"><a href="the-core-future-api.html#cb19-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-16"><a href="the-core-future-api.html#cb19-16" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">value</span>(f)</span>
-<span id="cb19-17"><a href="the-core-future-api.html#cb19-17" aria-hidden="true" tabindex="-1"></a>v</span>
-<span id="cb19-18"><a href="the-core-future-api.html#cb19-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 5050</span></span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="the-core-future-api.html#cb19-1" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">future</span>(<span class="fu">slow_sum</span>(x))</span>
+<span id="cb19-2"><a href="the-core-future-api.html#cb19-2" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="the-core-future-api.html#cb19-3" tabindex="-1"></a><span class="cf">while</span> (<span class="sc">!</span><span class="fu">resolved</span>(f)) {</span>
+<span id="cb19-4"><a href="the-core-future-api.html#cb19-4" tabindex="-1"></a>  <span class="fu">message</span>(<span class="st">&quot;Waiting ...&quot;</span>)</span>
+<span id="cb19-5"><a href="the-core-future-api.html#cb19-5" tabindex="-1"></a>  <span class="fu">Sys.sleep</span>(<span class="fl">1.0</span>)</span>
+<span id="cb19-6"><a href="the-core-future-api.html#cb19-6" tabindex="-1"></a>}</span>
+<span id="cb19-7"><a href="the-core-future-api.html#cb19-7" tabindex="-1"></a><span class="fu">message</span>(<span class="st">&quot;Done!&quot;</span>)</span>
+<span id="cb19-8"><a href="the-core-future-api.html#cb19-8" tabindex="-1"></a></span>
+<span id="cb19-9"><a href="the-core-future-api.html#cb19-9" tabindex="-1"></a><span class="co">#&gt; Waiting ...</span></span>
+<span id="cb19-10"><a href="the-core-future-api.html#cb19-10" tabindex="-1"></a><span class="co">#&gt; Waiting ...</span></span>
+<span id="cb19-11"><a href="the-core-future-api.html#cb19-11" tabindex="-1"></a><span class="co">#&gt; Waiting ...</span></span>
+<span id="cb19-12"><a href="the-core-future-api.html#cb19-12" tabindex="-1"></a><span class="co">#&gt; ...</span></span>
+<span id="cb19-13"><a href="the-core-future-api.html#cb19-13" tabindex="-1"></a><span class="co">#&gt; Waiting ...</span></span>
+<span id="cb19-14"><a href="the-core-future-api.html#cb19-14" tabindex="-1"></a><span class="co">#&gt; Done!</span></span>
+<span id="cb19-15"><a href="the-core-future-api.html#cb19-15" tabindex="-1"></a></span>
+<span id="cb19-16"><a href="the-core-future-api.html#cb19-16" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">value</span>(f)</span>
+<span id="cb19-17"><a href="the-core-future-api.html#cb19-17" tabindex="-1"></a>v</span>
+<span id="cb19-18"><a href="the-core-future-api.html#cb19-18" tabindex="-1"></a><span class="co">#&gt; [1] 5050</span></span></code></pre></div>
 <p>We can of course do other things than outputting messages, e.g. calculations and checking in on other futures.</p>
 </div>
 <div id="evaluate-several-things-in-parallel" class="section level3 hasAnchor" number="2.1.3">
 <h3><span class="header-section-number">2.1.3</span> Evaluate several things in parallel<a href="the-core-future-api.html#evaluate-several-things-in-parallel" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>There’s nothing preventing us from launching more than one future in the background. For example, we can split the summation of <code>x</code> into two parts, calculate the sum of each part, and then combine the results at the end:</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="the-core-future-api.html#cb20-1" aria-hidden="true" tabindex="-1"></a>x_head <span class="ot">&lt;-</span> <span class="fu">head</span>(x, <span class="dv">50</span>)</span>
-<span id="cb20-2"><a href="the-core-future-api.html#cb20-2" aria-hidden="true" tabindex="-1"></a>x_tail <span class="ot">&lt;-</span> <span class="fu">tail</span>(x, <span class="dv">50</span>)</span>
-<span id="cb20-3"><a href="the-core-future-api.html#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-4"><a href="the-core-future-api.html#cb20-4" aria-hidden="true" tabindex="-1"></a>v1 <span class="ot">&lt;-</span> <span class="fu">slow_sum</span>(x_head)         <span class="do">## ~5 secs (blocking)</span></span>
-<span id="cb20-5"><a href="the-core-future-api.html#cb20-5" aria-hidden="true" tabindex="-1"></a>v2 <span class="ot">&lt;-</span> <span class="fu">slow_sum</span>(x_tail)         <span class="do">## ~5 secs (blocking)</span></span>
-<span id="cb20-6"><a href="the-core-future-api.html#cb20-6" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> v1 <span class="sc">+</span> v2</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="the-core-future-api.html#cb20-1" tabindex="-1"></a>x_head <span class="ot">&lt;-</span> <span class="fu">head</span>(x, <span class="dv">50</span>)</span>
+<span id="cb20-2"><a href="the-core-future-api.html#cb20-2" tabindex="-1"></a>x_tail <span class="ot">&lt;-</span> <span class="fu">tail</span>(x, <span class="dv">50</span>)</span>
+<span id="cb20-3"><a href="the-core-future-api.html#cb20-3" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="the-core-future-api.html#cb20-4" tabindex="-1"></a>v1 <span class="ot">&lt;-</span> <span class="fu">slow_sum</span>(x_head)         <span class="do">## ~5 secs (blocking)</span></span>
+<span id="cb20-5"><a href="the-core-future-api.html#cb20-5" tabindex="-1"></a>v2 <span class="ot">&lt;-</span> <span class="fu">slow_sum</span>(x_tail)         <span class="do">## ~5 secs (blocking)</span></span>
+<span id="cb20-6"><a href="the-core-future-api.html#cb20-6" tabindex="-1"></a>v <span class="ot">&lt;-</span> v1 <span class="sc">+</span> v2</span></code></pre></div>
 <p>We can do the same in parallel:</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="the-core-future-api.html#cb21-1" aria-hidden="true" tabindex="-1"></a>f1 <span class="ot">&lt;-</span> <span class="fu">future</span>(<span class="fu">slow_sum</span>(x_head)) <span class="do">## ~5 secs (in parallel)</span></span>
-<span id="cb21-2"><a href="the-core-future-api.html#cb21-2" aria-hidden="true" tabindex="-1"></a>f2 <span class="ot">&lt;-</span> <span class="fu">future</span>(<span class="fu">slow_sum</span>(x_tail)) <span class="do">## ~5 secs (in parallel)</span></span>
-<span id="cb21-3"><a href="the-core-future-api.html#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-4"><a href="the-core-future-api.html#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="do">## Do other things</span></span>
-<span id="cb21-5"><a href="the-core-future-api.html#cb21-5" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">sd</span>(x)</span>
-<span id="cb21-6"><a href="the-core-future-api.html#cb21-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-7"><a href="the-core-future-api.html#cb21-7" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">value</span>(f1) <span class="sc">+</span> <span class="fu">value</span>(f2)     <span class="do">## ready after ~5 secs</span></span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="the-core-future-api.html#cb21-1" tabindex="-1"></a>f1 <span class="ot">&lt;-</span> <span class="fu">future</span>(<span class="fu">slow_sum</span>(x_head)) <span class="do">## ~5 secs (in parallel)</span></span>
+<span id="cb21-2"><a href="the-core-future-api.html#cb21-2" tabindex="-1"></a>f2 <span class="ot">&lt;-</span> <span class="fu">future</span>(<span class="fu">slow_sum</span>(x_tail)) <span class="do">## ~5 secs (in parallel)</span></span>
+<span id="cb21-3"><a href="the-core-future-api.html#cb21-3" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="the-core-future-api.html#cb21-4" tabindex="-1"></a><span class="do">## Do other things</span></span>
+<span id="cb21-5"><a href="the-core-future-api.html#cb21-5" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">sd</span>(x)</span>
+<span id="cb21-6"><a href="the-core-future-api.html#cb21-6" tabindex="-1"></a></span>
+<span id="cb21-7"><a href="the-core-future-api.html#cb21-7" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">value</span>(f1) <span class="sc">+</span> <span class="fu">value</span>(f2)     <span class="do">## ready after ~5 secs</span></span></code></pre></div>
 <p>We can launch as manual parallel futures as we have parallel workers, e.g.</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="the-core-future-api.html#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plan</span>(multisession, <span class="at">workers =</span> <span class="dv">8</span>)</span>
-<span id="cb22-2"><a href="the-core-future-api.html#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">nbrOfWorkers</span>()</span>
-<span id="cb22-3"><a href="the-core-future-api.html#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 8</span></span>
-<span id="cb22-4"><a href="the-core-future-api.html#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-5"><a href="the-core-future-api.html#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plan</span>(multisession, <span class="at">workers =</span> <span class="dv">2</span>)</span>
-<span id="cb22-6"><a href="the-core-future-api.html#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="fu">nbrOfWorkers</span>()</span>
-<span id="cb22-7"><a href="the-core-future-api.html#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 2</span></span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="the-core-future-api.html#cb22-1" tabindex="-1"></a><span class="fu">plan</span>(multisession, <span class="at">workers =</span> <span class="dv">8</span>)</span>
+<span id="cb22-2"><a href="the-core-future-api.html#cb22-2" tabindex="-1"></a><span class="fu">nbrOfWorkers</span>()</span>
+<span id="cb22-3"><a href="the-core-future-api.html#cb22-3" tabindex="-1"></a><span class="co">#&gt; [1] 8</span></span>
+<span id="cb22-4"><a href="the-core-future-api.html#cb22-4" tabindex="-1"></a></span>
+<span id="cb22-5"><a href="the-core-future-api.html#cb22-5" tabindex="-1"></a><span class="fu">plan</span>(multisession, <span class="at">workers =</span> <span class="dv">2</span>)</span>
+<span id="cb22-6"><a href="the-core-future-api.html#cb22-6" tabindex="-1"></a><span class="fu">nbrOfWorkers</span>()</span>
+<span id="cb22-7"><a href="the-core-future-api.html#cb22-7" tabindex="-1"></a><span class="co">#&gt; [1] 2</span></span></code></pre></div>
 <p>If we launch more than this, then the call to <code>future()</code> will block
 until one of the workers are free again, e.g.</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="the-core-future-api.html#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plan</span>(multisession, <span class="at">workers =</span> <span class="dv">2</span>)</span>
-<span id="cb23-2"><a href="the-core-future-api.html#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">nbrOfWorkers</span>()</span>
-<span id="cb23-3"><a href="the-core-future-api.html#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 2</span></span>
-<span id="cb23-4"><a href="the-core-future-api.html#cb23-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-5"><a href="the-core-future-api.html#cb23-5" aria-hidden="true" tabindex="-1"></a>f1 <span class="ot">&lt;-</span> <span class="fu">future</span>(<span class="fu">slow_sum</span>(x_head))</span>
-<span id="cb23-6"><a href="the-core-future-api.html#cb23-6" aria-hidden="true" tabindex="-1"></a>f2 <span class="ot">&lt;-</span> <span class="fu">future</span>(<span class="fu">slow_sum</span>(x_tail))</span>
-<span id="cb23-7"><a href="the-core-future-api.html#cb23-7" aria-hidden="true" tabindex="-1"></a>f3 <span class="ot">&lt;-</span> <span class="fu">future</span>(<span class="fu">slow_sum</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">200</span>))   <span class="do">## &lt;= blocks here</span></span>
-<span id="cb23-8"><a href="the-core-future-api.html#cb23-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-9"><a href="the-core-future-api.html#cb23-9" aria-hidden="true" tabindex="-1"></a><span class="fu">resolved</span>(f1)</span>
-<span id="cb23-10"><a href="the-core-future-api.html#cb23-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] TRUE</span></span>
-<span id="cb23-11"><a href="the-core-future-api.html#cb23-11" aria-hidden="true" tabindex="-1"></a><span class="fu">resolved</span>(f2)</span>
-<span id="cb23-12"><a href="the-core-future-api.html#cb23-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] TRUE</span></span>
-<span id="cb23-13"><a href="the-core-future-api.html#cb23-13" aria-hidden="true" tabindex="-1"></a><span class="fu">resolved</span>(f3)</span>
-<span id="cb23-14"><a href="the-core-future-api.html#cb23-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] FALSE</span></span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="the-core-future-api.html#cb23-1" tabindex="-1"></a><span class="fu">plan</span>(multisession, <span class="at">workers =</span> <span class="dv">2</span>)</span>
+<span id="cb23-2"><a href="the-core-future-api.html#cb23-2" tabindex="-1"></a><span class="fu">nbrOfWorkers</span>()</span>
+<span id="cb23-3"><a href="the-core-future-api.html#cb23-3" tabindex="-1"></a><span class="co">#&gt; [1] 2</span></span>
+<span id="cb23-4"><a href="the-core-future-api.html#cb23-4" tabindex="-1"></a></span>
+<span id="cb23-5"><a href="the-core-future-api.html#cb23-5" tabindex="-1"></a>f1 <span class="ot">&lt;-</span> <span class="fu">future</span>(<span class="fu">slow_sum</span>(x_head))</span>
+<span id="cb23-6"><a href="the-core-future-api.html#cb23-6" tabindex="-1"></a>f2 <span class="ot">&lt;-</span> <span class="fu">future</span>(<span class="fu">slow_sum</span>(x_tail))</span>
+<span id="cb23-7"><a href="the-core-future-api.html#cb23-7" tabindex="-1"></a>f3 <span class="ot">&lt;-</span> <span class="fu">future</span>(<span class="fu">slow_sum</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">200</span>))   <span class="do">## &lt;= blocks here</span></span>
+<span id="cb23-8"><a href="the-core-future-api.html#cb23-8" tabindex="-1"></a></span>
+<span id="cb23-9"><a href="the-core-future-api.html#cb23-9" tabindex="-1"></a><span class="fu">resolved</span>(f1)</span>
+<span id="cb23-10"><a href="the-core-future-api.html#cb23-10" tabindex="-1"></a><span class="co">#&gt; [1] TRUE</span></span>
+<span id="cb23-11"><a href="the-core-future-api.html#cb23-11" tabindex="-1"></a><span class="fu">resolved</span>(f2)</span>
+<span id="cb23-12"><a href="the-core-future-api.html#cb23-12" tabindex="-1"></a><span class="co">#&gt; [1] TRUE</span></span>
+<span id="cb23-13"><a href="the-core-future-api.html#cb23-13" tabindex="-1"></a><span class="fu">resolved</span>(f3)</span>
+<span id="cb23-14"><a href="the-core-future-api.html#cb23-14" tabindex="-1"></a><span class="co">#&gt; [1] FALSE</span></span></code></pre></div>
 </div>
 </div>
 <div id="choosing-parallel-backend" class="section level2 hasAnchor" number="2.2">
@@ -443,43 +443,43 @@ until one of the workers are free again, e.g.</p>
 </ul>
 <div id="sequential-default" class="section level3 hasAnchor" number="2.2.1">
 <h3><span class="header-section-number">2.2.1</span> sequential (default)<a href="the-core-future-api.html#sequential-default" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="the-core-future-api.html#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plan</span>(sequential)</span>
-<span id="cb24-2"><a href="the-core-future-api.html#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-3"><a href="the-core-future-api.html#cb24-3" aria-hidden="true" tabindex="-1"></a>f1 <span class="ot">&lt;-</span> <span class="fu">future</span>(<span class="fu">slow_sum</span>(x_head)) <span class="co"># blocks until done</span></span>
-<span id="cb24-4"><a href="the-core-future-api.html#cb24-4" aria-hidden="true" tabindex="-1"></a>f2 <span class="ot">&lt;-</span> <span class="fu">future</span>(<span class="fu">slow_sum</span>(x_tail)) <span class="co"># blocks until done</span></span>
-<span id="cb24-5"><a href="the-core-future-api.html#cb24-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-6"><a href="the-core-future-api.html#cb24-6" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">value</span>(f1) <span class="sc">+</span> <span class="fu">value</span>(f2)</span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="the-core-future-api.html#cb24-1" tabindex="-1"></a><span class="fu">plan</span>(sequential)</span>
+<span id="cb24-2"><a href="the-core-future-api.html#cb24-2" tabindex="-1"></a></span>
+<span id="cb24-3"><a href="the-core-future-api.html#cb24-3" tabindex="-1"></a>f1 <span class="ot">&lt;-</span> <span class="fu">future</span>(<span class="fu">slow_sum</span>(x_head)) <span class="co"># blocks until done</span></span>
+<span id="cb24-4"><a href="the-core-future-api.html#cb24-4" tabindex="-1"></a>f2 <span class="ot">&lt;-</span> <span class="fu">future</span>(<span class="fu">slow_sum</span>(x_tail)) <span class="co"># blocks until done</span></span>
+<span id="cb24-5"><a href="the-core-future-api.html#cb24-5" tabindex="-1"></a></span>
+<span id="cb24-6"><a href="the-core-future-api.html#cb24-6" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">value</span>(f1) <span class="sc">+</span> <span class="fu">value</span>(f2)</span></code></pre></div>
 </div>
 <div id="multisession-in-parallel-on-local-computer" class="section level3 hasAnchor" number="2.2.2">
 <h3><span class="header-section-number">2.2.2</span> multisession: in parallel on local computer<a href="the-core-future-api.html#multisession-in-parallel-on-local-computer" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="the-core-future-api.html#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plan</span>(multisession, <span class="at">workers =</span> <span class="dv">2</span>)</span>
-<span id="cb25-2"><a href="the-core-future-api.html#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-3"><a href="the-core-future-api.html#cb25-3" aria-hidden="true" tabindex="-1"></a>f1 <span class="ot">&lt;-</span> <span class="fu">future</span>(<span class="fu">slow_sum</span>(x_head)) <span class="co"># in the background</span></span>
-<span id="cb25-4"><a href="the-core-future-api.html#cb25-4" aria-hidden="true" tabindex="-1"></a>f2 <span class="ot">&lt;-</span> <span class="fu">future</span>(<span class="fu">slow_sum</span>(x_tail)) <span class="co"># in the background</span></span>
-<span id="cb25-5"><a href="the-core-future-api.html#cb25-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-6"><a href="the-core-future-api.html#cb25-6" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">value</span>(f1) <span class="sc">+</span> <span class="fu">value</span>(f2)</span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="the-core-future-api.html#cb25-1" tabindex="-1"></a><span class="fu">plan</span>(multisession, <span class="at">workers =</span> <span class="dv">2</span>)</span>
+<span id="cb25-2"><a href="the-core-future-api.html#cb25-2" tabindex="-1"></a></span>
+<span id="cb25-3"><a href="the-core-future-api.html#cb25-3" tabindex="-1"></a>f1 <span class="ot">&lt;-</span> <span class="fu">future</span>(<span class="fu">slow_sum</span>(x_head)) <span class="co"># in the background</span></span>
+<span id="cb25-4"><a href="the-core-future-api.html#cb25-4" tabindex="-1"></a>f2 <span class="ot">&lt;-</span> <span class="fu">future</span>(<span class="fu">slow_sum</span>(x_tail)) <span class="co"># in the background</span></span>
+<span id="cb25-5"><a href="the-core-future-api.html#cb25-5" tabindex="-1"></a></span>
+<span id="cb25-6"><a href="the-core-future-api.html#cb25-6" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">value</span>(f1) <span class="sc">+</span> <span class="fu">value</span>(f2)</span></code></pre></div>
 <p>What’s happening under the hood is(*):</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="the-core-future-api.html#cb26-1" aria-hidden="true" tabindex="-1"></a>workers <span class="ot">&lt;-</span> parallelly<span class="sc">::</span><span class="fu">makeClusterPSOCK</span>(<span class="dv">2</span>)</span>
-<span id="cb26-2"><a href="the-core-future-api.html#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plan</span>(cluster, <span class="at">workers =</span> workers)</span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="the-core-future-api.html#cb26-1" tabindex="-1"></a>workers <span class="ot">&lt;-</span> parallelly<span class="sc">::</span><span class="fu">makeClusterPSOCK</span>(<span class="dv">2</span>)</span>
+<span id="cb26-2"><a href="the-core-future-api.html#cb26-2" tabindex="-1"></a><span class="fu">plan</span>(cluster, <span class="at">workers =</span> workers)</span></code></pre></div>
 <p>which is very similar to:</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="the-core-future-api.html#cb27-1" aria-hidden="true" tabindex="-1"></a>workers <span class="ot">&lt;-</span> parallel<span class="sc">::</span><span class="fu">makePSOCKcluster</span>(<span class="dv">2</span>)</span>
-<span id="cb27-2"><a href="the-core-future-api.html#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plan</span>(cluster, <span class="at">workers =</span> workers)</span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="the-core-future-api.html#cb27-1" tabindex="-1"></a>workers <span class="ot">&lt;-</span> parallel<span class="sc">::</span><span class="fu">makePSOCKcluster</span>(<span class="dv">2</span>)</span>
+<span id="cb27-2"><a href="the-core-future-api.html#cb27-2" tabindex="-1"></a><span class="fu">plan</span>(cluster, <span class="at">workers =</span> workers)</span></code></pre></div>
 <p>(*) It actually does <code>makeClusterPSOCK(2, rscript_libs = .libPaths())</code>, which gives a smoother ride in some R setups, e.g. RStudio Connect.</p>
 </div>
 <div id="cluster-in-parallel-on-multiple-computers" class="section level3 hasAnchor" number="2.2.3">
 <h3><span class="header-section-number">2.2.3</span> cluster: in parallel on multiple computers<a href="the-core-future-api.html#cluster-in-parallel-on-multiple-computers" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>If we have SSH access to other machines with R installed, we can do:</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="the-core-future-api.html#cb28-1" aria-hidden="true" tabindex="-1"></a>hostnames <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;pi&quot;</span>, <span class="st">&quot;remote.server.org&quot;</span>)</span>
-<span id="cb28-2"><a href="the-core-future-api.html#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plan</span>(cluster, <span class="at">workers =</span> hostnames)</span>
-<span id="cb28-3"><a href="the-core-future-api.html#cb28-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-4"><a href="the-core-future-api.html#cb28-4" aria-hidden="true" tabindex="-1"></a>f1 <span class="ot">&lt;-</span> <span class="fu">future</span>(<span class="fu">slow_sum</span>(x_head)) <span class="co"># on either &#39;pi&#39; or &#39;remote.server.org&#39;</span></span>
-<span id="cb28-5"><a href="the-core-future-api.html#cb28-5" aria-hidden="true" tabindex="-1"></a>f2 <span class="ot">&lt;-</span> <span class="fu">future</span>(<span class="fu">slow_sum</span>(x_tail)) <span class="co"># on either &#39;pi&#39; or &#39;remote.server.org&#39;</span></span>
-<span id="cb28-6"><a href="the-core-future-api.html#cb28-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-7"><a href="the-core-future-api.html#cb28-7" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">value</span>(f1) <span class="sc">+</span> <span class="fu">value</span>(f2)</span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="the-core-future-api.html#cb28-1" tabindex="-1"></a>hostnames <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;pi&quot;</span>, <span class="st">&quot;remote.server.org&quot;</span>)</span>
+<span id="cb28-2"><a href="the-core-future-api.html#cb28-2" tabindex="-1"></a><span class="fu">plan</span>(cluster, <span class="at">workers =</span> hostnames)</span>
+<span id="cb28-3"><a href="the-core-future-api.html#cb28-3" tabindex="-1"></a></span>
+<span id="cb28-4"><a href="the-core-future-api.html#cb28-4" tabindex="-1"></a>f1 <span class="ot">&lt;-</span> <span class="fu">future</span>(<span class="fu">slow_sum</span>(x_head)) <span class="co"># on either &#39;pi&#39; or &#39;remote.server.org&#39;</span></span>
+<span id="cb28-5"><a href="the-core-future-api.html#cb28-5" tabindex="-1"></a>f2 <span class="ot">&lt;-</span> <span class="fu">future</span>(<span class="fu">slow_sum</span>(x_tail)) <span class="co"># on either &#39;pi&#39; or &#39;remote.server.org&#39;</span></span>
+<span id="cb28-6"><a href="the-core-future-api.html#cb28-6" tabindex="-1"></a></span>
+<span id="cb28-7"><a href="the-core-future-api.html#cb28-7" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">value</span>(f1) <span class="sc">+</span> <span class="fu">value</span>(f2)</span></code></pre></div>
 <p>What’s happening under the hood is:</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="the-core-future-api.html#cb29-1" aria-hidden="true" tabindex="-1"></a>hostnames <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;pi&quot;</span>, <span class="st">&quot;remote.server.org&quot;</span>)</span>
-<span id="cb29-2"><a href="the-core-future-api.html#cb29-2" aria-hidden="true" tabindex="-1"></a>workers <span class="ot">&lt;-</span> parallelly<span class="sc">::</span><span class="fu">makeClusterPSOCK</span>(hostnames)</span>
-<span id="cb29-3"><a href="the-core-future-api.html#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plan</span>(cluster, <span class="at">workers =</span> workers)</span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="the-core-future-api.html#cb29-1" tabindex="-1"></a>hostnames <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;pi&quot;</span>, <span class="st">&quot;remote.server.org&quot;</span>)</span>
+<span id="cb29-2"><a href="the-core-future-api.html#cb29-2" tabindex="-1"></a>workers <span class="ot">&lt;-</span> parallelly<span class="sc">::</span><span class="fu">makeClusterPSOCK</span>(hostnames)</span>
+<span id="cb29-3"><a href="the-core-future-api.html#cb29-3" tabindex="-1"></a><span class="fu">plan</span>(cluster, <span class="at">workers =</span> workers)</span></code></pre></div>
 <p>where <code>makeClusterPSOCK()</code> connects to the different machines over SSH using pre-configured SSH keys and reverse tunneling of ports.</p>
 <p>FYI, if you would try to do this with the <strong>parallel</strong> package, you need to:</p>
 <ol style="list-style-type: decimal">
@@ -488,12 +488,12 @@ until one of the workers are free again, e.g.</p>
 <li>configure port forwarding from public IP number to your local machine (requires admin rights)</li>
 </ol>
 <p>e.g.</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="the-core-future-api.html#cb30-1" aria-hidden="true" tabindex="-1"></a>workers <span class="ot">&lt;-</span> parallel<span class="sc">::</span><span class="fu">makePSOCKcluster</span>(hostnames, <span class="at">master =</span> my_public_ip)</span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="the-core-future-api.html#cb30-1" tabindex="-1"></a>workers <span class="ot">&lt;-</span> parallel<span class="sc">::</span><span class="fu">makePSOCKcluster</span>(hostnames, <span class="at">master =</span> my_public_ip)</span></code></pre></div>
 <p>This is one reason why the <strong><a href="https://parallelly.futureverse.org">parallelly</a></strong> package was created - “it just works”;</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="the-core-future-api.html#cb31-1" aria-hidden="true" tabindex="-1"></a>workers <span class="ot">&lt;-</span> parallelly<span class="sc">::</span><span class="fu">makeClusterPSOCK</span>(hostnames)</span></code></pre></div>
-<div class="figure">
-<img src="figures/parallelly_logo.png" alt="" />
-<p class="caption">The ‘parallelly’ hexlogo</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="the-core-future-api.html#cb31-1" tabindex="-1"></a>workers <span class="ot">&lt;-</span> parallelly<span class="sc">::</span><span class="fu">makeClusterPSOCK</span>(hostnames)</span></code></pre></div>
+<div class="float">
+<img src="figures/parallelly_logo.png" alt="The ‘parallelly’ hexlogo" />
+<div class="figcaption">The ‘parallelly’ hexlogo</div>
 </div>
 <p>The <strong><a href="https://parallelly.futureverse.org">parallelly</a></strong> package is a utility package, part of the futureverse.</p>
 </div>
@@ -502,14 +502,14 @@ until one of the workers are free again, e.g.</p>
 <div id="future.callr---parallelize-locally-using-callr" class="section level4 hasAnchor" number="2.2.4.1">
 <h4><span class="header-section-number">2.2.4.1</span> future.callr - parallelize locally using callr<a href="the-core-future-api.html#future.callr---parallelize-locally-using-callr" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>The <strong><a href="https://callr.r-lib.org/">callr</a></strong> package can evaluate R expressions in the background on your local computer. The <strong><a href="https://future.callr.futureverse.org">future.callr</a></strong> implements a future backend on top of <strong><a href="https://callr.r-lib.org/">callr</a></strong>, e.g.</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="the-core-future-api.html#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plan</span>(future.callr<span class="sc">::</span>callr, <span class="at">workers =</span> <span class="dv">4</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="the-core-future-api.html#cb32-1" tabindex="-1"></a><span class="fu">plan</span>(future.callr<span class="sc">::</span>callr, <span class="at">workers =</span> <span class="dv">4</span>)</span></code></pre></div>
 <p>This works similarly to <code>plan(multisession, workers = 4)</code>, but has the benefit of being able to run more than 125 background workers, which is a limitation of R itself.</p>
 </div>
 <div id="future.batchtools---parallelize-using-batchtools" class="section level4 hasAnchor" number="2.2.4.2">
 <h4><span class="header-section-number">2.2.4.2</span> future.batchtools - parallelize using batchtools<a href="the-core-future-api.html#future.batchtools---parallelize-using-batchtools" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>The <strong><a href="https://cran.r-project.org/package=batchtools">batchtools</a></strong> package is designed to evaluate R expressions via a, so called, job scheduler. Job schedulers are commonly used on high-performance compute (HPC) clusters, where many users run at the same time. The job scheduler allows them to request slots on the system, which often has tens or hundreds of compute nodes. Common job schedulers are Slurm, SGE, and Torque.</p>
 <p>The <strong><a href="https://future.batchtools.futureverse.org">future.batchtools</a></strong> implements a future backend on top of <strong><a href="https://cran.r-project.org/package=batchtools">batchtools</a></strong>, e.g.</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="the-core-future-api.html#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plan</span>(future.batchtools<span class="sc">::</span>batchtools_slurm)</span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="the-core-future-api.html#cb33-1" tabindex="-1"></a><span class="fu">plan</span>(future.batchtools<span class="sc">::</span>batchtools_slurm)</span></code></pre></div>
 <p>This will cause <code>future()</code> to be submitted to the job scheduler’s queue. When a slot is available, the job is processed on one of the many compute nodes, and when done, the results are stored to file. Calling <code>value()</code> will read the results back into R.</p>
 <p>This future backend has a greater latency, because everything has to be queued on a shared job queue. This backend is useful for long running futures and for the huge throughput that an HPC environment can provide.</p>
 <hr />
@@ -528,17 +528,17 @@ until one of the workers are free again, e.g.</p>
 <div id="demo-ggplot2-remotely" class="section level2 hasAnchor" number="2.4">
 <h2><span class="header-section-number">2.4</span> Demo: ggplot2 remotely<a href="the-core-future-api.html#demo-ggplot2-remotely" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p><img src="figures/demo-ggplot2.png" /></p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="the-core-future-api.html#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb34-2"><a href="the-core-future-api.html#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(future)</span>
-<span id="cb34-3"><a href="the-core-future-api.html#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plan</span>(cluster, <span class="at">workers =</span> <span class="st">&quot;remote.server.org&quot;</span>)</span>
-<span id="cb34-4"><a href="the-core-future-api.html#cb34-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-5"><a href="the-core-future-api.html#cb34-5" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">future</span>({</span>
-<span id="cb34-6"><a href="the-core-future-api.html#cb34-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(mpg, <span class="fu">aes</span>(displ, hwy, <span class="at">colour =</span> class)) <span class="sc">+</span> </span>
-<span id="cb34-7"><a href="the-core-future-api.html#cb34-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span>
-<span id="cb34-8"><a href="the-core-future-api.html#cb34-8" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb34-9"><a href="the-core-future-api.html#cb34-9" aria-hidden="true" tabindex="-1"></a> </span>
-<span id="cb34-10"><a href="the-core-future-api.html#cb34-10" aria-hidden="true" tabindex="-1"></a>gg <span class="ot">&lt;-</span> <span class="fu">value</span>(f)</span>
-<span id="cb34-11"><a href="the-core-future-api.html#cb34-11" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(gg)</span></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="the-core-future-api.html#cb34-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb34-2"><a href="the-core-future-api.html#cb34-2" tabindex="-1"></a><span class="fu">library</span>(future)</span>
+<span id="cb34-3"><a href="the-core-future-api.html#cb34-3" tabindex="-1"></a><span class="fu">plan</span>(cluster, <span class="at">workers =</span> <span class="st">&quot;remote.server.org&quot;</span>)</span>
+<span id="cb34-4"><a href="the-core-future-api.html#cb34-4" tabindex="-1"></a></span>
+<span id="cb34-5"><a href="the-core-future-api.html#cb34-5" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">future</span>({</span>
+<span id="cb34-6"><a href="the-core-future-api.html#cb34-6" tabindex="-1"></a>  <span class="fu">ggplot</span>(mpg, <span class="fu">aes</span>(displ, hwy, <span class="at">colour =</span> class)) <span class="sc">+</span> </span>
+<span id="cb34-7"><a href="the-core-future-api.html#cb34-7" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span>
+<span id="cb34-8"><a href="the-core-future-api.html#cb34-8" tabindex="-1"></a>})</span>
+<span id="cb34-9"><a href="the-core-future-api.html#cb34-9" tabindex="-1"></a> </span>
+<span id="cb34-10"><a href="the-core-future-api.html#cb34-10" tabindex="-1"></a>gg <span class="ot">&lt;-</span> <span class="fu">value</span>(f)</span>
+<span id="cb34-11"><a href="the-core-future-api.html#cb34-11" tabindex="-1"></a><span class="fu">print</span>(gg)</span></code></pre></div>
 <hr />
 </div>
 </div>

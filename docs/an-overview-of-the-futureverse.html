@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Part 1 An Overview of The Futureverse | Tutorial: An Introduction to Futureverse for Parallel Processing in R</title>
   <meta name="description" content="N/A" />
-  <meta name="generator" content="bookdown 0.31 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.33 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Part 1 An Overview of The Futureverse | Tutorial: An Introduction to Futureverse for Parallel Processing in R" />
   <meta property="og:type" content="book" />
@@ -92,7 +92,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
+code span.bu { color: #008000; } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -105,7 +105,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
+code span.im { color: #008000; font-weight: bold; } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -260,7 +260,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="8.4.1" data-path="appendix.html"><a href="appendix.html#example-r-connections-can-be-exported-to-parallel-workers"><i class="fa fa-check"></i><b>8.4.1</b> Example: R connections can be exported to parallel workers</a></li>
 <li class="chapter" data-level="8.4.2" data-path="appendix.html"><a href="appendix.html#example-xml2-objects-cannot-be-exported"><i class="fa fa-check"></i><b>8.4.2</b> Example: xml2 objects cannot be exported</a></li>
 </ul></li>
-<li class="chapter" data-level="8.5" data-path="appendix.html"><a href="appendix.html#appendix-careful-with-forked-parallization"><i class="fa fa-check"></i><b>8.5</b> Appendix: Careful with forked parallization</a></li>
+<li class="chapter" data-level="8.5" data-path="appendix.html"><a href="appendix.html#appendix-careful-with-forked-parallelization"><i class="fa fa-check"></i><b>8.5</b> Appendix: Careful with forked parallelization</a></li>
 <li class="chapter" data-level="8.6" data-path="appendix.html"><a href="appendix.html#appendix-missing-globals"><i class="fa fa-check"></i><b>8.6</b> Appendix: Missing globals</a>
 <ul>
 <li class="chapter" data-level="8.6.1" data-path="appendix.html"><a href="appendix.html#example-glueglue---object-not-found"><i class="fa fa-check"></i><b>8.6.1</b> Example: glue::glue() - object not found</a></li>
@@ -301,9 +301,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="the-future-package-the-core-of-it-all" class="section level2 hasAnchor" number="1.2">
 <h2><span class="header-section-number">1.2</span> The future package (the core of it all)<a href="an-overview-of-the-futureverse.html#the-future-package-the-core-of-it-all" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="figure">
-<img src="figures/future_logo.png" alt="" />
-<p class="caption">The hexlogo for the ‘future’ package adopted from original designed by Dan LaBar</p>
+<div class="float">
+<img src="figures/future_logo.png" alt="The hexlogo for the ‘future’ package adopted from original designed by Dan LaBar" />
+<div class="figcaption">The hexlogo for the ‘future’ package adopted from original designed by Dan LaBar</div>
 </div>
 <ul>
 <li>A simple, unifying solution for parallel APIs</li>
@@ -319,75 +319,75 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2><span class="header-section-number">1.3</span> Quick intro: Evaluate R in the background<a href="an-overview-of-the-futureverse.html#quick-intro-evaluate-r-in-the-background" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div id="sequentially" class="section level3 hasAnchor" number="1.3.1">
 <h3><span class="header-section-number">1.3.1</span> Sequentially<a href="an-overview-of-the-futureverse.html#sequentially" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="an-overview-of-the-futureverse.html#cb3-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">7</span></span>
-<span id="cb3-2"><a href="an-overview-of-the-futureverse.html#cb3-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">slow</span>(x)           <span class="co"># ~1 minute</span></span>
-<span id="cb3-3"><a href="an-overview-of-the-futureverse.html#cb3-3" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">another</span>(x)        <span class="co"># ~0.5 minute</span></span>
-<span id="cb3-4"><a href="an-overview-of-the-futureverse.html#cb3-4" aria-hidden="true" tabindex="-1"></a>                       <span class="co"># all done in ~1.5 minutes</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="an-overview-of-the-futureverse.html#cb3-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">7</span></span>
+<span id="cb3-2"><a href="an-overview-of-the-futureverse.html#cb3-2" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">slow</span>(x)           <span class="co"># ~1 minute</span></span>
+<span id="cb3-3"><a href="an-overview-of-the-futureverse.html#cb3-3" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">another</span>(x)        <span class="co"># ~0.5 minute</span></span>
+<span id="cb3-4"><a href="an-overview-of-the-futureverse.html#cb3-4" tabindex="-1"></a>                       <span class="co"># all done in ~1.5 minutes</span></span></code></pre></div>
 </div>
 <div id="in-parallel" class="section level3 hasAnchor" number="1.3.2">
 <h3><span class="header-section-number">1.3.2</span> In parallel<a href="an-overview-of-the-futureverse.html#in-parallel" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="an-overview-of-the-futureverse.html#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(future)</span>
-<span id="cb4-2"><a href="an-overview-of-the-futureverse.html#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plan</span>(multisession)     <span class="co"># run things in parallel</span></span>
-<span id="cb4-3"><a href="an-overview-of-the-futureverse.html#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="an-overview-of-the-futureverse.html#cb4-4" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">7</span></span>
-<span id="cb4-5"><a href="an-overview-of-the-futureverse.html#cb4-5" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">future</span>(<span class="fu">slow</span>(x))   <span class="co"># ~1 minute (in background)   ‎</span></span>
-<span id="cb4-6"><a href="an-overview-of-the-futureverse.html#cb4-6" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">another</span>(x)        <span class="co"># ~0.5 minute (in current R session)</span></span>
-<span id="cb4-7"><a href="an-overview-of-the-futureverse.html#cb4-7" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">value</span>(f)          <span class="co"># get background results</span></span>
-<span id="cb4-8"><a href="an-overview-of-the-futureverse.html#cb4-8" aria-hidden="true" tabindex="-1"></a>                       <span class="co"># all done in ~1 minutes</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="an-overview-of-the-futureverse.html#cb4-1" tabindex="-1"></a><span class="fu">library</span>(future)</span>
+<span id="cb4-2"><a href="an-overview-of-the-futureverse.html#cb4-2" tabindex="-1"></a><span class="fu">plan</span>(multisession)     <span class="co"># run things in parallel</span></span>
+<span id="cb4-3"><a href="an-overview-of-the-futureverse.html#cb4-3" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="an-overview-of-the-futureverse.html#cb4-4" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">7</span></span>
+<span id="cb4-5"><a href="an-overview-of-the-futureverse.html#cb4-5" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">future</span>(<span class="fu">slow</span>(x))   <span class="co"># ~1 minute (in background)   ‎</span></span>
+<span id="cb4-6"><a href="an-overview-of-the-futureverse.html#cb4-6" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">another</span>(x)        <span class="co"># ~0.5 minute (in current R session)</span></span>
+<span id="cb4-7"><a href="an-overview-of-the-futureverse.html#cb4-7" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">value</span>(f)          <span class="co"># get background results</span></span>
+<span id="cb4-8"><a href="an-overview-of-the-futureverse.html#cb4-8" tabindex="-1"></a>                       <span class="co"># all done in ~1 minutes</span></span></code></pre></div>
 </div>
 </div>
 <div id="quick-intro-parallel-base-r-apply" class="section level2 hasAnchor" number="1.4">
 <h2><span class="header-section-number">1.4</span> Quick intro: Parallel base-R apply<a href="an-overview-of-the-futureverse.html#quick-intro-parallel-base-r-apply" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div id="sequentially-1" class="section level3 hasAnchor" number="1.4.1">
 <h3><span class="header-section-number">1.4.1</span> Sequentially<a href="an-overview-of-the-futureverse.html#sequentially-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="an-overview-of-the-futureverse.html#cb5-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">20</span></span>
-<span id="cb5-2"><a href="an-overview-of-the-futureverse.html#cb5-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">lapply</span>(x, slow)          <span class="co"># ~ 20 minutes</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="an-overview-of-the-futureverse.html#cb5-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">20</span></span>
+<span id="cb5-2"><a href="an-overview-of-the-futureverse.html#cb5-2" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">lapply</span>(x, slow)          <span class="co"># ~ 20 minutes</span></span></code></pre></div>
 </div>
 <div id="in-parallel-1" class="section level3 hasAnchor" number="1.4.2">
 <h3><span class="header-section-number">1.4.2</span> In parallel<a href="an-overview-of-the-futureverse.html#in-parallel-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="an-overview-of-the-futureverse.html#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(future.apply)</span>
-<span id="cb6-2"><a href="an-overview-of-the-futureverse.html#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plan</span>(multisession, <span class="at">workers =</span> <span class="dv">4</span>)</span>
-<span id="cb6-3"><a href="an-overview-of-the-futureverse.html#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-4"><a href="an-overview-of-the-futureverse.html#cb6-4" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">20</span></span>
-<span id="cb6-5"><a href="an-overview-of-the-futureverse.html#cb6-5" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">future_lapply</span>(x, slow)   <span class="co"># ~ 5 minutes</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="an-overview-of-the-futureverse.html#cb6-1" tabindex="-1"></a><span class="fu">library</span>(future.apply)</span>
+<span id="cb6-2"><a href="an-overview-of-the-futureverse.html#cb6-2" tabindex="-1"></a><span class="fu">plan</span>(multisession, <span class="at">workers =</span> <span class="dv">4</span>)</span>
+<span id="cb6-3"><a href="an-overview-of-the-futureverse.html#cb6-3" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="an-overview-of-the-futureverse.html#cb6-4" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">20</span></span>
+<span id="cb6-5"><a href="an-overview-of-the-futureverse.html#cb6-5" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">future_lapply</span>(x, slow)   <span class="co"># ~ 5 minutes</span></span></code></pre></div>
 </div>
 </div>
 <div id="quick-intro-parallel-tidyverse-apply" class="section level2 hasAnchor" number="1.5">
 <h2><span class="header-section-number">1.5</span> Quick intro: Parallel tidyverse apply<a href="an-overview-of-the-futureverse.html#quick-intro-parallel-tidyverse-apply" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div id="sequentially-2" class="section level3 hasAnchor" number="1.5.1">
 <h3><span class="header-section-number">1.5.1</span> Sequentially<a href="an-overview-of-the-futureverse.html#sequentially-2" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="an-overview-of-the-futureverse.html#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(purrr)</span>
-<span id="cb7-2"><a href="an-overview-of-the-futureverse.html#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-3"><a href="an-overview-of-the-futureverse.html#cb7-3" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">20</span></span>
-<span id="cb7-4"><a href="an-overview-of-the-futureverse.html#cb7-4" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">map</span>(x, slow)          <span class="co"># ~20 minutes</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="an-overview-of-the-futureverse.html#cb7-1" tabindex="-1"></a><span class="fu">library</span>(purrr)</span>
+<span id="cb7-2"><a href="an-overview-of-the-futureverse.html#cb7-2" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="an-overview-of-the-futureverse.html#cb7-3" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">20</span></span>
+<span id="cb7-4"><a href="an-overview-of-the-futureverse.html#cb7-4" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">map</span>(x, slow)          <span class="co"># ~20 minutes</span></span></code></pre></div>
 </div>
 <div id="in-parallel-2" class="section level3 hasAnchor" number="1.5.2">
 <h3><span class="header-section-number">1.5.2</span> In parallel<a href="an-overview-of-the-futureverse.html#in-parallel-2" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="an-overview-of-the-futureverse.html#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(furrr)</span>
-<span id="cb8-2"><a href="an-overview-of-the-futureverse.html#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plan</span>(multisession, <span class="at">workers =</span> <span class="dv">4</span>)</span>
-<span id="cb8-3"><a href="an-overview-of-the-futureverse.html#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-4"><a href="an-overview-of-the-futureverse.html#cb8-4" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">20</span></span>
-<span id="cb8-5"><a href="an-overview-of-the-futureverse.html#cb8-5" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">future_map</span>(x, slow)   <span class="co"># ~5 minutes</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="an-overview-of-the-futureverse.html#cb8-1" tabindex="-1"></a><span class="fu">library</span>(furrr)</span>
+<span id="cb8-2"><a href="an-overview-of-the-futureverse.html#cb8-2" tabindex="-1"></a><span class="fu">plan</span>(multisession, <span class="at">workers =</span> <span class="dv">4</span>)</span>
+<span id="cb8-3"><a href="an-overview-of-the-futureverse.html#cb8-3" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="an-overview-of-the-futureverse.html#cb8-4" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">20</span></span>
+<span id="cb8-5"><a href="an-overview-of-the-futureverse.html#cb8-5" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">future_map</span>(x, slow)   <span class="co"># ~5 minutes</span></span></code></pre></div>
 </div>
 </div>
 <div id="quick-intro-parallel-foreach" class="section level2 hasAnchor" number="1.6">
 <h2><span class="header-section-number">1.6</span> Quick intro: Parallel foreach<a href="an-overview-of-the-futureverse.html#quick-intro-parallel-foreach" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div id="sequentially-3" class="section level3 hasAnchor" number="1.6.1">
 <h3><span class="header-section-number">1.6.1</span> Sequentially<a href="an-overview-of-the-futureverse.html#sequentially-3" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="an-overview-of-the-futureverse.html#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(foreach)</span>
-<span id="cb9-2"><a href="an-overview-of-the-futureverse.html#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-3"><a href="an-overview-of-the-futureverse.html#cb9-3" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">20</span></span>
-<span id="cb9-4"><a href="an-overview-of-the-futureverse.html#cb9-4" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">foreach</span>(<span class="at">z =</span> x) <span class="sc">%do%</span> <span class="fu">slow</span>(z)     <span class="co"># ~20 minutes</span></span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="an-overview-of-the-futureverse.html#cb9-1" tabindex="-1"></a><span class="fu">library</span>(foreach)</span>
+<span id="cb9-2"><a href="an-overview-of-the-futureverse.html#cb9-2" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="an-overview-of-the-futureverse.html#cb9-3" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">20</span></span>
+<span id="cb9-4"><a href="an-overview-of-the-futureverse.html#cb9-4" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">foreach</span>(<span class="at">z =</span> x) <span class="sc">%do%</span> <span class="fu">slow</span>(z)     <span class="co"># ~20 minutes</span></span></code></pre></div>
 <p><em>Comment</em>: Technically, we want to use <code>y &lt;- foreach(z = x) %do% local({ slow(x) })</code> here.</p>
 </div>
 <div id="in-parallel-3" class="section level3 hasAnchor" number="1.6.2">
 <h3><span class="header-section-number">1.6.2</span> In parallel<a href="an-overview-of-the-futureverse.html#in-parallel-3" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="an-overview-of-the-futureverse.html#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(doFuture)</span>
-<span id="cb10-2"><a href="an-overview-of-the-futureverse.html#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">registerDoFuture</span>()</span>
-<span id="cb10-3"><a href="an-overview-of-the-futureverse.html#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plan</span>(multisession, <span class="at">workers =</span> <span class="dv">4</span>)</span>
-<span id="cb10-4"><a href="an-overview-of-the-futureverse.html#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-5"><a href="an-overview-of-the-futureverse.html#cb10-5" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">20</span></span>
-<span id="cb10-6"><a href="an-overview-of-the-futureverse.html#cb10-6" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">foreach</span>(<span class="at">z =</span> x) <span class="sc">%dopar%</span> <span class="fu">slow</span>(z)  <span class="co"># ~5 minutes</span></span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="an-overview-of-the-futureverse.html#cb10-1" tabindex="-1"></a><span class="fu">library</span>(doFuture)</span>
+<span id="cb10-2"><a href="an-overview-of-the-futureverse.html#cb10-2" tabindex="-1"></a><span class="fu">registerDoFuture</span>()</span>
+<span id="cb10-3"><a href="an-overview-of-the-futureverse.html#cb10-3" tabindex="-1"></a><span class="fu">plan</span>(multisession, <span class="at">workers =</span> <span class="dv">4</span>)</span>
+<span id="cb10-4"><a href="an-overview-of-the-futureverse.html#cb10-4" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="an-overview-of-the-futureverse.html#cb10-5" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">20</span></span>
+<span id="cb10-6"><a href="an-overview-of-the-futureverse.html#cb10-6" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">foreach</span>(<span class="at">z =</span> x) <span class="sc">%dopar%</span> <span class="fu">slow</span>(z)  <span class="co"># ~5 minutes</span></span></code></pre></div>
 </div>
 </div>
 <div id="what-is-the-futureverse" class="section level2 hasAnchor" number="1.7">
@@ -402,7 +402,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><p>Stay with your favorite coding style</p></li>
 <li><p>Worry-free: globals, packages, output, warnings, errors just work</p></li>
 <li><p>Statistically sound: Built-in parallel random number generation (RNG)</p></li>
-<li><p>Correctness and reproducibilty of highest priority</p></li>
+<li><p>Correctness and reproducibility of highest priority</p></li>
 <li><p>“Future proof”: Support any new parallel backends to come</p></li>
 </ul>
 <div id="packages-part-of-the-futureverse" class="section level3 hasAnchor" number="1.7.1">
@@ -435,7 +435,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li><p>Everyone using R</p></li>
 <li><p>Users with some experience in R, but no need to be an advanced R developer</p></li>
-<li><p>Anyone who wishes to run many slow, repetive tasks</p></li>
+<li><p>Anyone who wishes to run many slow, repetitive tasks</p></li>
 <li><p>Any developer who want to support parallel processing without having to worry about the details and having to maintain parallel code</p></li>
 <li><p>Anyone who wishes to set up an <em>asynchronous</em> Shiny app</p></li>
 </ul>

@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Part 5 Reporting on progress updates | Tutorial: An Introduction to Futureverse for Parallel Processing in R</title>
   <meta name="description" content="N/A" />
-  <meta name="generator" content="bookdown 0.31 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.33 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Part 5 Reporting on progress updates | Tutorial: An Introduction to Futureverse for Parallel Processing in R" />
   <meta property="og:type" content="book" />
@@ -92,7 +92,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
+code span.bu { color: #008000; } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -105,7 +105,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
+code span.im { color: #008000; font-weight: bold; } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -260,7 +260,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="8.4.1" data-path="appendix.html"><a href="appendix.html#example-r-connections-can-be-exported-to-parallel-workers"><i class="fa fa-check"></i><b>8.4.1</b> Example: R connections can be exported to parallel workers</a></li>
 <li class="chapter" data-level="8.4.2" data-path="appendix.html"><a href="appendix.html#example-xml2-objects-cannot-be-exported"><i class="fa fa-check"></i><b>8.4.2</b> Example: xml2 objects cannot be exported</a></li>
 </ul></li>
-<li class="chapter" data-level="8.5" data-path="appendix.html"><a href="appendix.html#appendix-careful-with-forked-parallization"><i class="fa fa-check"></i><b>8.5</b> Appendix: Careful with forked parallization</a></li>
+<li class="chapter" data-level="8.5" data-path="appendix.html"><a href="appendix.html#appendix-careful-with-forked-parallelization"><i class="fa fa-check"></i><b>8.5</b> Appendix: Careful with forked parallelization</a></li>
 <li class="chapter" data-level="8.6" data-path="appendix.html"><a href="appendix.html#appendix-missing-globals"><i class="fa fa-check"></i><b>8.6</b> Appendix: Missing globals</a>
 <ul>
 <li class="chapter" data-level="8.6.1" data-path="appendix.html"><a href="appendix.html#example-glueglue---object-not-found"><i class="fa fa-check"></i><b>8.6.1</b> Example: glue::glue() - object not found</a></li>
@@ -291,126 +291,126 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">Part 5</span> Reporting on progress updates<a href="reporting-on-progress-updates.html#reporting-on-progress-updates" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <div id="basic-progress-updates" class="section level2 hasAnchor" number="5.1">
 <h2><span class="header-section-number">5.1</span> Basic progress updates<a href="reporting-on-progress-updates.html#basic-progress-updates" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="figure">
-<img src="figures/three_in_chinese.gif" alt="" />
-<p class="caption">Three strokes writing three in Chinese</p>
+<div class="float">
+<img src="figures/three_in_chinese.gif" alt="Three strokes writing three in Chinese" />
+<div class="figcaption">Three strokes writing three in Chinese</div>
 </div>
 <p>The <strong><a href="https://progressr.futureverse.org">progressr</a></strong> package can be used to report on progress when using the <strong><a href="https://future.futureverse.org">future</a></strong> framework for parallelization.</p>
-<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="reporting-on-progress-updates.html#cb81-1" aria-hidden="true" tabindex="-1"></a>slow_sqrt <span class="ot">&lt;-</span> <span class="cf">function</span>(X) {</span>
-<span id="cb81-2"><a href="reporting-on-progress-updates.html#cb81-2" aria-hidden="true" tabindex="-1"></a>  p <span class="ot">&lt;-</span> progressr<span class="sc">::</span><span class="fu">progressor</span>(<span class="at">along =</span> X)</span>
-<span id="cb81-3"><a href="reporting-on-progress-updates.html#cb81-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lapply</span>(X, <span class="cf">function</span>(x) {</span>
-<span id="cb81-4"><a href="reporting-on-progress-updates.html#cb81-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">Sys.sleep</span>(<span class="fl">0.1</span>)</span>
-<span id="cb81-5"><a href="reporting-on-progress-updates.html#cb81-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">p</span>()</span>
-<span id="cb81-6"><a href="reporting-on-progress-updates.html#cb81-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sqrt</span>(x)</span>
-<span id="cb81-7"><a href="reporting-on-progress-updates.html#cb81-7" aria-hidden="true" tabindex="-1"></a>  })</span>
-<span id="cb81-8"><a href="reporting-on-progress-updates.html#cb81-8" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="reporting-on-progress-updates.html#cb81-1" tabindex="-1"></a>slow_sqrt <span class="ot">&lt;-</span> <span class="cf">function</span>(X) {</span>
+<span id="cb81-2"><a href="reporting-on-progress-updates.html#cb81-2" tabindex="-1"></a>  p <span class="ot">&lt;-</span> progressr<span class="sc">::</span><span class="fu">progressor</span>(<span class="at">along =</span> X)</span>
+<span id="cb81-3"><a href="reporting-on-progress-updates.html#cb81-3" tabindex="-1"></a>  <span class="fu">lapply</span>(X, <span class="cf">function</span>(x) {</span>
+<span id="cb81-4"><a href="reporting-on-progress-updates.html#cb81-4" tabindex="-1"></a>    <span class="fu">Sys.sleep</span>(<span class="fl">0.1</span>)</span>
+<span id="cb81-5"><a href="reporting-on-progress-updates.html#cb81-5" tabindex="-1"></a>    <span class="fu">p</span>()</span>
+<span id="cb81-6"><a href="reporting-on-progress-updates.html#cb81-6" tabindex="-1"></a>    <span class="fu">sqrt</span>(x)</span>
+<span id="cb81-7"><a href="reporting-on-progress-updates.html#cb81-7" tabindex="-1"></a>  })</span>
+<span id="cb81-8"><a href="reporting-on-progress-updates.html#cb81-8" tabindex="-1"></a>}</span></code></pre></div>
 <p>Note how we do <em>not</em> specify <em>how</em> progress is reported or rendered. We just report on where we do progress.</p>
 <p>If we call the above as-is, no progress is reported:</p>
-<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="reporting-on-progress-updates.html#cb82-1" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">50</span></span>
-<span id="cb82-2"><a href="reporting-on-progress-updates.html#cb82-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">slow_sqrt</span>(X)</span></code></pre></div>
+<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="reporting-on-progress-updates.html#cb82-1" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">50</span></span>
+<span id="cb82-2"><a href="reporting-on-progress-updates.html#cb82-2" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">slow_sqrt</span>(X)</span></code></pre></div>
 <p>With progress reporting:</p>
-<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb83-1"><a href="reporting-on-progress-updates.html#cb83-1" aria-hidden="true" tabindex="-1"></a>progressr<span class="sc">::</span><span class="fu">handlers</span>(<span class="at">global =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb83-2"><a href="reporting-on-progress-updates.html#cb83-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb83-3"><a href="reporting-on-progress-updates.html#cb83-3" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">50</span></span>
-<span id="cb83-4"><a href="reporting-on-progress-updates.html#cb83-4" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">slow_sqrt</span>(X)</span>
-<span id="cb83-5"><a href="reporting-on-progress-updates.html#cb83-5" aria-hidden="true" tabindex="-1"></a><span class="co">#  |====================                               |  40%</span></span></code></pre></div>
+<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb83-1"><a href="reporting-on-progress-updates.html#cb83-1" tabindex="-1"></a>progressr<span class="sc">::</span><span class="fu">handlers</span>(<span class="at">global =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb83-2"><a href="reporting-on-progress-updates.html#cb83-2" tabindex="-1"></a></span>
+<span id="cb83-3"><a href="reporting-on-progress-updates.html#cb83-3" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">50</span></span>
+<span id="cb83-4"><a href="reporting-on-progress-updates.html#cb83-4" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">slow_sqrt</span>(X)</span>
+<span id="cb83-5"><a href="reporting-on-progress-updates.html#cb83-5" tabindex="-1"></a><span class="co">#  |====================                               |  40%</span></span></code></pre></div>
 </div>
 <div id="progress-updates-in-parallel" class="section level2 hasAnchor" number="5.2">
 <h2><span class="header-section-number">5.2</span> Progress updates in parallel<a href="reporting-on-progress-updates.html#progress-updates-in-parallel" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Update to use <code>future_lapply()</code> instead of <code>lapply()</code>:</p>
-<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="reporting-on-progress-updates.html#cb84-1" aria-hidden="true" tabindex="-1"></a>slow_sqrt <span class="ot">&lt;-</span> <span class="cf">function</span>(X) {</span>
-<span id="cb84-2"><a href="reporting-on-progress-updates.html#cb84-2" aria-hidden="true" tabindex="-1"></a>  p <span class="ot">&lt;-</span> progressr<span class="sc">::</span><span class="fu">progressor</span>(<span class="at">along =</span> X)</span>
-<span id="cb84-3"><a href="reporting-on-progress-updates.html#cb84-3" aria-hidden="true" tabindex="-1"></a>  future.apply<span class="sc">::</span><span class="fu">future_lapply</span>(X, <span class="cf">function</span>(x) {</span>
-<span id="cb84-4"><a href="reporting-on-progress-updates.html#cb84-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">Sys.sleep</span>(<span class="fl">0.1</span>)</span>
-<span id="cb84-5"><a href="reporting-on-progress-updates.html#cb84-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">p</span>(<span class="at">message =</span> <span class="fu">sprintf</span>(<span class="st">&quot;x=%g&quot;</span>, x)) <span class="co"># &lt;= passing along a message</span></span>
-<span id="cb84-6"><a href="reporting-on-progress-updates.html#cb84-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sqrt</span>(x)</span>
-<span id="cb84-7"><a href="reporting-on-progress-updates.html#cb84-7" aria-hidden="true" tabindex="-1"></a>  })</span>
-<span id="cb84-8"><a href="reporting-on-progress-updates.html#cb84-8" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="reporting-on-progress-updates.html#cb84-1" tabindex="-1"></a>slow_sqrt <span class="ot">&lt;-</span> <span class="cf">function</span>(X) {</span>
+<span id="cb84-2"><a href="reporting-on-progress-updates.html#cb84-2" tabindex="-1"></a>  p <span class="ot">&lt;-</span> progressr<span class="sc">::</span><span class="fu">progressor</span>(<span class="at">along =</span> X)</span>
+<span id="cb84-3"><a href="reporting-on-progress-updates.html#cb84-3" tabindex="-1"></a>  future.apply<span class="sc">::</span><span class="fu">future_lapply</span>(X, <span class="cf">function</span>(x) {</span>
+<span id="cb84-4"><a href="reporting-on-progress-updates.html#cb84-4" tabindex="-1"></a>    <span class="fu">Sys.sleep</span>(<span class="fl">0.1</span>)</span>
+<span id="cb84-5"><a href="reporting-on-progress-updates.html#cb84-5" tabindex="-1"></a>    <span class="fu">p</span>(<span class="at">message =</span> <span class="fu">sprintf</span>(<span class="st">&quot;x=%g&quot;</span>, x)) <span class="co"># &lt;= passing along a message</span></span>
+<span id="cb84-6"><a href="reporting-on-progress-updates.html#cb84-6" tabindex="-1"></a>    <span class="fu">sqrt</span>(x)</span>
+<span id="cb84-7"><a href="reporting-on-progress-updates.html#cb84-7" tabindex="-1"></a>  })</span>
+<span id="cb84-8"><a href="reporting-on-progress-updates.html#cb84-8" tabindex="-1"></a>}</span></code></pre></div>
 <p>This works the same way when running sequentially:</p>
-<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb85-1"><a href="reporting-on-progress-updates.html#cb85-1" aria-hidden="true" tabindex="-1"></a>progressr<span class="sc">::</span><span class="fu">handlers</span>(<span class="at">global =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb85-2"><a href="reporting-on-progress-updates.html#cb85-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plan</span>(sequential)</span>
-<span id="cb85-3"><a href="reporting-on-progress-updates.html#cb85-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb85-4"><a href="reporting-on-progress-updates.html#cb85-4" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">50</span></span>
-<span id="cb85-5"><a href="reporting-on-progress-updates.html#cb85-5" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">slow_sqrt</span>(X)</span>
-<span id="cb85-6"><a href="reporting-on-progress-updates.html#cb85-6" aria-hidden="true" tabindex="-1"></a><span class="co">#  |====================                               |  40%</span></span></code></pre></div>
+<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb85-1"><a href="reporting-on-progress-updates.html#cb85-1" tabindex="-1"></a>progressr<span class="sc">::</span><span class="fu">handlers</span>(<span class="at">global =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb85-2"><a href="reporting-on-progress-updates.html#cb85-2" tabindex="-1"></a><span class="fu">plan</span>(sequential)</span>
+<span id="cb85-3"><a href="reporting-on-progress-updates.html#cb85-3" tabindex="-1"></a></span>
+<span id="cb85-4"><a href="reporting-on-progress-updates.html#cb85-4" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">50</span></span>
+<span id="cb85-5"><a href="reporting-on-progress-updates.html#cb85-5" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">slow_sqrt</span>(X)</span>
+<span id="cb85-6"><a href="reporting-on-progress-updates.html#cb85-6" tabindex="-1"></a><span class="co">#  |====================                               |  40%</span></span></code></pre></div>
 <p>and when running in parallel:</p>
-<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="reporting-on-progress-updates.html#cb86-1" aria-hidden="true" tabindex="-1"></a>progressr<span class="sc">::</span><span class="fu">handlers</span>(<span class="at">global =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb86-2"><a href="reporting-on-progress-updates.html#cb86-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plan</span>(multisession)</span>
-<span id="cb86-3"><a href="reporting-on-progress-updates.html#cb86-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb86-4"><a href="reporting-on-progress-updates.html#cb86-4" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">50</span></span>
-<span id="cb86-5"><a href="reporting-on-progress-updates.html#cb86-5" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">slow_sqrt</span>(X)</span>
-<span id="cb86-6"><a href="reporting-on-progress-updates.html#cb86-6" aria-hidden="true" tabindex="-1"></a><span class="co">#  |====================                               |  40%</span></span></code></pre></div>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="reporting-on-progress-updates.html#cb86-1" tabindex="-1"></a>progressr<span class="sc">::</span><span class="fu">handlers</span>(<span class="at">global =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb86-2"><a href="reporting-on-progress-updates.html#cb86-2" tabindex="-1"></a><span class="fu">plan</span>(multisession)</span>
+<span id="cb86-3"><a href="reporting-on-progress-updates.html#cb86-3" tabindex="-1"></a></span>
+<span id="cb86-4"><a href="reporting-on-progress-updates.html#cb86-4" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">50</span></span>
+<span id="cb86-5"><a href="reporting-on-progress-updates.html#cb86-5" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">slow_sqrt</span>(X)</span>
+<span id="cb86-6"><a href="reporting-on-progress-updates.html#cb86-6" tabindex="-1"></a><span class="co">#  |====================                               |  40%</span></span></code></pre></div>
 <p>as well as running remotely:</p>
-<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="reporting-on-progress-updates.html#cb87-1" aria-hidden="true" tabindex="-1"></a>progressr<span class="sc">::</span><span class="fu">handlers</span>(<span class="at">global =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb87-2"><a href="reporting-on-progress-updates.html#cb87-2" aria-hidden="true" tabindex="-1"></a>hostnames <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;pi&quot;</span>, <span class="st">&quot;remote.server.org&quot;</span>)</span>
-<span id="cb87-3"><a href="reporting-on-progress-updates.html#cb87-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plan</span>(cluster, <span class="at">workers =</span> hostnames)</span>
-<span id="cb87-4"><a href="reporting-on-progress-updates.html#cb87-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb87-5"><a href="reporting-on-progress-updates.html#cb87-5" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">50</span></span>
-<span id="cb87-6"><a href="reporting-on-progress-updates.html#cb87-6" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">slow_sqrt</span>(X)</span>
-<span id="cb87-7"><a href="reporting-on-progress-updates.html#cb87-7" aria-hidden="true" tabindex="-1"></a><span class="co">#  |====================                               |  40%</span></span></code></pre></div>
-<p>“Near-live” progress updates: Note that, even if there are only two parallel workers, and therefore two futures here, we will still recieve progress updates whilest these futures are busy processing all elements. This works because the progress updates, signalled by <code>p()</code> above, are sent back to our main R session using background communication channels. These channels are frequently polled (by <code>resolved()</code> and <code>value()</code>) until the futures are completed, which is how we can relay and handle these progress updates in parallel.</p>
+<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="reporting-on-progress-updates.html#cb87-1" tabindex="-1"></a>progressr<span class="sc">::</span><span class="fu">handlers</span>(<span class="at">global =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb87-2"><a href="reporting-on-progress-updates.html#cb87-2" tabindex="-1"></a>hostnames <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;pi&quot;</span>, <span class="st">&quot;remote.server.org&quot;</span>)</span>
+<span id="cb87-3"><a href="reporting-on-progress-updates.html#cb87-3" tabindex="-1"></a><span class="fu">plan</span>(cluster, <span class="at">workers =</span> hostnames)</span>
+<span id="cb87-4"><a href="reporting-on-progress-updates.html#cb87-4" tabindex="-1"></a></span>
+<span id="cb87-5"><a href="reporting-on-progress-updates.html#cb87-5" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">50</span></span>
+<span id="cb87-6"><a href="reporting-on-progress-updates.html#cb87-6" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">slow_sqrt</span>(X)</span>
+<span id="cb87-7"><a href="reporting-on-progress-updates.html#cb87-7" tabindex="-1"></a><span class="co">#  |====================                               |  40%</span></span></code></pre></div>
+<p>“Near-live” progress updates: Note that, even if there are only two parallel workers, and therefore two futures here, we will still receive progress updates whilst these futures are busy processing all elements. This works because the progress updates, signalled by <code>p()</code> above, are sent back to our main R session using background communication channels. These channels are frequently polled (by <code>resolved()</code> and <code>value()</code>) until the futures are completed, which is how we can relay and handle these progress updates in parallel.</p>
 </div>
 <div id="customizing-how-progress-is-reported" class="section level2 hasAnchor" number="5.3">
 <h2><span class="header-section-number">5.3</span> Customizing how progress is reported<a href="reporting-on-progress-updates.html#customizing-how-progress-is-reported" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>You might have noticed I’m using the term “progress updates” and “progress reporting”, rather than “progress bars”. The reason is that progress can be reported in many other ways than via visual progress bars, e.g. by audio, via the operating system’s built-in notification framework, via email, etc.</p>
 <p>Below is an example where we use the <strong><a href="https://cran.r-project.org/package=beepr">beepr</a></strong> package to play sounds as we progress. There are no visual cues of progress - just sound.</p>
-<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="reporting-on-progress-updates.html#cb88-1" aria-hidden="true" tabindex="-1"></a>progressr<span class="sc">::</span><span class="fu">handlers</span>(<span class="at">global =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb88-2"><a href="reporting-on-progress-updates.html#cb88-2" aria-hidden="true" tabindex="-1"></a>progressr<span class="sc">::</span><span class="fu">handlers</span>(<span class="st">&quot;beepr&quot;</span>)</span>
-<span id="cb88-3"><a href="reporting-on-progress-updates.html#cb88-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb88-4"><a href="reporting-on-progress-updates.html#cb88-4" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">50</span></span>
-<span id="cb88-5"><a href="reporting-on-progress-updates.html#cb88-5" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">slow_sqrt</span>(X)</span>
-<span id="cb88-6"><a href="reporting-on-progress-updates.html#cb88-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 𝅘𝅥𝅮 ♫ . . . . . . . . . ♫</span></span></code></pre></div>
+<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="reporting-on-progress-updates.html#cb88-1" tabindex="-1"></a>progressr<span class="sc">::</span><span class="fu">handlers</span>(<span class="at">global =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb88-2"><a href="reporting-on-progress-updates.html#cb88-2" tabindex="-1"></a>progressr<span class="sc">::</span><span class="fu">handlers</span>(<span class="st">&quot;beepr&quot;</span>)</span>
+<span id="cb88-3"><a href="reporting-on-progress-updates.html#cb88-3" tabindex="-1"></a></span>
+<span id="cb88-4"><a href="reporting-on-progress-updates.html#cb88-4" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">50</span></span>
+<span id="cb88-5"><a href="reporting-on-progress-updates.html#cb88-5" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">slow_sqrt</span>(X)</span>
+<span id="cb88-6"><a href="reporting-on-progress-updates.html#cb88-6" tabindex="-1"></a><span class="co"># 𝅘𝅥𝅮 ♫ . . . . . . . . . ♫</span></span></code></pre></div>
 <p>We can also combine multiple ways of reporting on progress, e.g. by combining audio from <strong><a href="https://cran.r-project.org/package=beepr">beepr</a></strong> and progress bars from the <strong><a href="https://github.com/r-lib/progress#readme">progress</a></strong> package:</p>
-<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="reporting-on-progress-updates.html#cb89-1" aria-hidden="true" tabindex="-1"></a>progressr<span class="sc">::</span><span class="fu">handlers</span>(<span class="fu">c</span>(<span class="st">&quot;beepr&quot;</span>, <span class="st">&quot;progress&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="reporting-on-progress-updates.html#cb89-1" tabindex="-1"></a>progressr<span class="sc">::</span><span class="fu">handlers</span>(<span class="fu">c</span>(<span class="st">&quot;beepr&quot;</span>, <span class="st">&quot;progress&quot;</span>))</span></code></pre></div>
 <p>and also configure them in detail:</p>
-<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="reporting-on-progress-updates.html#cb90-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(progressr)</span>
-<span id="cb90-2"><a href="reporting-on-progress-updates.html#cb90-2" aria-hidden="true" tabindex="-1"></a><span class="fu">handlers</span>(<span class="fu">list</span>(</span>
-<span id="cb90-3"><a href="reporting-on-progress-updates.html#cb90-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">handler_progress</span>(</span>
-<span id="cb90-4"><a href="reporting-on-progress-updates.html#cb90-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">format   =</span> <span class="st">&quot;:spin :current/:total (:message) [:bar] :percent in :elapsed ETA: :eta&quot;</span>,</span>
-<span id="cb90-5"><a href="reporting-on-progress-updates.html#cb90-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">width    =</span> <span class="dv">60</span>,</span>
-<span id="cb90-6"><a href="reporting-on-progress-updates.html#cb90-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">complete =</span> <span class="st">&quot;+&quot;</span></span>
-<span id="cb90-7"><a href="reporting-on-progress-updates.html#cb90-7" aria-hidden="true" tabindex="-1"></a>  ),</span>
-<span id="cb90-8"><a href="reporting-on-progress-updates.html#cb90-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">handler_beepr</span>(</span>
-<span id="cb90-9"><a href="reporting-on-progress-updates.html#cb90-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">finish   =</span> <span class="st">&quot;wilhelm&quot;</span></span>
-<span id="cb90-10"><a href="reporting-on-progress-updates.html#cb90-10" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb90-11"><a href="reporting-on-progress-updates.html#cb90-11" aria-hidden="true" tabindex="-1"></a>))</span></code></pre></div>
+<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="reporting-on-progress-updates.html#cb90-1" tabindex="-1"></a><span class="fu">library</span>(progressr)</span>
+<span id="cb90-2"><a href="reporting-on-progress-updates.html#cb90-2" tabindex="-1"></a><span class="fu">handlers</span>(<span class="fu">list</span>(</span>
+<span id="cb90-3"><a href="reporting-on-progress-updates.html#cb90-3" tabindex="-1"></a>  <span class="fu">handler_progress</span>(</span>
+<span id="cb90-4"><a href="reporting-on-progress-updates.html#cb90-4" tabindex="-1"></a>    <span class="at">format   =</span> <span class="st">&quot;:spin :current/:total (:message) [:bar] :percent in :elapsed ETA: :eta&quot;</span>,</span>
+<span id="cb90-5"><a href="reporting-on-progress-updates.html#cb90-5" tabindex="-1"></a>    <span class="at">width    =</span> <span class="dv">60</span>,</span>
+<span id="cb90-6"><a href="reporting-on-progress-updates.html#cb90-6" tabindex="-1"></a>    <span class="at">complete =</span> <span class="st">&quot;+&quot;</span></span>
+<span id="cb90-7"><a href="reporting-on-progress-updates.html#cb90-7" tabindex="-1"></a>  ),</span>
+<span id="cb90-8"><a href="reporting-on-progress-updates.html#cb90-8" tabindex="-1"></a>  <span class="fu">handler_beepr</span>(</span>
+<span id="cb90-9"><a href="reporting-on-progress-updates.html#cb90-9" tabindex="-1"></a>    <span class="at">finish   =</span> <span class="st">&quot;wilhelm&quot;</span></span>
+<span id="cb90-10"><a href="reporting-on-progress-updates.html#cb90-10" tabindex="-1"></a>  )</span>
+<span id="cb90-11"><a href="reporting-on-progress-updates.html#cb90-11" tabindex="-1"></a>))</span></code></pre></div>
 <p>which gives:</p>
-<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="reporting-on-progress-updates.html#cb91-1" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">50</span></span>
-<span id="cb91-2"><a href="reporting-on-progress-updates.html#cb91-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">slow_sqrt</span>(X)</span>
-<span id="cb91-3"><a href="reporting-on-progress-updates.html#cb91-3" aria-hidden="true" tabindex="-1"></a><span class="co"># \ 4/10 (x=32) [+++++++++&gt;-------------]  40% in  1s ETA:  1s</span></span></code></pre></div>
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="reporting-on-progress-updates.html#cb91-1" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">50</span></span>
+<span id="cb91-2"><a href="reporting-on-progress-updates.html#cb91-2" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">slow_sqrt</span>(X)</span>
+<span id="cb91-3"><a href="reporting-on-progress-updates.html#cb91-3" tabindex="-1"></a><span class="co"># \ 4/10 (x=32) [+++++++++&gt;-------------]  40% in  1s ETA:  1s</span></span></code></pre></div>
 <p>If you use RStudio, you can report on progress via the RStudio Job interface:</p>
-<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="reporting-on-progress-updates.html#cb92-1" aria-hidden="true" tabindex="-1"></a>progressr<span class="sc">::</span><span class="fu">handlers</span>(<span class="st">&quot;rstudio&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="reporting-on-progress-updates.html#cb92-1" tabindex="-1"></a>progressr<span class="sc">::</span><span class="fu">handlers</span>(<span class="st">&quot;rstudio&quot;</span>)</span></code></pre></div>
 </div>
 <div id="demo-mandelbrot-sets" class="section level2 hasAnchor" number="5.4">
 <h2><span class="header-section-number">5.4</span> Demo: Mandelbrot sets<a href="reporting-on-progress-updates.html#demo-mandelbrot-sets" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p><img src="figures/demo-mandelbrot-1.png" /></p>
-<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="reporting-on-progress-updates.html#cb93-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(future)</span>
-<span id="cb93-2"><a href="reporting-on-progress-updates.html#cb93-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plan</span>(sequential)</span>
-<span id="cb93-3"><a href="reporting-on-progress-updates.html#cb93-3" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">future.demo.mandelbrot.region =</span> 1L)</span>
-<span id="cb93-4"><a href="reporting-on-progress-updates.html#cb93-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb93-5"><a href="reporting-on-progress-updates.html#cb93-5" aria-hidden="true" tabindex="-1"></a><span class="fu">demo</span>(<span class="st">&quot;mandelbrot&quot;</span>, <span class="at">package =</span> <span class="st">&quot;progressr&quot;</span>, <span class="at">ask =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="reporting-on-progress-updates.html#cb94-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(future)</span>
-<span id="cb94-2"><a href="reporting-on-progress-updates.html#cb94-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plan</span>(multisession, <span class="at">workers =</span> <span class="dv">4</span>)</span>
-<span id="cb94-3"><a href="reporting-on-progress-updates.html#cb94-3" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">future.demo.mandelbrot.region =</span> 1L)</span>
-<span id="cb94-4"><a href="reporting-on-progress-updates.html#cb94-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb94-5"><a href="reporting-on-progress-updates.html#cb94-5" aria-hidden="true" tabindex="-1"></a><span class="fu">demo</span>(<span class="st">&quot;mandelbrot&quot;</span>, <span class="at">package =</span> <span class="st">&quot;progressr&quot;</span>, <span class="at">ask =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="reporting-on-progress-updates.html#cb95-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(future)</span>
-<span id="cb95-2"><a href="reporting-on-progress-updates.html#cb95-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plan</span>(multisession, <span class="at">workers =</span> <span class="dv">4</span>)</span>
-<span id="cb95-3"><a href="reporting-on-progress-updates.html#cb95-3" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">future.demo.mandelbrot.region =</span> 2L)</span>
-<span id="cb95-4"><a href="reporting-on-progress-updates.html#cb95-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb95-5"><a href="reporting-on-progress-updates.html#cb95-5" aria-hidden="true" tabindex="-1"></a><span class="fu">demo</span>(<span class="st">&quot;mandelbrot&quot;</span>, <span class="at">package =</span> <span class="st">&quot;progressr&quot;</span>, <span class="at">ask =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="reporting-on-progress-updates.html#cb96-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(future)</span>
-<span id="cb96-2"><a href="reporting-on-progress-updates.html#cb96-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plan</span>(multisession, <span class="at">workers =</span> <span class="dv">4</span>)</span>
-<span id="cb96-3"><a href="reporting-on-progress-updates.html#cb96-3" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">future.demo.mandelbrot.region =</span> 2L)</span>
-<span id="cb96-4"><a href="reporting-on-progress-updates.html#cb96-4" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">future.demo.mandelbrot.delay =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb96-5"><a href="reporting-on-progress-updates.html#cb96-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb96-6"><a href="reporting-on-progress-updates.html#cb96-6" aria-hidden="true" tabindex="-1"></a><span class="fu">demo</span>(<span class="st">&quot;mandelbrot&quot;</span>, <span class="at">package =</span> <span class="st">&quot;progressr&quot;</span>, <span class="at">ask =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="reporting-on-progress-updates.html#cb97-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(future)</span>
-<span id="cb97-2"><a href="reporting-on-progress-updates.html#cb97-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plan</span>(multisession, <span class="at">workers =</span> <span class="dv">8</span>)</span>
-<span id="cb97-3"><a href="reporting-on-progress-updates.html#cb97-3" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">future.demo.mandelbrot.region =</span> 3L)</span>
-<span id="cb97-4"><a href="reporting-on-progress-updates.html#cb97-4" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">future.demo.mandelbrot.delay =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb97-5"><a href="reporting-on-progress-updates.html#cb97-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb97-6"><a href="reporting-on-progress-updates.html#cb97-6" aria-hidden="true" tabindex="-1"></a><span class="fu">demo</span>(<span class="st">&quot;mandelbrot&quot;</span>, <span class="at">package =</span> <span class="st">&quot;progressr&quot;</span>, <span class="at">ask =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="reporting-on-progress-updates.html#cb93-1" tabindex="-1"></a><span class="fu">library</span>(future)</span>
+<span id="cb93-2"><a href="reporting-on-progress-updates.html#cb93-2" tabindex="-1"></a><span class="fu">plan</span>(sequential)</span>
+<span id="cb93-3"><a href="reporting-on-progress-updates.html#cb93-3" tabindex="-1"></a><span class="fu">options</span>(<span class="at">future.demo.mandelbrot.region =</span> 1L)</span>
+<span id="cb93-4"><a href="reporting-on-progress-updates.html#cb93-4" tabindex="-1"></a></span>
+<span id="cb93-5"><a href="reporting-on-progress-updates.html#cb93-5" tabindex="-1"></a><span class="fu">demo</span>(<span class="st">&quot;mandelbrot&quot;</span>, <span class="at">package =</span> <span class="st">&quot;progressr&quot;</span>, <span class="at">ask =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="reporting-on-progress-updates.html#cb94-1" tabindex="-1"></a><span class="fu">library</span>(future)</span>
+<span id="cb94-2"><a href="reporting-on-progress-updates.html#cb94-2" tabindex="-1"></a><span class="fu">plan</span>(multisession, <span class="at">workers =</span> <span class="dv">4</span>)</span>
+<span id="cb94-3"><a href="reporting-on-progress-updates.html#cb94-3" tabindex="-1"></a><span class="fu">options</span>(<span class="at">future.demo.mandelbrot.region =</span> 1L)</span>
+<span id="cb94-4"><a href="reporting-on-progress-updates.html#cb94-4" tabindex="-1"></a></span>
+<span id="cb94-5"><a href="reporting-on-progress-updates.html#cb94-5" tabindex="-1"></a><span class="fu">demo</span>(<span class="st">&quot;mandelbrot&quot;</span>, <span class="at">package =</span> <span class="st">&quot;progressr&quot;</span>, <span class="at">ask =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="reporting-on-progress-updates.html#cb95-1" tabindex="-1"></a><span class="fu">library</span>(future)</span>
+<span id="cb95-2"><a href="reporting-on-progress-updates.html#cb95-2" tabindex="-1"></a><span class="fu">plan</span>(multisession, <span class="at">workers =</span> <span class="dv">4</span>)</span>
+<span id="cb95-3"><a href="reporting-on-progress-updates.html#cb95-3" tabindex="-1"></a><span class="fu">options</span>(<span class="at">future.demo.mandelbrot.region =</span> 2L)</span>
+<span id="cb95-4"><a href="reporting-on-progress-updates.html#cb95-4" tabindex="-1"></a></span>
+<span id="cb95-5"><a href="reporting-on-progress-updates.html#cb95-5" tabindex="-1"></a><span class="fu">demo</span>(<span class="st">&quot;mandelbrot&quot;</span>, <span class="at">package =</span> <span class="st">&quot;progressr&quot;</span>, <span class="at">ask =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="reporting-on-progress-updates.html#cb96-1" tabindex="-1"></a><span class="fu">library</span>(future)</span>
+<span id="cb96-2"><a href="reporting-on-progress-updates.html#cb96-2" tabindex="-1"></a><span class="fu">plan</span>(multisession, <span class="at">workers =</span> <span class="dv">4</span>)</span>
+<span id="cb96-3"><a href="reporting-on-progress-updates.html#cb96-3" tabindex="-1"></a><span class="fu">options</span>(<span class="at">future.demo.mandelbrot.region =</span> 2L)</span>
+<span id="cb96-4"><a href="reporting-on-progress-updates.html#cb96-4" tabindex="-1"></a><span class="fu">options</span>(<span class="at">future.demo.mandelbrot.delay =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb96-5"><a href="reporting-on-progress-updates.html#cb96-5" tabindex="-1"></a></span>
+<span id="cb96-6"><a href="reporting-on-progress-updates.html#cb96-6" tabindex="-1"></a><span class="fu">demo</span>(<span class="st">&quot;mandelbrot&quot;</span>, <span class="at">package =</span> <span class="st">&quot;progressr&quot;</span>, <span class="at">ask =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="reporting-on-progress-updates.html#cb97-1" tabindex="-1"></a><span class="fu">library</span>(future)</span>
+<span id="cb97-2"><a href="reporting-on-progress-updates.html#cb97-2" tabindex="-1"></a><span class="fu">plan</span>(multisession, <span class="at">workers =</span> <span class="dv">8</span>)</span>
+<span id="cb97-3"><a href="reporting-on-progress-updates.html#cb97-3" tabindex="-1"></a><span class="fu">options</span>(<span class="at">future.demo.mandelbrot.region =</span> 3L)</span>
+<span id="cb97-4"><a href="reporting-on-progress-updates.html#cb97-4" tabindex="-1"></a><span class="fu">options</span>(<span class="at">future.demo.mandelbrot.delay =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb97-5"><a href="reporting-on-progress-updates.html#cb97-5" tabindex="-1"></a></span>
+<span id="cb97-6"><a href="reporting-on-progress-updates.html#cb97-6" tabindex="-1"></a><span class="fu">demo</span>(<span class="st">&quot;mandelbrot&quot;</span>, <span class="at">package =</span> <span class="st">&quot;progressr&quot;</span>, <span class="at">ask =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
 <p>Source: <a href="https://github.com/HenrikBengtsson/progressr/blob/develop/demo/mandelbrot.R" class="uri">https://github.com/HenrikBengtsson/progressr/blob/develop/demo/mandelbrot.R</a></p>
 </div>
 </div>

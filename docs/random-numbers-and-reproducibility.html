@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Part 7 Random numbers and reproducibility | Tutorial: An Introduction to Futureverse for Parallel Processing in R</title>
   <meta name="description" content="N/A" />
-  <meta name="generator" content="bookdown 0.31 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.33 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Part 7 Random numbers and reproducibility | Tutorial: An Introduction to Futureverse for Parallel Processing in R" />
   <meta property="og:type" content="book" />
@@ -92,7 +92,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
+code span.bu { color: #008000; } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -105,7 +105,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
+code span.im { color: #008000; font-weight: bold; } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -260,7 +260,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="8.4.1" data-path="appendix.html"><a href="appendix.html#example-r-connections-can-be-exported-to-parallel-workers"><i class="fa fa-check"></i><b>8.4.1</b> Example: R connections can be exported to parallel workers</a></li>
 <li class="chapter" data-level="8.4.2" data-path="appendix.html"><a href="appendix.html#example-xml2-objects-cannot-be-exported"><i class="fa fa-check"></i><b>8.4.2</b> Example: xml2 objects cannot be exported</a></li>
 </ul></li>
-<li class="chapter" data-level="8.5" data-path="appendix.html"><a href="appendix.html#appendix-careful-with-forked-parallization"><i class="fa fa-check"></i><b>8.5</b> Appendix: Careful with forked parallization</a></li>
+<li class="chapter" data-level="8.5" data-path="appendix.html"><a href="appendix.html#appendix-careful-with-forked-parallelization"><i class="fa fa-check"></i><b>8.5</b> Appendix: Careful with forked parallelization</a></li>
 <li class="chapter" data-level="8.6" data-path="appendix.html"><a href="appendix.html#appendix-missing-globals"><i class="fa fa-check"></i><b>8.6</b> Appendix: Missing globals</a>
 <ul>
 <li class="chapter" data-level="8.6.1" data-path="appendix.html"><a href="appendix.html#example-glueglue---object-not-found"><i class="fa fa-check"></i><b>8.6.1</b> Example: glue::glue() - object not found</a></li>
@@ -290,22 +290,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="random-numbers-and-reproducibility" class="section level1 hasAnchor" number="7">
 <h1><span class="header-section-number">Part 7</span> Random numbers and reproducibility<a href="random-numbers-and-reproducibility.html#random-numbers-and-reproducibility" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>When we draw random number in R, e.g.</p>
-<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="random-numbers-and-reproducibility.html#cb98-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">10</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="random-numbers-and-reproducibility.html#cb98-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">10</span>)</span></code></pre></div>
 <p>the internals of R makes sure to follow best practices so that we get numbers that have “random” properties, e.g. knowing <code>x[1:9]</code> does not help us predict <code>x[10]</code>. R uses a so called <em>random number generator</em> (RNG) to generate random numbers. More precisely, it uses a <em>pseudo</em> RNG, because 100% true random numbers are really hard to get by. An pseudo RNG is a deterministic RNG algorithm that produces a sequence of numbers that have good “random” properties. Developing good pseudo RNGs is a research field in itself, which we won’t cover in this tutorial, but what is worth mentioning is that R support several different kinds of RNGs, and the default one has carefully been chosen for us;</p>
-<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="random-numbers-and-reproducibility.html#cb99-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">RNGkind</span>()</span>
-<span id="cb99-2"><a href="random-numbers-and-reproducibility.html#cb99-2" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">&quot;Mersenne-Twister&quot;</span> <span class="st">&quot;Inversion&quot;</span>        <span class="st">&quot;Rejection&quot;</span>  </span></code></pre></div>
+<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="random-numbers-and-reproducibility.html#cb99-1" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">RNGkind</span>()</span>
+<span id="cb99-2"><a href="random-numbers-and-reproducibility.html#cb99-2" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">&quot;Mersenne-Twister&quot;</span> <span class="st">&quot;Inversion&quot;</span>        <span class="st">&quot;Rejection&quot;</span>  </span></code></pre></div>
 <p>We can get reproducible random numbers by setting the RNG seed, e.g.</p>
-<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="random-numbers-and-reproducibility.html#cb100-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
-<span id="cb100-2"><a href="random-numbers-and-reproducibility.html#cb100-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rnorm</span>(<span class="dv">4</span>)</span>
-<span id="cb100-3"><a href="random-numbers-and-reproducibility.html#cb100-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1]  1.3709584 -0.5646982  0.3631284  0.6328626</span></span>
-<span id="cb100-4"><a href="random-numbers-and-reproducibility.html#cb100-4" aria-hidden="true" tabindex="-1"></a><span class="fu">rnorm</span>(<span class="dv">4</span>)</span>
-<span id="cb100-5"><a href="random-numbers-and-reproducibility.html#cb100-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1]  0.40426832 -0.10612452  1.51152200 -0.09465904</span></span></code></pre></div>
+<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="random-numbers-and-reproducibility.html#cb100-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb100-2"><a href="random-numbers-and-reproducibility.html#cb100-2" tabindex="-1"></a><span class="fu">rnorm</span>(<span class="dv">4</span>)</span>
+<span id="cb100-3"><a href="random-numbers-and-reproducibility.html#cb100-3" tabindex="-1"></a><span class="co">#&gt; [1]  1.3709584 -0.5646982  0.3631284  0.6328626</span></span>
+<span id="cb100-4"><a href="random-numbers-and-reproducibility.html#cb100-4" tabindex="-1"></a><span class="fu">rnorm</span>(<span class="dv">4</span>)</span>
+<span id="cb100-5"><a href="random-numbers-and-reproducibility.html#cb100-5" tabindex="-1"></a><span class="co">#&gt; [1]  0.40426832 -0.10612452  1.51152200 -0.09465904</span></span></code></pre></div>
 <p>If we redo the above, we get an identical sequence of “random” numbers:</p>
-<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="random-numbers-and-reproducibility.html#cb101-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
-<span id="cb101-2"><a href="random-numbers-and-reproducibility.html#cb101-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rnorm</span>(<span class="dv">4</span>)</span>
-<span id="cb101-3"><a href="random-numbers-and-reproducibility.html#cb101-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1]  1.3709584 -0.5646982  0.3631284  0.6328626</span></span>
-<span id="cb101-4"><a href="random-numbers-and-reproducibility.html#cb101-4" aria-hidden="true" tabindex="-1"></a><span class="fu">rnorm</span>(<span class="dv">4</span>)</span>
-<span id="cb101-5"><a href="random-numbers-and-reproducibility.html#cb101-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1]  0.40426832 -0.10612452  1.51152200 -0.09465904</span></span></code></pre></div>
+<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="random-numbers-and-reproducibility.html#cb101-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb101-2"><a href="random-numbers-and-reproducibility.html#cb101-2" tabindex="-1"></a><span class="fu">rnorm</span>(<span class="dv">4</span>)</span>
+<span id="cb101-3"><a href="random-numbers-and-reproducibility.html#cb101-3" tabindex="-1"></a><span class="co">#&gt; [1]  1.3709584 -0.5646982  0.3631284  0.6328626</span></span>
+<span id="cb101-4"><a href="random-numbers-and-reproducibility.html#cb101-4" tabindex="-1"></a><span class="fu">rnorm</span>(<span class="dv">4</span>)</span>
+<span id="cb101-5"><a href="random-numbers-and-reproducibility.html#cb101-5" tabindex="-1"></a><span class="co">#&gt; [1]  0.40426832 -0.10612452  1.51152200 -0.09465904</span></span></code></pre></div>
 <div id="why-is-this-important" class="section level2 hasAnchor" number="7.1">
 <h2><span class="header-section-number">7.1</span> Why is this important?<a href="random-numbers-and-reproducibility.html#why-is-this-important" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Random number generation (RNG) is important, because:</p>
@@ -318,89 +318,89 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li>L’Ecuyer is a RNG that works well for parallel processing</li>
 </ul>
-<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="random-numbers-and-reproducibility.html#cb102-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">RNGkind</span>(<span class="st">&quot;L&#39;Ecuyer-CMRG&quot;</span>)</span>
-<span id="cb102-2"><a href="random-numbers-and-reproducibility.html#cb102-2" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">RNGkind</span>()</span>
-<span id="cb102-3"><a href="random-numbers-and-reproducibility.html#cb102-3" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">&quot;L&#39;Ecuyer-CMRG&quot;</span> <span class="st">&quot;Inversion&quot;</span>     <span class="st">&quot;Rejection&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="random-numbers-and-reproducibility.html#cb102-1" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">RNGkind</span>(<span class="st">&quot;L&#39;Ecuyer-CMRG&quot;</span>)</span>
+<span id="cb102-2"><a href="random-numbers-and-reproducibility.html#cb102-2" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">RNGkind</span>()</span>
+<span id="cb102-3"><a href="random-numbers-and-reproducibility.html#cb102-3" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">&quot;L&#39;Ecuyer-CMRG&quot;</span> <span class="st">&quot;Inversion&quot;</span>     <span class="st">&quot;Rejection&quot;</span></span></code></pre></div>
 </div>
 <div id="futures-use-proper-parallel-rng" class="section level2 hasAnchor" number="7.2">
 <h2><span class="header-section-number">7.2</span> Futures use proper parallel RNG<a href="random-numbers-and-reproducibility.html#futures-use-proper-parallel-rng" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>The <strong><a href="https://future.futureverse.org">future</a></strong> framework uses the L’Ecuyer parallel RNG. It’s all taken care of automatically. All you need to remember is to declare that your parallel code uses random numbers. This you can do by specifying <code>seed = TRUE</code>, e.g.</p>
-<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="random-numbers-and-reproducibility.html#cb103-1" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">future</span>(<span class="fu">rnorm</span>(<span class="dv">4</span>), <span class="at">seed =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="random-numbers-and-reproducibility.html#cb103-1" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">future</span>(<span class="fu">rnorm</span>(<span class="dv">4</span>), <span class="at">seed =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p>Futures respects the random seed, and can therefore produce reproducible random numbers, e.g.</p>
-<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="random-numbers-and-reproducibility.html#cb104-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
-<span id="cb104-2"><a href="random-numbers-and-reproducibility.html#cb104-2" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">future</span>(<span class="fu">rnorm</span>(<span class="dv">4</span>), <span class="at">seed =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb104-3"><a href="random-numbers-and-reproducibility.html#cb104-3" aria-hidden="true" tabindex="-1"></a><span class="fu">value</span>(f)</span>
-<span id="cb104-4"><a href="random-numbers-and-reproducibility.html#cb104-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] -1.6430042 -1.0003081 -0.3619149  0.1475366</span></span></code></pre></div>
-<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="random-numbers-and-reproducibility.html#cb105-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
-<span id="cb105-2"><a href="random-numbers-and-reproducibility.html#cb105-2" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">future</span>(<span class="fu">rnorm</span>(<span class="dv">4</span>), <span class="at">seed =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb105-3"><a href="random-numbers-and-reproducibility.html#cb105-3" aria-hidden="true" tabindex="-1"></a><span class="fu">value</span>(f)</span>
-<span id="cb105-4"><a href="random-numbers-and-reproducibility.html#cb105-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] -1.6430042 -1.0003081 -0.3619149  0.1475366</span></span></code></pre></div>
+<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="random-numbers-and-reproducibility.html#cb104-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb104-2"><a href="random-numbers-and-reproducibility.html#cb104-2" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">future</span>(<span class="fu">rnorm</span>(<span class="dv">4</span>), <span class="at">seed =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb104-3"><a href="random-numbers-and-reproducibility.html#cb104-3" tabindex="-1"></a><span class="fu">value</span>(f)</span>
+<span id="cb104-4"><a href="random-numbers-and-reproducibility.html#cb104-4" tabindex="-1"></a><span class="co">#&gt; [1] -1.6430042 -1.0003081 -0.3619149  0.1475366</span></span></code></pre></div>
+<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="random-numbers-and-reproducibility.html#cb105-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb105-2"><a href="random-numbers-and-reproducibility.html#cb105-2" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">future</span>(<span class="fu">rnorm</span>(<span class="dv">4</span>), <span class="at">seed =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb105-3"><a href="random-numbers-and-reproducibility.html#cb105-3" tabindex="-1"></a><span class="fu">value</span>(f)</span>
+<span id="cb105-4"><a href="random-numbers-and-reproducibility.html#cb105-4" tabindex="-1"></a><span class="co">#&gt; [1] -1.6430042 -1.0003081 -0.3619149  0.1475366</span></span></code></pre></div>
 <p>Comment: The random numbers produced with the same seed (here <code>42</code>) are <em>not</em> identical when using the L’Ecuyer RNG as when using the Mersenne-Twister RNG.</p>
 <div id="what-happens-if-you-forget-to-declare-seed-true" class="section level3 hasAnchor" number="7.2.1">
 <h3><span class="header-section-number">7.2.1</span> What happens if you forget to declare seed = TRUE?<a href="random-numbers-and-reproducibility.html#what-happens-if-you-forget-to-declare-seed-true" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>If you don’t specify <code>seed = TRUE</code>, and your future code end up using random numbers, then the <strong><a href="https://future.futureverse.org">future</a></strong> framework detects this and produces an informative wwarning that is hard to miss:</p>
-<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="random-numbers-and-reproducibility.html#cb106-1" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">future</span>(<span class="fu">rnorm</span>(<span class="dv">4</span>))</span>
-<span id="cb106-2"><a href="random-numbers-and-reproducibility.html#cb106-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">value</span>(f)</span>
-<span id="cb106-3"><a href="random-numbers-and-reproducibility.html#cb106-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning message:</span></span>
-<span id="cb106-4"><a href="random-numbers-and-reproducibility.html#cb106-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; UNRELIABLE VALUE: Future (&#39;&lt;none&gt;&#39;) unexpectedly generated random numbers </span></span>
-<span id="cb106-5"><a href="random-numbers-and-reproducibility.html#cb106-5" aria-hidden="true" tabindex="-1"></a>without specifying argument <span class="st">&#39;seed&#39;</span>. There is a risk that those random numbers</span>
-<span id="cb106-6"><a href="random-numbers-and-reproducibility.html#cb106-6" aria-hidden="true" tabindex="-1"></a>are not statistically sound and the overall results might be invalid. To fix</span>
-<span id="cb106-7"><a href="random-numbers-and-reproducibility.html#cb106-7" aria-hidden="true" tabindex="-1"></a>this, specify <span class="st">&#39;seed=TRUE&#39;</span>. This ensures that proper, parallel<span class="sc">-</span>safe random</span>
-<span id="cb106-8"><a href="random-numbers-and-reproducibility.html#cb106-8" aria-hidden="true" tabindex="-1"></a>numbers are produced via the L<span class="st">&#39;Ecuyer-CMRG method. To disable this check, use</span></span>
-<span id="cb106-9"><a href="random-numbers-and-reproducibility.html#cb106-9" aria-hidden="true" tabindex="-1"></a><span class="st">&#39;</span>seed<span class="ot">=</span>NULL<span class="st">&#39;, or set option &#39;</span>future.rng.onMisuse<span class="st">&#39; to &quot;ignore&quot;. </span></span></code></pre></div>
+<p>If you don’t specify <code>seed = TRUE</code>, and your future code end up using random numbers, then the <strong><a href="https://future.futureverse.org">future</a></strong> framework detects this and produces an informative warning that is hard to miss:</p>
+<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="random-numbers-and-reproducibility.html#cb106-1" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">future</span>(<span class="fu">rnorm</span>(<span class="dv">4</span>))</span>
+<span id="cb106-2"><a href="random-numbers-and-reproducibility.html#cb106-2" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">value</span>(f)</span>
+<span id="cb106-3"><a href="random-numbers-and-reproducibility.html#cb106-3" tabindex="-1"></a><span class="co">#&gt; Warning message:</span></span>
+<span id="cb106-4"><a href="random-numbers-and-reproducibility.html#cb106-4" tabindex="-1"></a><span class="co">#&gt; UNRELIABLE VALUE: Future (&#39;&lt;none&gt;&#39;) unexpectedly generated random numbers </span></span>
+<span id="cb106-5"><a href="random-numbers-and-reproducibility.html#cb106-5" tabindex="-1"></a>without specifying argument <span class="st">&#39;seed&#39;</span>. There is a risk that those random numbers</span>
+<span id="cb106-6"><a href="random-numbers-and-reproducibility.html#cb106-6" tabindex="-1"></a>are not statistically sound and the overall results might be invalid. To fix</span>
+<span id="cb106-7"><a href="random-numbers-and-reproducibility.html#cb106-7" tabindex="-1"></a>this, specify <span class="st">&#39;seed=TRUE&#39;</span>. This ensures that proper, parallel<span class="sc">-</span>safe random</span>
+<span id="cb106-8"><a href="random-numbers-and-reproducibility.html#cb106-8" tabindex="-1"></a>numbers are produced via the L<span class="st">&#39;Ecuyer-CMRG method. To disable this check, use</span></span>
+<span id="cb106-9"><a href="random-numbers-and-reproducibility.html#cb106-9" tabindex="-1"></a><span class="st">&#39;</span>seed<span class="ot">=</span>NULL<span class="st">&#39;, or set option &#39;</span>future.rng.onMisuse<span class="st">&#39; to &quot;ignore&quot;. </span></span></code></pre></div>
 </div>
 <div id="random-numbers-with-parallel-map-reduce-functions" class="section level3 hasAnchor" number="7.2.2">
 <h3><span class="header-section-number">7.2.2</span> Random numbers with parallel map-reduce functions<a href="random-numbers-and-reproducibility.html#random-numbers-with-parallel-map-reduce-functions" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The <strong><a href="https://future.apply.futureverse.org">future.apply</a></strong> package use argument <code>future.seed = TRUE</code>, and the <strong><a href="https://furrr.futureverse.org">furrr</a></strong> package argument <code>.options = furrr_options(seed = TRUE)</code> for declaring that RNG is used. For example,</p>
-<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="random-numbers-and-reproducibility.html#cb107-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(future.apply)</span>
-<span id="cb107-2"><a href="random-numbers-and-reproducibility.html#cb107-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plan</span>(multisession, <span class="at">workers =</span> <span class="dv">2</span>)</span>
-<span id="cb107-3"><a href="random-numbers-and-reproducibility.html#cb107-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb107-4"><a href="random-numbers-and-reproducibility.html#cb107-4" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">4</span></span>
-<span id="cb107-5"><a href="random-numbers-and-reproducibility.html#cb107-5" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">future_lapply</span>(X, rnorm, <span class="at">future.seed =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb107-6"><a href="random-numbers-and-reproducibility.html#cb107-6" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(y)</span>
-<span id="cb107-7"><a href="random-numbers-and-reproducibility.html#cb107-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; List of 3</span></span>
-<span id="cb107-8"><a href="random-numbers-and-reproducibility.html#cb107-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ : num [1:2] -0.0265 -1.7324</span></span>
-<span id="cb107-9"><a href="random-numbers-and-reproducibility.html#cb107-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ : num [1:3] 2.5456 -0.6127 -0.0912</span></span>
-<span id="cb107-10"><a href="random-numbers-and-reproducibility.html#cb107-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ : num [1:4] -2.107 -1.304 0.229 0.775</span></span></code></pre></div>
+<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="random-numbers-and-reproducibility.html#cb107-1" tabindex="-1"></a><span class="fu">library</span>(future.apply)</span>
+<span id="cb107-2"><a href="random-numbers-and-reproducibility.html#cb107-2" tabindex="-1"></a><span class="fu">plan</span>(multisession, <span class="at">workers =</span> <span class="dv">2</span>)</span>
+<span id="cb107-3"><a href="random-numbers-and-reproducibility.html#cb107-3" tabindex="-1"></a></span>
+<span id="cb107-4"><a href="random-numbers-and-reproducibility.html#cb107-4" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">4</span></span>
+<span id="cb107-5"><a href="random-numbers-and-reproducibility.html#cb107-5" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">future_lapply</span>(X, rnorm, <span class="at">future.seed =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb107-6"><a href="random-numbers-and-reproducibility.html#cb107-6" tabindex="-1"></a><span class="fu">str</span>(y)</span>
+<span id="cb107-7"><a href="random-numbers-and-reproducibility.html#cb107-7" tabindex="-1"></a><span class="co">#&gt; List of 3</span></span>
+<span id="cb107-8"><a href="random-numbers-and-reproducibility.html#cb107-8" tabindex="-1"></a><span class="co">#&gt;  $ : num [1:2] -0.0265 -1.7324</span></span>
+<span id="cb107-9"><a href="random-numbers-and-reproducibility.html#cb107-9" tabindex="-1"></a><span class="co">#&gt;  $ : num [1:3] 2.5456 -0.6127 -0.0912</span></span>
+<span id="cb107-10"><a href="random-numbers-and-reproducibility.html#cb107-10" tabindex="-1"></a><span class="co">#&gt;  $ : num [1:4] -2.107 -1.304 0.229 0.775</span></span></code></pre></div>
 <p>It does <em>not</em> matter what parallel backend you use, or number of parallel workers, the <strong><a href="https://future.futureverse.org">future</a></strong> framework guarantees numerically identical random numbers with the same random seed, e.g.</p>
-<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="random-numbers-and-reproducibility.html#cb108-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(future.apply)</span>
-<span id="cb108-2"><a href="random-numbers-and-reproducibility.html#cb108-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb108-3"><a href="random-numbers-and-reproducibility.html#cb108-3" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">4</span></span>
-<span id="cb108-4"><a href="random-numbers-and-reproducibility.html#cb108-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb108-5"><a href="random-numbers-and-reproducibility.html#cb108-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plan</span>(sequential)</span>
-<span id="cb108-6"><a href="random-numbers-and-reproducibility.html#cb108-6" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
-<span id="cb108-7"><a href="random-numbers-and-reproducibility.html#cb108-7" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">future_lapply</span>(X, rnorm, <span class="at">future.seed =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb108-8"><a href="random-numbers-and-reproducibility.html#cb108-8" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(y)</span>
-<span id="cb108-9"><a href="random-numbers-and-reproducibility.html#cb108-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; List of 3</span></span>
-<span id="cb108-10"><a href="random-numbers-and-reproducibility.html#cb108-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ : num [1:2] -0.169 -1.642</span></span>
-<span id="cb108-11"><a href="random-numbers-and-reproducibility.html#cb108-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ : num [1:3] 0.649 1.193 0.542</span></span>
-<span id="cb108-12"><a href="random-numbers-and-reproducibility.html#cb108-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ : num [1:4] 1.36 -1.85 -1.28 0.42</span></span></code></pre></div>
-<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="random-numbers-and-reproducibility.html#cb109-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plan</span>(multisession, <span class="at">workers =</span> <span class="dv">4</span>)</span>
-<span id="cb109-2"><a href="random-numbers-and-reproducibility.html#cb109-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
-<span id="cb109-3"><a href="random-numbers-and-reproducibility.html#cb109-3" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">future_lapply</span>(X, rnorm, <span class="at">future.seed =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb109-4"><a href="random-numbers-and-reproducibility.html#cb109-4" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(y)</span>
-<span id="cb109-5"><a href="random-numbers-and-reproducibility.html#cb109-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; List of 3</span></span>
-<span id="cb109-6"><a href="random-numbers-and-reproducibility.html#cb109-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ : num [1:2] -0.169 -1.642</span></span>
-<span id="cb109-7"><a href="random-numbers-and-reproducibility.html#cb109-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ : num [1:3] 0.649 1.193 0.542</span></span>
-<span id="cb109-8"><a href="random-numbers-and-reproducibility.html#cb109-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ : num [1:4] 1.36 -1.85 -1.28 0.42</span></span></code></pre></div>
-<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="random-numbers-and-reproducibility.html#cb110-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plan</span>(cluster, <span class="at">workers =</span> <span class="fu">c</span>(<span class="st">&quot;pi&quot;</span>, <span class="st">&quot;remote.server.org&quot;</span>))</span>
-<span id="cb110-2"><a href="random-numbers-and-reproducibility.html#cb110-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
-<span id="cb110-3"><a href="random-numbers-and-reproducibility.html#cb110-3" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">future_lapply</span>(X, rnorm, <span class="at">future.seed =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb110-4"><a href="random-numbers-and-reproducibility.html#cb110-4" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(y)</span>
-<span id="cb110-5"><a href="random-numbers-and-reproducibility.html#cb110-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; List of 3</span></span>
-<span id="cb110-6"><a href="random-numbers-and-reproducibility.html#cb110-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ : num [1:2] -0.169 -1.642</span></span>
-<span id="cb110-7"><a href="random-numbers-and-reproducibility.html#cb110-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ : num [1:3] 0.649 1.193 0.542</span></span>
-<span id="cb110-8"><a href="random-numbers-and-reproducibility.html#cb110-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ : num [1:4] 1.36 -1.85 -1.28 0.42</span></span></code></pre></div>
+<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="random-numbers-and-reproducibility.html#cb108-1" tabindex="-1"></a><span class="fu">library</span>(future.apply)</span>
+<span id="cb108-2"><a href="random-numbers-and-reproducibility.html#cb108-2" tabindex="-1"></a></span>
+<span id="cb108-3"><a href="random-numbers-and-reproducibility.html#cb108-3" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">4</span></span>
+<span id="cb108-4"><a href="random-numbers-and-reproducibility.html#cb108-4" tabindex="-1"></a></span>
+<span id="cb108-5"><a href="random-numbers-and-reproducibility.html#cb108-5" tabindex="-1"></a><span class="fu">plan</span>(sequential)</span>
+<span id="cb108-6"><a href="random-numbers-and-reproducibility.html#cb108-6" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb108-7"><a href="random-numbers-and-reproducibility.html#cb108-7" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">future_lapply</span>(X, rnorm, <span class="at">future.seed =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb108-8"><a href="random-numbers-and-reproducibility.html#cb108-8" tabindex="-1"></a><span class="fu">str</span>(y)</span>
+<span id="cb108-9"><a href="random-numbers-and-reproducibility.html#cb108-9" tabindex="-1"></a><span class="co">#&gt; List of 3</span></span>
+<span id="cb108-10"><a href="random-numbers-and-reproducibility.html#cb108-10" tabindex="-1"></a><span class="co">#&gt;  $ : num [1:2] -0.169 -1.642</span></span>
+<span id="cb108-11"><a href="random-numbers-and-reproducibility.html#cb108-11" tabindex="-1"></a><span class="co">#&gt;  $ : num [1:3] 0.649 1.193 0.542</span></span>
+<span id="cb108-12"><a href="random-numbers-and-reproducibility.html#cb108-12" tabindex="-1"></a><span class="co">#&gt;  $ : num [1:4] 1.36 -1.85 -1.28 0.42</span></span></code></pre></div>
+<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="random-numbers-and-reproducibility.html#cb109-1" tabindex="-1"></a><span class="fu">plan</span>(multisession, <span class="at">workers =</span> <span class="dv">4</span>)</span>
+<span id="cb109-2"><a href="random-numbers-and-reproducibility.html#cb109-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb109-3"><a href="random-numbers-and-reproducibility.html#cb109-3" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">future_lapply</span>(X, rnorm, <span class="at">future.seed =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb109-4"><a href="random-numbers-and-reproducibility.html#cb109-4" tabindex="-1"></a><span class="fu">str</span>(y)</span>
+<span id="cb109-5"><a href="random-numbers-and-reproducibility.html#cb109-5" tabindex="-1"></a><span class="co">#&gt; List of 3</span></span>
+<span id="cb109-6"><a href="random-numbers-and-reproducibility.html#cb109-6" tabindex="-1"></a><span class="co">#&gt;  $ : num [1:2] -0.169 -1.642</span></span>
+<span id="cb109-7"><a href="random-numbers-and-reproducibility.html#cb109-7" tabindex="-1"></a><span class="co">#&gt;  $ : num [1:3] 0.649 1.193 0.542</span></span>
+<span id="cb109-8"><a href="random-numbers-and-reproducibility.html#cb109-8" tabindex="-1"></a><span class="co">#&gt;  $ : num [1:4] 1.36 -1.85 -1.28 0.42</span></span></code></pre></div>
+<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="random-numbers-and-reproducibility.html#cb110-1" tabindex="-1"></a><span class="fu">plan</span>(cluster, <span class="at">workers =</span> <span class="fu">c</span>(<span class="st">&quot;pi&quot;</span>, <span class="st">&quot;remote.server.org&quot;</span>))</span>
+<span id="cb110-2"><a href="random-numbers-and-reproducibility.html#cb110-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb110-3"><a href="random-numbers-and-reproducibility.html#cb110-3" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">future_lapply</span>(X, rnorm, <span class="at">future.seed =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb110-4"><a href="random-numbers-and-reproducibility.html#cb110-4" tabindex="-1"></a><span class="fu">str</span>(y)</span>
+<span id="cb110-5"><a href="random-numbers-and-reproducibility.html#cb110-5" tabindex="-1"></a><span class="co">#&gt; List of 3</span></span>
+<span id="cb110-6"><a href="random-numbers-and-reproducibility.html#cb110-6" tabindex="-1"></a><span class="co">#&gt;  $ : num [1:2] -0.169 -1.642</span></span>
+<span id="cb110-7"><a href="random-numbers-and-reproducibility.html#cb110-7" tabindex="-1"></a><span class="co">#&gt;  $ : num [1:3] 0.649 1.193 0.542</span></span>
+<span id="cb110-8"><a href="random-numbers-and-reproducibility.html#cb110-8" tabindex="-1"></a><span class="co">#&gt;  $ : num [1:4] 1.36 -1.85 -1.28 0.42</span></span></code></pre></div>
 <p>As before, if you forget to declare your need for RNG, you’ll get informative warnings about it;</p>
-<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb111-1"><a href="random-numbers-and-reproducibility.html#cb111-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">future_lapply</span>(X, rnorm)</span>
-<span id="cb111-2"><a href="random-numbers-and-reproducibility.html#cb111-2" aria-hidden="true" tabindex="-1"></a>Warning message<span class="sc">:</span></span>
-<span id="cb111-3"><a href="random-numbers-and-reproducibility.html#cb111-3" aria-hidden="true" tabindex="-1"></a>UNRELIABLE VALUE<span class="sc">:</span> One of the <span class="st">&#39;future.apply&#39;</span> <span class="fu">iterations</span> (<span class="st">&#39;future_lapply-1&#39;</span>)</span>
-<span id="cb111-4"><a href="random-numbers-and-reproducibility.html#cb111-4" aria-hidden="true" tabindex="-1"></a>unexpectedly generated random numbers without declaring so. There is a risk</span>
-<span id="cb111-5"><a href="random-numbers-and-reproducibility.html#cb111-5" aria-hidden="true" tabindex="-1"></a>that those random numbers are not statistically sound and the overall results</span>
-<span id="cb111-6"><a href="random-numbers-and-reproducibility.html#cb111-6" aria-hidden="true" tabindex="-1"></a>might be invalid. To fix this, specify <span class="st">&#39;future.seed=TRUE&#39;</span>. This ensures that</span>
-<span id="cb111-7"><a href="random-numbers-and-reproducibility.html#cb111-7" aria-hidden="true" tabindex="-1"></a>proper, parallel<span class="sc">-</span>safe random numbers are produced via the L<span class="st">&#39;Ecuyer-CMRG </span></span>
-<span id="cb111-8"><a href="random-numbers-and-reproducibility.html#cb111-8" aria-hidden="true" tabindex="-1"></a><span class="st">method. To disable this check, use &#39;</span>future.seed <span class="ot">=</span> NULL<span class="st">&#39;, or set option </span></span>
-<span id="cb111-9"><a href="random-numbers-and-reproducibility.html#cb111-9" aria-hidden="true" tabindex="-1"></a><span class="st">&#39;</span>future.rng.onMisuse<span class="st">&#39; to &quot;ignore&quot;.</span></span></code></pre></div>
+<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb111-1"><a href="random-numbers-and-reproducibility.html#cb111-1" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">future_lapply</span>(X, rnorm)</span>
+<span id="cb111-2"><a href="random-numbers-and-reproducibility.html#cb111-2" tabindex="-1"></a>Warning message<span class="sc">:</span></span>
+<span id="cb111-3"><a href="random-numbers-and-reproducibility.html#cb111-3" tabindex="-1"></a>UNRELIABLE VALUE<span class="sc">:</span> One of the <span class="st">&#39;future.apply&#39;</span> <span class="fu">iterations</span> (<span class="st">&#39;future_lapply-1&#39;</span>)</span>
+<span id="cb111-4"><a href="random-numbers-and-reproducibility.html#cb111-4" tabindex="-1"></a>unexpectedly generated random numbers without declaring so. There is a risk</span>
+<span id="cb111-5"><a href="random-numbers-and-reproducibility.html#cb111-5" tabindex="-1"></a>that those random numbers are not statistically sound and the overall results</span>
+<span id="cb111-6"><a href="random-numbers-and-reproducibility.html#cb111-6" tabindex="-1"></a>might be invalid. To fix this, specify <span class="st">&#39;future.seed=TRUE&#39;</span>. This ensures that</span>
+<span id="cb111-7"><a href="random-numbers-and-reproducibility.html#cb111-7" tabindex="-1"></a>proper, parallel<span class="sc">-</span>safe random numbers are produced via the L<span class="st">&#39;Ecuyer-CMRG </span></span>
+<span id="cb111-8"><a href="random-numbers-and-reproducibility.html#cb111-8" tabindex="-1"></a><span class="st">method. To disable this check, use &#39;</span>future.seed <span class="ot">=</span> NULL<span class="st">&#39;, or set option </span></span>
+<span id="cb111-9"><a href="random-numbers-and-reproducibility.html#cb111-9" tabindex="-1"></a><span class="st">&#39;</span>future.rng.onMisuse<span class="st">&#39; to &quot;ignore&quot;.</span></span></code></pre></div>
 </div>
 </div>
 </div>

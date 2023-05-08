@@ -76,7 +76,7 @@ appendix-standard-output-by-other-parallel-map-reduce-apis
 appendix-not-everything-can-be-parallelized
 example-r-connections-can-be-exported-to-parallel-workers
 example-xml2-objects-cannot-be-exported
-appendix-careful-with-forked-parallization
+appendix-careful-with-forked-parallelization
 appendix-missing-globals
 example-glueglue---object-not-found
 example-do.call
