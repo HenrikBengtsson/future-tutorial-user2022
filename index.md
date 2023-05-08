@@ -103,14 +103,14 @@ If you have any issues, please reach out for help on <https://github.com/HenrikB
 
 ## Practicalities {-}
 
-* Format: I will present and do live-coding walkthroughs. There will be no hands-on excercises or working breakout rooms. Feel free to follow along on your own computer
+* Format: I will present and do live-coding walkthroughs. There will be no hands-on exercises or working breakout rooms. Feel free to follow along on your own computer
 
 * Feel free to interrupt for questions at any time, especially so clarification questions. Think of it as a classroom tutorial! (not as an online presentation with questions only at the end)
 
 * Feel free to use the Q&A in the conference system to ask questions (https://www.accelevents.com/e/user2022/portal/workshops/260741). I'll try to address them orally. Of course, if someone likes to answer a question in the Q&A, please feel free to do so
 
 * Rule #1: There are no stupid questions. Period. True!  
-  (In constrast, _not_ asking about things you wonder about, is a bit silly)
+  (In contrast, _not_ asking about things you wonder about, is a bit silly)
 
 * Help needed during our live session: Please make me aware of new questions in the Q&A chat, if I miss them (I can only multitask so much)
 
@@ -326,7 +326,7 @@ y <- foreach(z = x) %dopar% slow(z)  # ~5 minutes
 
 * Statistically sound: Built-in parallel random number generation (RNG)
 
-* Correctness and reproducibilty of highest priority
+* Correctness and reproducibility of highest priority
 
 * "Future proof": Support any new parallel backends to come
 
@@ -369,7 +369,7 @@ The first CRAN release was on 2015-06-19, but the initial seed toward building t
 
 * Users with some experience in R, but no need to be an advanced R developer
 
-* Anyone who wishes to run many slow, repetive tasks
+* Anyone who wishes to run many slow, repetitive tasks
 
 * Any developer who want to support parallel processing without having to worry about the details and having to maintain parallel code
 
@@ -525,7 +525,7 @@ then:
 
 
 As we saw before, there is nothing preventing us from doing other
-things inbetween creating the future and asking for its value, e.g.
+things in-between creating the future and asking for its value, e.g.
 
 ```r
 ## Create future
@@ -1163,7 +1163,7 @@ tbl_future_map("purrr", "furrr")
 
 # Errors and output
 
-Whe using the **[future]** framework, it's business as usual:
+When using the **[future]** framework, it's business as usual:
 
 * Errors produced in parallel, are relayed as-is in the main R session
 * Warnings produced in parallel, are relayed as-is in the main R session
@@ -1592,7 +1592,7 @@ y <- slow_sqrt(X)
 #  |====================                               |  40%
 ```
 
-"Near-live" progress updates: Note that, even if there are only two parallel workers, and therefore two futures here, we will still recieve progress updates whilest these futures are busy processing all elements.  This works because the progress updates, signalled by `p()` above, are sent back to our main R session using background communication channels. These channels are frequently polled (by `resolved()` and `value()`) until the futures are completed, which is how we can relay and handle these progress updates in parallel.
+"Near-live" progress updates: Note that, even if there are only two parallel workers, and therefore two futures here, we will still receive progress updates whilst these futures are busy processing all elements.  This works because the progress updates, signalled by `p()` above, are sent back to our main R session using background communication channels. These channels are frequently polled (by `resolved()` and `value()`) until the futures are completed, which is how we can relay and handle these progress updates in parallel.
 
 
 ## Customizing how progress is reported
@@ -1822,7 +1822,7 @@ Comment: The random numbers produced with the same seed (here `42`) are _not_ id
 
 ### What happens if you forget to declare seed = TRUE?
 
-If you don't specify `seed = TRUE`, and your future code end up using random numbers, then the **[future]** framework detects this and produces an informative wwarning that is hard to miss:
+If you don't specify `seed = TRUE`, and your future code end up using random numbers, then the **[future]** framework detects this and produces an informative warning that is hard to miss:
 
 ```r
 f <- future(rnorm(4))
@@ -2616,7 +2616,7 @@ globals ('xml' of class 'xml_document') used in the future expression
 
 
 
-## Appendix: Careful with forked parallization
+## Appendix: Careful with forked parallelization
 
 The `parallel::mclapply()` function relies on _forked_ parallel processing provided by the operating system;
 

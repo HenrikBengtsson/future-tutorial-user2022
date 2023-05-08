@@ -8,3 +8,5 @@ docs/index.html: index.md _output.yml _bookdown.yml
 view: docs/index.html
 	"$(VIEWER)" "$<"
 
+spelling:
+	Rscript -e "spelling::spell_check_files(c('README.md', 'index.md'), ignore=readLines('WORDLIST', warn=FALSE))"
